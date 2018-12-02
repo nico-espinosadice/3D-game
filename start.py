@@ -1,10 +1,11 @@
-#
-# game_starter.py
-#
+# Start.py
+# Jacob van der Leeuw and Nico Espinosa Dice
+# Final Project - VPython
+
+
 # Building an interaction with 3D graphics using python
 #   Documentation: http://www.glowscript.org/docs/GlowScriptDocs/index.html
 #   Examples:      http://www.glowscript.org/#/user/GlowScriptDemos/folder/Examples/
-#
 
 scene.bind('keydown', keydown_fun)     # Function for key presses
 scene.bind('click', click_fun)         # Function for mouse clicks
