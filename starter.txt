@@ -1,3 +1,24 @@
 starter.txt
-
 Jacob van der Leeuw and Nico Espinosa Dice
+December 3, 2018
+
+Project: vPython 3D Game
+
+Paragraph
+The game involves the user controlling a character that is chasing after three runaway balls. The box travels through a track attempting to 
+catch the three balls. The track itself will be filled with fun and wacky obstacles, including a jump over a pit of lava, pedestrian 
+crossings, speed boosters, and more. Collisions will include bouncing off the stationary walls and off the obstacles moving 
+throughout the track. 
+
+For the milestone submission, we are planning to have the basic structure of the track complete, including the walls and 
+stationary obstacles. The milestone submission will also contain the user-controlled character. The user controlled object 
+will operate in the same way as in the virtual python lab, but with less lag time in-between user controls (pressing an 
+arrow corresponding to a new direction). 
+
+For the final submission, we will add the moving obstacles, the “physics” of the collisions, and the “penalty” 
+for running into certain obstacles. The moving objects appearing in different parts of the track pose challenges 
+to the player, including collisions, potential penalties if the user touches object, speed boosts, and more). 
+The three runaway balls will move at different but constant velocities, which will allow us to change the 
+difficulty of the game. (The runaway balls will only be affected by some of the objects on the track). Once 
+the user-controlled character captures all three balls, they win the game. If they fail to do so in the alloted 
+time, they lose. If possible, we will try to add curves to the track. 
