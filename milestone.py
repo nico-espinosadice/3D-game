@@ -38,7 +38,7 @@ ball.vel = vector(0, 0, 0)     # this is its initial velocity
 
 # +++ End of TRACK CREATION +++
 
-# +++ start of ANIMATION section
+# +++ start of ANIMATION section ++
 
 # Other constants
 RATE = 30                # The number of times the while loop runs each second
@@ -66,15 +66,15 @@ def keydown_fun(event):
     ri = randint(0, 10)
     print("key:", key, ri)  # Prints the key pressed -- caps only...
 
-    amt = 0.42             # "Strength" of the keypress's velocity changes
+    amt = 7.00             # "Strength" of the keypress's velocity changes
     if key == 'up' or key in 'wWiI':
-        ball.vel = ball.vel + vector(0, 0, -amt)
+        ball.vel = vector(0, 0, -amt)
     elif key == 'left' or key in 'aAjJ':
-        ball.vel = ball.vel + vector(-amt, 0, 0)
+        ball.vel = vector(-amt, 0, 0)
     elif key == 'down' or key in 'sSkK':
-        ball.vel = ball.vel + vector(0, 0, amt)
+        ball.vel = vector(0, 0, amt)
     elif key == 'right' or key in "dDlL":
-        ball.vel = ball.vel + vector(amt, 0, 0)
+        ball.vel = vector(amt, 0, 0)
     elif key in ' rR':
         ball.vel = vector(0, 0, 0) # Reset! via the spacebar, " "
         ball.pos = vector(0, 0, 0)
@@ -136,19 +136,19 @@ def corral_collide(ball):
     
     # -- Inner Walls --
     # If the ball hits I_wallN
-    if (abs(ball.pos.x - I_wallE.pos.x) < 0.25) and (ball.pos.z > (I_wallE.pos.z - 9)) and (ball.pos.z < (I_wallE.pos.z + 10)):  # Hit -- check for z
+    if (abs(ball.pos.x - I_wallE.pos.x) < 0.10) and (ball.pos.z > (I_wallE.pos.z - 9)) and (ball.pos.z < (I_wallE.pos.z + 10)):  # Hit -- check for z
         ball.vel.x *= -1.0 # Reverse the z velocity          
      
     # If the ball hits I_wallN
-    if (abs(ball.pos.x - I_wallE2.pos.x) < 0.25) and (ball.pos.z > (I_wallE2.pos.z - 10)) and (ball.pos.z < (I_wallE2.pos.z + 9)):  # Hit -- check for z
+    if (abs(ball.pos.x - I_wallE2.pos.x) < 0.10) and (ball.pos.z > (I_wallE2.pos.z - 10)) and (ball.pos.z < (I_wallE2.pos.z + 9)):  # Hit -- check for z
         ball.vel.x *= -1.0 # Reverse the z velocity       
     
     # If the ball hits I_wallN
-    if (abs(ball.pos.x - I_wallC.pos.x) < 0.25) and (ball.pos.z > (I_wallC.pos.z - 9)) and (ball.pos.z < (I_wallC.pos.z + 10)):  # Hit -- check for z
+    if (abs(ball.pos.x - I_wallC.pos.x) < 0.10) and (ball.pos.z > (I_wallC.pos.z - 9)) and (ball.pos.z < (I_wallC.pos.z + 10)):  # Hit -- check for z
         ball.vel.x *= -1.0 # Reverse the z velocity       
     
     # If the ball hits I_wallN
-    if (abs(ball.pos.x - I_wallW2.pos.x) < 0.25) and (ball.pos.z > (I_wallW2.pos.z - 10)) and (ball.pos.z < (I_wallW2.pos.z + 9)):  # Hit -- check for z
+    if (abs(ball.pos.x - I_wallW2.pos.x) < 0.10) and (ball.pos.z > (I_wallW2.pos.z - 10)) and (ball.pos.z < (I_wallW2.pos.z + 9)):  # Hit -- check for z
         ball.vel.x *= -1.0 # Reverse the z velocity       
     
     # If the ball hits I_wallN
