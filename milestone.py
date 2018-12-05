@@ -3,7 +3,6 @@ GlowScript 2.7 VPython
 # Jacob van der Leeuw and Nico Espinosa Dice
 # Final Project - VPython
 
-
 scene.bind('keydown', keydown_fun)     # Function for key presses
 scene.bind('click', click_fun)         # Function for mouse clicks
 scene.background = 0.8*vector(1, 1, 1) # Light gray (0.8 out of 1.0)
@@ -22,12 +21,16 @@ O_wallS = box(pos = vector(0, 0, 10), axis = vector(1, 0, 0), size = vector(16, 
 O_wallE = box(pos = vector(10, 0, 0), axis = vector(0, 0, 1), size = vector(20, 1, .2), color = color.yellow) # "East" wall - yellow
 
 # Inner walls of the track
-I_wallE = box(pos = vector(8, 0, 1), axis = vector(0, 0, 1), size = vector(18, 1, .2), color = color.yellow) # "East" wall - yellow
+#east walls
+I_wallE = box(pos = vector(8, 0, 1), axis = vector(0, 0, 1), size = vector(18, 1, .2), color = color.black) # "East" wall - yellow
 I_wallE2 = box(pos = vector(4, 0, -1), axis = vector(0, 0, 1), size = vector(18, 1, .2), color = color.yellow) # "East" wall - yellow
-I_wallE3 = box(pos = vector(0, 0, 1), axis = vector(0, 0, 1), size = vector(18, 1, .2), color = color.yellow) # "East" wall - yellow
 
-I_wallW = box(pos = vector(-8, 0, 1), axis = vector(0, 0, 1), size = vector(18, 1, .2), color = color.yellow) # "East" wall - yellow
-I_wallW2 = box(pos = vector(-4, 0, -1), axis = vector(0, 0, 1), size = vector(18, 1, .2), color = color.yellow) # "East" wall - yellow
+#center wall
+I_wallC = box(pos = vector(0, 0, 1), axis = vector(0, 0, 1), size = vector(18, 1, .2), color = color.green) # "East" wall - yellow
+
+#west walls
+I_wallW = box(pos = vector(-8, 0, 1), axis = vector(0, 0, 1), size = vector(18, 1, .2), color = color.white) # "East" wall - yellow
+I_wallW2 = box(pos = vector(-4, 0, -1), axis = vector(0, 0, 1), size = vector(18, 1, .2), color = color.red) # "East" wall - yellow
 
 # Ball (user controls)
 ball = sphere(pos = vector(9, 0, 9), size = 1.0*vector(1, 1, 1), color = vector(0.8, 0.5, 0.0))   # ball is an object of class sphere
@@ -42,11 +45,9 @@ RATE = 30                # The number of times the while loop runs each second
 dt = 1.0/(1.0*RATE)      # The time step each time through the while loop
 scene.autoscale = False  # Avoids changing the view automatically
 scene.forward = vector(0, -3, -2)  # Ask for a bird's-eye view of the scene...
-
 # This is the "event loop" or "animation loop"
 # Each pass through the loop will animate one step in time, dt
 while True:
-
     rate(RATE)   # maximum number of times per second the while loop runs
 
     # +++ Start of PHYSICS UPDATES -- update all positions here, every time step
@@ -65,7 +66,7 @@ def keydown_fun(event):
     ri = randint(0, 10)
     print("key:", key, ri)  # Prints the key pressed -- caps only...
 
-    amt = 0.42              # "Strength" of the keypress's velocity changes
+    amt = 0.42             # "Strength" of the keypress's velocity changes
     if key == 'up' or key in 'wWiI':
         ball.vel = ball.vel + vector(0, 0, -amt)
     elif key == 'left' or key in 'aAjJ':
@@ -112,6 +113,7 @@ def randcolor():
 def corral_collide(ball):
     """Corral collisions!
     Ball must have a .vel field and a .pos field. """
+    # -- Outer walls --
     # If the ball hits O_wallN
     if ball.pos.z < O_wallN.pos.z:  # Hit -- check for z
         ball.pos.z = O_wallN.pos.z  # Bring back into bounds
@@ -131,3 +133,24 @@ def corral_collide(ball):
     if ball.pos.x > O_wallE.pos.x:  # Hit -- check for x
         ball.pos.x = O_wallE.pos.x  # Bring back into bounds
         ball.vel.x *= -1.0        # Reverse the x velocity
+    
+    # -- Inner Walls --
+    # If the ball hits I_wallN
+    if abs(ball.pos.x - I_wallE.pos.x) < 0.25:  # Hit -- check for z
+        ball.vel.x *= -1.0 # Reverse the z velocity          
+     
+    # If the ball hits I_wallN
+    if abs(ball.pos.x - I_wallE2.pos.x) < 0.25:  # Hit -- check for z
+        ball.vel.x *= -1.0 # Reverse the z velocity
+    
+    # If the ball hits I_wallN
+    if abs(ball.pos.x - I_wallC.pos.x) < 0.25:  # Hit -- check for z
+        ball.vel.x *= -1.0 # Reverse the z velocity 
+    
+    # If the ball hits I_wallN
+    if abs(ball.pos.x - I_wallW.pos.x) < 0.25:  # Hit -- check for z
+        ball.vel.x *= -1.0 # Reverse the z velocity 
+    
+    # If the ball hits I_wallN
+    if abs(ball.pos.x - I_wallW2.pos.x) < 0.25:  # Hit -- check for z
+        ball.vel.x *= -1.0 # Reverse the z velocity 
