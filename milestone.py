@@ -136,21 +136,21 @@ def corral_collide(ball):
     
     # -- Inner Walls --
     # If the ball hits I_wallN
-    if (abs(ball.pos.x - I_wallE.pos.x) < 0.25) and (ball.pos.z > I_wallE.posz - 4) and (ball.pos.z < I_wallE.pos.z + 4):  # Hit -- check for z
+    if (abs(ball.pos.x - I_wallE.pos.x) < 0.25) and (ball.pos.z > (I_wallE.pos.z - 9)) and (ball.pos.z < (I_wallE.pos.z + 10)):  # Hit -- check for z
         ball.vel.x *= -1.0 # Reverse the z velocity          
      
     # If the ball hits I_wallN
-    if abs(ball.pos.x - I_wallE2.pos.x) < 0.25 and abs(ball.pos.z - I_wallE2.posz) < 0.20:  # Hit -- check for z
-        ball.vel.x *= -1.0 # Reverse the z velocity
+    if (abs(ball.pos.x - I_wallE2.pos.x) < 0.25) and (ball.pos.z > (I_wallE2.pos.z - 10)) and (ball.pos.z < (I_wallE2.pos.z + 9)):  # Hit -- check for z
+        ball.vel.x *= -1.0 # Reverse the z velocity       
     
     # If the ball hits I_wallN
-    if abs(ball.pos.x - I_wallC.pos.x) < 0.25 and abs(ball.pos.z - I_wallC.posz) < 0.20:  # Hit -- check for z
-        ball.vel.x *= -1.0 # Reverse the z velocity 
+    if (abs(ball.pos.x - I_wallC.pos.x) < 0.25) and (ball.pos.z > (I_wallC.pos.z - 9)) and (ball.pos.z < (I_wallC.pos.z + 10)):  # Hit -- check for z
+        ball.vel.x *= -1.0 # Reverse the z velocity       
     
     # If the ball hits I_wallN
-    if abs(ball.pos.x - I_wallW.pos.x) < 0.25 and abs(ball.pos.z - I_wallW.posz) < 0.20:  # Hit -- check for z
-        ball.vel.x *= -1.0 # Reverse the z velocity 
+    if (abs(ball.pos.x - I_wallW2.pos.x) < 0.25) and (ball.pos.z > (I_wallW2.pos.z - 10)) and (ball.pos.z < (I_wallW2.pos.z + 9)):  # Hit -- check for z
+        ball.vel.x *= -1.0 # Reverse the z velocity       
     
     # If the ball hits I_wallN
-    if abs(ball.pos.x - I_wallW2.pos.x) < 0.25 and abs(ball.pos.z - I_wallW2.posz) < 0.20:  # Hit -- check for z
-        ball.vel.x *= -1.0 # Reverse the z velocity 
+    if (abs(ball.pos.x - I_wallW.pos.x) < 0.25) and (ball.pos.z > (I_wallW.pos.z - 9)) and (ball.pos.z < (I_wallW.pos.z + 10)):  # Hit -- check for z
+        ball.vel.x *= -1.0 # Reverse the z velocity       
