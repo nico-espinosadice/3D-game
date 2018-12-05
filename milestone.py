@@ -48,6 +48,8 @@ scene.forward = vector(0, -3, -2)  # Ask for a bird's-eye view of the scene...
 # This is the "event loop" or "animation loop"
 # Each pass through the loop will animate one step in time, dt
 while True:
+    print("Ball Position =", ball.pos)
+    #print("Wall Position =", O_wallS.pos)
     rate(RATE)   # maximum number of times per second the while loop runs
 
     # +++ Start of PHYSICS UPDATES -- update all positions here, every time step
@@ -76,8 +78,7 @@ def keydown_fun(event):
     elif key == 'right' or key in "dDlL":
         ball.vel = ball.vel + vector(amt, 0, 0)
     elif key in ' rR':
-        ball.vel = vector(0, 0, 0) # Reset! via the spacebar, " "
-        ball.pos = vector(0, 0, 0)
+        ball.vel = ball.vel * 0.5 # Reset! via the spacebar, " "
 
 def click_fun(event):
     """This function is called each time the mouse is clicked."""
@@ -124,14 +125,11 @@ def corral_collide(ball):
         ball.pos.x = O_wallW.pos.x  # Bring back into bounds
         ball.vel.x *= -1.0        # Reverse the x velocity
         
-    # If the ball hits O_wallS
-    if ball.pos.z > O_wallS.pos.z:  # Hit -- check for z
-        ball.pos.z = O_wallS.pos.z  # Bring back into bounds
-        ball.vel.z *= -1.0        # Reverse the z velocity
-
     # If the ball hits O_wallE
+    if (abs(ball.pos.z - 10) < 0.25) and (ball.pos.x < 8) and (ball.pos.x > -8):  # Hit -- check for z
+        ball.vel.z *= -1.0 # Reverse the z velocity
+
     if ball.pos.x > O_wallE.pos.x:  # Hit -- check for x
-        ball.pos.x = O_wallE.pos.x  # Bring back into bounds
         ball.vel.x *= -1.0        # Reverse the x velocity
     
     # -- Inner Walls --
