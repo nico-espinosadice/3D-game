@@ -4,9 +4,7 @@ GlowScript 2.7 VPython
 # Final Project - VPython
 
 
-"""L = []
-L[0] = "-"
-L[1] = "-" """
+
 
 scene.bind('keydown', keydown_fun)     # Function for key presses
 scene.bind('click', click_fun)         # Function for mouse clicks
@@ -41,6 +39,9 @@ I_wallW2 = box(pos = vector(-4, 0, -1), axis = vector(0, 0, 1), size = vector(18
 ball = sphere(pos = vector(9, 0, 9), size = 1.0*vector(1, 1, 1), color = vector(0.8, 0.5, 0.0))   # ball is an object of class sphere
 ball.vel = vector(0, 0, 0)     # this is its initial velocity
 
+# Cylinder (other control)
+obj1 = cylinder(pos = vector(8.5, 0, 4), size = 1.0*vector(1,1,1), color = color.orange)
+obj1.vel = vector(0,0,-5) #initial velocity for obj1
 # +++ End of TRACK CREATION +++
 
 # +++ start of ANIMATION section ++
@@ -54,14 +55,19 @@ scene.forward = vector(0, -3, -2)  # Ask for a bird's-eye view of the scene...
 # Each pass through the loop will animate one step in time, dt
 while True:
     print("Ball Position =", ball.pos)
+    print("Object Velocity =", obj1.vel)
+    print("Object Position =", obj1.pos)
     #print("Wall Position =", O_wallS.pos)
     rate(RATE)   # maximum number of times per second the while loop runs
 
     # +++ Start of PHYSICS UPDATES -- update all positions here, every time step
     ball.pos = ball.pos + ball.vel*dt      # Update the ball's position
     # +++ End of PHYSICS UPDATES -- be sure new objects are updated appropriately!
-    
+    obj1.pos = obj1.pos + obj1.vel*dt
+
+    obj_collide(obj1)
     corral_collide(ball)
+
 
 # +++ start of EVENT_HANDLING section -- separate functions for
 #                                keypresses and mouse clicks...
@@ -84,6 +90,7 @@ def keydown_fun(event):
         ball.vel = ball.vel + vector(amt, 0, 0)
     elif key in ' rR':
         ball.vel = ball.vel * 0.45 # Reset! via the spacebar
+        obj1.pos = vector(8.5, 0, 4)
         
     #L.append(key)
     #print(L)
@@ -141,6 +148,45 @@ def randcolor():
     b = random(0.0, 1.0)
     return vector(r, g, b)       # A color is a three-element vector
 
+def obj_collide(obj1):
+    
+        if (abs(obj1.pos.z - O_wallN.pos.z) < 0.25 or (obj1.pos.z <= -10)):  # Hit -- check for z
+            
+            obj1.vel = vector(-5,0,0)
+        
+        if (abs(obj1.pos.x - I_wallE2.pos.x) < 0.25):  # Hit -- check for z
+            obj1.vel = vector(0,0,5)
+
+        if (abs(obj1.pos.z - O_wallS.pos.z) < 0.25 or (obj1.pos.z >= 10)):  # Hit -- check for z
+            obj1.vel = vector(-5,0,0)
+        
+        if (abs(obj1.pos.x - I_wallC.pos.x) < 0.25):  # Hit -- check for z
+            obj1.vel = vector(0,0,-5)
+
+        if (abs(obj1.pos.x - I_wallW2.pos.x) < 0.25):  # Hit -- check for z
+            obj1.vel = vector(0,0,5)
+
+        if (abs(obj1.pos.x - I_wallW.pos.x) < 0.25):  # Hit -- check for z
+            obj1.vel = vector(0,0,-5)    
+
+        if (abs(obj1.pos.x - O_wallW.pos.x) < 0.25):  # Hit -- check for z
+            obj1.vel = vector(0,0,5)
+
+        
+            
+     # Reverse the z velocity 
+    # if obj1.pos.x == 5.88:
+    #     obj1.vel = vector(0,0,5)
+    # if obj1.pos.x == 1.70:
+    #     obj1.vel = vector(0,0,-5)
+    # if obj1.pos.x == -2.7:
+    #     obj1.vel = vector(0,0,5)
+    # if obj1.pos.x == -5.88:
+    #     obj1.vel = vector(0,0,-5)
+    # if obj1.pos.x == -9.3:
+    #     obj1.vel = vector(0,0,5)
+    # elif obj1.pos.z < -9 or obj1.pos.z > 9:
+    #     obj1.vel = vector(-5, 0, 0)
 # +++ Start of COLLISIONS -- check for collisions & do the "right" thing
 def corral_collide(ball):
     """Corral collisions!
@@ -183,6 +229,9 @@ def corral_collide(ball):
     if (abs(ball.pos.x - I_wallW.pos.x) < 0.25) and (ball.pos.z >= -8) and (ball.pos.z <= 10):  # Hit -- check for z
         ball.vel.x *= -1.0
     
+    if (abs(ball.pos.x - obj1.pos.x) < 0.10) and (abs(ball.pos.y - obj1.pos.y) < 0.10) and (abs(ball.pos.z - obj1.pos.z) < 0.10):
+        print("You Win")
+
     if (ball.pos.x > 15 or ball.pos.x < -11.5) or (ball.pos.z < -11) or (ball.pos.z > 15):
         print("Oh no! You fell off!")
         ball.vel = vector(0, 0, 0)
