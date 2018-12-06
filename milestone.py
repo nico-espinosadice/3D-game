@@ -73,7 +73,6 @@ def keydown_fun(event):
     amt = 7.00             # "Strength" of the keypress's velocity changes
     L.append(key)
     print(L)
-    print('got here')
     if L[-1] == 'up' and L[-2] == '':
         ball.vel = vector(0, 0, -amt)
     elif L[-1] == 'left' and L[-2] == 'left':
@@ -95,6 +94,7 @@ def keydown_fun(event):
 
 def keyup_fun(event):
     "This function is called each time a key is not pressed"
+    
         
 
 def click_fun(event):
