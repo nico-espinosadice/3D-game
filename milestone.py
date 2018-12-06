@@ -2,9 +2,12 @@ GlowScript 2.7 VPython
 # Start.py
 # Jacob van der Leeuw and Nico Espinosa Dice
 # Final Project - VPython
-L = []
+
+
+"""L = []
 L[0] = "-"
-L[1] = "-"
+L[1] = "-" """
+
 scene.bind('keydown', keydown_fun)     # Function for key presses
 scene.bind('click', click_fun)         # Function for mouse clicks
 scene.background = 0.8*vector(1, 1, 1) # Light gray (0.8 out of 1.0)
@@ -68,12 +71,25 @@ def keydown_fun(event):
     global L
     ball.color = randcolor()
     key = event.key
-    print("L =", L)
-
-    print("key:", key)  # Prints the key pressed -- caps only...
-
-    amt = 7.00             # "Strength" of the keypress's velocity changes
-    L.append(key)
+    
+    amt = 0.9            # "Strength" of the keypress's velocity changes
+    
+    if key == 'up' or key in 'wWiI':
+        ball.vel = ball.vel + vector(0, 0, -amt)
+    elif key == 'left' or key in 'aAjJ':
+        ball.vel = ball.vel + vector(-amt, 0, 0)
+    elif key == 'down' or key in 'sSkK':
+        ball.vel = ball.vel + vector(0, 0, amt)
+    elif key == 'right' or key in "dDlL":
+        ball.vel = ball.vel + vector(amt, 0, 0)
+    elif key in ' rR':
+        ball.vel = ball.vel * 0.45 # Reset! via the spacebar
+        
+    #L.append(key)
+    #print(L)
+    #print("L =", L)
+    #print("key:", key)  # Prints the key pressed -- caps only...
+    """L.append(key)
     print(L)
     if L[-1] == 'up' and L[-2] == '':
         ball.vel = vector(0, 0, -amt)
@@ -92,13 +108,9 @@ def keydown_fun(event):
     elif L[-1] == 'down' and L[-2] == 'left' or L[-1] == 'left' and L[-2] == 'down':
         ball.vel = vector(amt/-1.414, 0, amt/1.414)
     elif key in ' rR':
-        ball.vel = vector(0, 0, 0) # Reset! via the spacebar, " "
-
-def keyup_fun(event):
-    "This function is called each time a key is not pressed"
+        ball.vel = vector(0, 0, 0) # Reset! via the spacebar """
     
         
-
 def click_fun(event):
     """This function is called each time the mouse is clicked."""
     print("event is", event.event, event.which)
