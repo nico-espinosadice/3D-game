@@ -63,9 +63,9 @@ while True:
     # +++ Start of PHYSICS UPDATES -- update all positions here, every time step
     ball.pos = ball.pos + ball.vel*dt      # Update the ball's position
     # +++ End of PHYSICS UPDATES -- be sure new objects are updated appropriately!
-    obj1.pos = obj1.pos + obj1.vel*dt
+    chaseObj.pos = chaseObj.pos + chaseObj.vel*dt
 
-    obj_collide(obj1)
+    chaseObj_collide(chaseObj)
     corral_collide(ball)
 
 
@@ -148,7 +148,7 @@ def randcolor():
     b = random(0.0, 1.0)
     return vector(r, g, b)       # A color is a three-element vector
 
-def obj_collide(obj1):
+def chaseObj_collide(chaseObj):
     
         if (abs(obj1.pos.z - O_wallN.pos.z) < 0.25 or (obj1.pos.z <= -10)):  # Hit -- check for z
             
