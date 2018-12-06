@@ -61,32 +61,24 @@ while True:
 
 def keydown_fun(event):
     """This function is called each time a key is pressed."""
+    
     ball.color = randcolor()
-    key = key.get_pressed()
-    key1 = key.get_pressed()
+    key = event.key()
+    
     ri = randint(0, 10)
     print("key:", key, ri)  # Prints the key pressed -- caps only...
 
     amt = 7.00             # "Strength" of the keypress's velocity changes
-    L = [] 
-    L += key1
-    L += key2
-    if L[0] == 'up' #and L[1] == '':
+    
+    if key == 'up': 
         ball.vel = vector(0, 0, -amt)
-    elif L[0] == 'left' #and L[1] == '':
+    elif key == 'left':
         ball.vel = vector(-amt, 0, 0)
-    elif L[0] == 'down' #and L[1] == '':
+    elif key == 'down': 
         ball.vel = vector(0, 0, amt)
-    elif L[0] == 'right' #and L[1] == '':
+    elif key == 'right':
         ball.vel = vector(amt, 0, 0)
-    elif L[0] == 'up' and L[1] == 'right':
-        ball.vel = vector(amt/1.414, 0, amt/-1.414)
-    elif L[0] == 'up' and L[1] == 'left':
-        ball.vel = vector(amt/-1.414, 0, amt/-1.414)
-    elif L[0] == 'down' and L[1] == 'right':
-        ball.vel = vector(amt/1.414, 0, amt/1.414)
-    elif L[0] == 'down' and L[1] == 'left':
-        ball.vel = vector(amt/-1.414, 0, amt/1.414)
+    
     elif key in ' rR':
         ball.vel = vector(0, 0, 0) # Reset! via the spacebar, " "
 
