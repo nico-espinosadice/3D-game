@@ -2,7 +2,7 @@ GlowScript 2.7 VPython
 # Start.py
 # Jacob van der Leeuw and Nico Espinosa Dice
 # Final Project - VPython
-
+import math
 scene.bind('keydown', keydown_fun)     # Function for key presses
 scene.bind('click', click_fun)         # Function for mouse clicks
 scene.background = 0.8*vector(1, 1, 1) # Light gray (0.8 out of 1.0)
@@ -62,22 +62,37 @@ while True:
 def keydown_fun(event):
     """This function is called each time a key is pressed."""
     ball.color = randcolor()
-    key = event.key
+    key = key.get_pressed()
+    key1 = key.get_pressed()
     ri = randint(0, 10)
     print("key:", key, ri)  # Prints the key pressed -- caps only...
 
     amt = 7.00             # "Strength" of the keypress's velocity changes
-    if key == 'up' or key in 'wWiI':
+    L = [] 
+    L += key1
+    L += key2
+    if L[0] == 'up' and L[1] == '':
         ball.vel = vector(0, 0, -amt)
-    elif key == 'left' or key in 'aAjJ':
+    elif L[0] == 'left' and L[1] == '':
         ball.vel = vector(-amt, 0, 0)
-    elif key == 'down' or key in 'sSkK':
+    elif L[0] == 'down' and L[1] == '':
         ball.vel = vector(0, 0, amt)
-    elif key == 'right' or key in "dDlL":
+    elif L[0] == 'right' and L[1] == '':
         ball.vel = vector(amt, 0, 0)
+    elif L[0] == 'up' and L[1] == 'right':
+        ball.vel = vector(amt/1.414, 0, amt/-1.414)
+    elif L[0] == 'up' and L[1] == 'left':
+        ball.vel = vector(amt/-1.414, 0, amt/-1.414)
+    elif L[0] == 'down' and L[1] == 'right':
+        ball.vel = vector(amt/1.414, 0, amt/1.414)
+    elif L[0] == 'down' and L[1] == 'left':
+        ball.vel = vector(amt/-1.414, 0, amt/1.414)
     elif key in ' rR':
         ball.vel = vector(0, 0, 0) # Reset! via the spacebar, " "
-        ball.pos = vector(0, 0, 0)
+
+def keyup_fun(event):
+    "This function is called each time a key is not pressed"
+        
 
 def click_fun(event):
     """This function is called each time the mouse is clicked."""
@@ -117,40 +132,50 @@ def corral_collide(ball):
     # If the ball hits O_wallN
     if ball.pos.z < O_wallN.pos.z:  # Hit -- check for z
         ball.pos.z = O_wallN.pos.z  # Bring back into bounds
-        ball.vel.z *= -1.0        # Reverse the z velocity
+        ball.vel.z *= -1.0  
+        O_wallN.color = randcolor()      # Reverse the z velocity
 
     # If the ball hits O_wallW
     if ball.pos.x < O_wallW.pos.x:  # Hit -- check for x
         ball.pos.x = O_wallW.pos.x  # Bring back into bounds
-        ball.vel.x *= -1.0        # Reverse the x velocity
+        ball.vel.x *= -1.0 
+        O_wallW.color = randcolor()       # Reverse the x velocity
         
     # If the ball hits O_wallS
     if ball.pos.z > O_wallS.pos.z:  # Hit -- check for z
         ball.pos.z = O_wallS.pos.z  # Bring back into bounds
-        ball.vel.z *= -1.0        # Reverse the z velocity
+        ball.vel.z *= -1.0  
+        O_wallS.color = randcolor()      # Reverse the z velocity
 
     # If the ball hits O_wallE
     if ball.pos.x > O_wallE.pos.x:  # Hit -- check for x
         ball.pos.x = O_wallE.pos.x  # Bring back into bounds
-        ball.vel.x *= -1.0        # Reverse the x velocity
+        ball.vel.x *= -1.0   
+        O_wallE.color = randcolor()     # Reverse the x velocity
     
     # -- Inner Walls --
     # If the ball hits I_wallN
     if (abs(ball.pos.x - I_wallE.pos.x) < 0.10) and (ball.pos.z > (I_wallE.pos.z - 9)) and (ball.pos.z < (I_wallE.pos.z + 10)):  # Hit -- check for z
-        ball.vel.x *= -1.0 # Reverse the z velocity          
+        ball.vel.x *= -1.0 # Reverse the z velocity  
+        I_wallE.color = randcolor()
+
      
     # If the ball hits I_wallN
     if (abs(ball.pos.x - I_wallE2.pos.x) < 0.10) and (ball.pos.z > (I_wallE2.pos.z - 10)) and (ball.pos.z < (I_wallE2.pos.z + 9)):  # Hit -- check for z
-        ball.vel.x *= -1.0 # Reverse the z velocity       
+        ball.vel.x *= -1.0 # Reverse the z velocity      
+        I_wallE2.color = randcolor() 
     
     # If the ball hits I_wallN
     if (abs(ball.pos.x - I_wallC.pos.x) < 0.10) and (ball.pos.z > (I_wallC.pos.z - 9)) and (ball.pos.z < (I_wallC.pos.z + 10)):  # Hit -- check for z
-        ball.vel.x *= -1.0 # Reverse the z velocity       
+        ball.vel.x *= -1.0 # Reverse the z velocity   
+        I_wallC.color = randcolor()    
     
     # If the ball hits I_wallN
     if (abs(ball.pos.x - I_wallW2.pos.x) < 0.10) and (ball.pos.z > (I_wallW2.pos.z - 10)) and (ball.pos.z < (I_wallW2.pos.z + 9)):  # Hit -- check for z
         ball.vel.x *= -1.0 # Reverse the z velocity       
-    
+        I_wallW2.color = randcolor()
+
     # If the ball hits I_wallN
     if (abs(ball.pos.x - I_wallW.pos.x) < 0.25) and (ball.pos.z > (I_wallW.pos.z - 9)) and (ball.pos.z < (I_wallW.pos.z + 10)):  # Hit -- check for z
-        ball.vel.x *= -1.0 # Reverse the z velocity       
+        ball.vel.x *= -1.0 # Reverse the z velocity     
+        I_wallW.color = randcolor()  
