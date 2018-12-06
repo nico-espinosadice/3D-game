@@ -50,6 +50,8 @@ scene.forward = vector(0, -3, -2)  # Ask for a bird's-eye view of the scene...
 # This is the "event loop" or "animation loop"
 # Each pass through the loop will animate one step in time, dt
 while True:
+    print("Ball Position =", ball.pos)
+    #print("Wall Position =", O_wallS.pos)
     rate(RATE)   # maximum number of times per second the while loop runs
 
     # +++ Start of PHYSICS UPDATES -- update all positions here, every time step
@@ -132,53 +134,44 @@ def corral_collide(ball):
     """Corral collisions!
     Ball must have a .vel field and a .pos field. """
     # -- Outer walls --
-    # If the ball hits O_wallN
-    if ball.pos.z < O_wallN.pos.z:  # Hit -- check for z
-        ball.pos.z = O_wallN.pos.z  # Bring back into bounds
-        ball.vel.z *= -1.0  
-        O_wallN.color = randcolor()      # Reverse the z velocity
+    # If the ball hits O_wallE
+    if (abs(ball.pos.x - O_wallE.pos.x) < 0.25) and (ball.pos.z >= -10) and (ball.pos.z <= 10):  # Hit -- check for z
+        ball.vel.x *= -1.0 # Reverse the x velocity   
 
     # If the ball hits O_wallW
-    if ball.pos.x < O_wallW.pos.x:  # Hit -- check for x
-        ball.pos.x = O_wallW.pos.x  # Bring back into bounds
-        ball.vel.x *= -1.0 
-        O_wallW.color = randcolor()       # Reverse the x velocity
+    if (abs(ball.pos.x - O_wallW.pos.x) < 0.25) and (ball.pos.z >= -8) and (ball.pos.z <= 10):  # Hit -- check for z
+        ball.vel.x *= -1.0 # Reverse the x velocity   
         
-    # If the ball hits O_wallS
-    if ball.pos.z > O_wallS.pos.z:  # Hit -- check for z
-        ball.pos.z = O_wallS.pos.z  # Bring back into bounds
-        ball.vel.z *= -1.0  
-        O_wallS.color = randcolor()      # Reverse the z velocity
+    # If the ball hits O_wallN
+    if (abs(ball.pos.z - O_wallN.pos.z) < 0.25) and (ball.pos.x >= -10) and (ball.pos.x <= 10):  # Hit -- check for z
+        ball.vel.z *= -1.0 # Reverse the z velocity
 
-    # If the ball hits O_wallE
-    if ball.pos.x > O_wallE.pos.x:  # Hit -- check for x
-        ball.pos.x = O_wallE.pos.x  # Bring back into bounds
-        ball.vel.x *= -1.0   
-        O_wallE.color = randcolor()     # Reverse the x velocity
+    # If the ball hits O_wallS
+    if (abs(ball.pos.z - O_wallS.pos.z) < 0.25) and (ball.pos.x >= -8) and (ball.pos.x <= 8):  # Hit -- check for z
+        ball.vel.z *= -1.0 # Reverse the z velocity   
     
     # -- Inner Walls --
-    # If the ball hits I_wallN
-    if (abs(ball.pos.x - I_wallE.pos.x) < 0.10) and (ball.pos.z > (I_wallE.pos.z - 9)) and (ball.pos.z < (I_wallE.pos.z + 10)):  # Hit -- check for z
-        ball.vel.x *= -1.0 # Reverse the z velocity  
-        I_wallE.color = randcolor()
-
+    # If the ball hits I_wallE
+    if (abs(ball.pos.x - I_wallE.pos.x) < 0.25) and (ball.pos.z >= -8) and (ball.pos.z <= 10):  # Hit -- check for z
+        ball.vel.x *= -1.0 # Reverse the x velocity    
      
-    # If the ball hits I_wallN
-    if (abs(ball.pos.x - I_wallE2.pos.x) < 0.10) and (ball.pos.z > (I_wallE2.pos.z - 10)) and (ball.pos.z < (I_wallE2.pos.z + 9)):  # Hit -- check for z
-        ball.vel.x *= -1.0 # Reverse the z velocity      
-        I_wallE2.color = randcolor() 
+    # If the ball hits I_wallE2
+    if (abs(ball.pos.x - I_wallE2.pos.x) < 0.25) and (ball.pos.z >= -10) and (ball.pos.z <= 8):  # Hit -- check for z
+        ball.vel.x *= -1.0 # Reverse the x velocity       
     
-    # If the ball hits I_wallN
-    if (abs(ball.pos.x - I_wallC.pos.x) < 0.10) and (ball.pos.z > (I_wallC.pos.z - 9)) and (ball.pos.z < (I_wallC.pos.z + 10)):  # Hit -- check for z
-        ball.vel.x *= -1.0 # Reverse the z velocity   
-        I_wallC.color = randcolor()    
+    # If the ball hits I_wallC
+    if (abs(ball.pos.x - I_wallC.pos.x) < 0.25) and (ball.pos.z >= -8) and (ball.pos.z <= 10):  # Hit -- check for z
+        ball.vel.x *= -1.0 # Reverse the x velocity       
     
-    # If the ball hits I_wallN
-    if (abs(ball.pos.x - I_wallW2.pos.x) < 0.10) and (ball.pos.z > (I_wallW2.pos.z - 10)) and (ball.pos.z < (I_wallW2.pos.z + 9)):  # Hit -- check for z
-        ball.vel.x *= -1.0 # Reverse the z velocity       
-        I_wallW2.color = randcolor()
-
-    # If the ball hits I_wallN
-    if (abs(ball.pos.x - I_wallW.pos.x) < 0.25) and (ball.pos.z > (I_wallW.pos.z - 9)) and (ball.pos.z < (I_wallW.pos.z + 10)):  # Hit -- check for z
-        ball.vel.x *= -1.0 # Reverse the z velocity     
-        I_wallW.color = randcolor()  
+    # If the ball hits I_wallW2
+    if (abs(ball.pos.x - I_wallW2.pos.x) < 0.25) and (ball.pos.z >= -10) and (ball.pos.z <= 8):  # Hit -- check for z
+        ball.vel.x *= -1.0 # Reverse the x velocity       
+    
+    # If the ball hits I_wallW
+    if (abs(ball.pos.x - I_wallW.pos.x) < 0.25) and (ball.pos.z >= -8) and (ball.pos.z <= 10):  # Hit -- check for z
+        ball.vel.x *= -1.0
+    
+    if (ball.pos.x > 15 or ball.pos.x < -11.5) or (ball.pos.z < -11) or (ball.pos.z > 15):
+        print("Oh no! You fell off!")
+        ball.vel = vector(0, 0, 0)
+        ball.pos = vector(9, 0, 9)
