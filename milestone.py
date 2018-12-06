@@ -2,7 +2,7 @@ GlowScript 2.7 VPython
 # Start.py
 # Jacob van der Leeuw and Nico Espinosa Dice
 # Final Project - VPython
-import math
+
 scene.bind('keydown', keydown_fun)     # Function for key presses
 scene.bind('click', click_fun)         # Function for mouse clicks
 scene.background = 0.8*vector(1, 1, 1) # Light gray (0.8 out of 1.0)
@@ -71,13 +71,13 @@ def keydown_fun(event):
     L = [] 
     L += key1
     L += key2
-    if L[0] == 'up' and L[1] == '':
+    if L[0] == 'up' #and L[1] == '':
         ball.vel = vector(0, 0, -amt)
-    elif L[0] == 'left' and L[1] == '':
+    elif L[0] == 'left' #and L[1] == '':
         ball.vel = vector(-amt, 0, 0)
-    elif L[0] == 'down' and L[1] == '':
+    elif L[0] == 'down' #and L[1] == '':
         ball.vel = vector(0, 0, amt)
-    elif L[0] == 'right' and L[1] == '':
+    elif L[0] == 'right' #and L[1] == '':
         ball.vel = vector(amt, 0, 0)
     elif L[0] == 'up' and L[1] == 'right':
         ball.vel = vector(amt/1.414, 0, amt/-1.414)
