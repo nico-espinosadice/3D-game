@@ -2,7 +2,9 @@ GlowScript 2.7 VPython
 # Start.py
 # Jacob van der Leeuw and Nico Espinosa Dice
 # Final Project - VPython
-
+L = []
+L[0] = "-"
+L[1] = "-"
 scene.bind('keydown', keydown_fun)     # Function for key presses
 scene.bind('click', click_fun)         # Function for mouse clicks
 scene.background = 0.8*vector(1, 1, 1) # Light gray (0.8 out of 1.0)
@@ -61,24 +63,32 @@ while True:
 
 def keydown_fun(event):
     """This function is called each time a key is pressed."""
-    
+    global L
     ball.color = randcolor()
-    key = event.key()
-    
-    ri = randint(0, 10)
-    print("key:", key, ri)  # Prints the key pressed -- caps only...
+    key = event.key
+    print("L =", L)
+
+    print("key:", key)  # Prints the key pressed -- caps only...
 
     amt = 7.00             # "Strength" of the keypress's velocity changes
-    
-    if key == 'up': 
+    L.append(key)
+    print(L)
+    if L[-1] == 'up' and L[-2] == '':
         ball.vel = vector(0, 0, -amt)
-    elif key == 'left':
+    elif L[-1] == 'left' and L[-2] == '':
         ball.vel = vector(-amt, 0, 0)
-    elif key == 'down': 
+    elif L[-1] == 'down' and L[-2] == '':
         ball.vel = vector(0, 0, amt)
-    elif key == 'right':
+    elif L[-1] == 'right' and L[-2] == '':
         ball.vel = vector(amt, 0, 0)
-    
+    elif L[-1] == 'up' and L[-2] == 'right':
+        ball.vel = vector(amt/1.414, 0, amt/-1.414)
+    elif L[-1] == 'up' and L[-2] == 'left':
+        ball.vel = vector(amt/-1.414, 0, amt/-1.414)
+    elif L[-1] == 'down' and L[-2] == 'right':
+        ball.vel = vector(amt/1.414, 0, amt/1.414)
+    elif L[-1] == 'down' and L[-2] == 'left':
+        ball.vel = vector(amt/-1.414, 0, amt/1.414)
     elif key in ' rR':
         ball.vel = vector(0, 0, 0) # Reset! via the spacebar, " "
 
