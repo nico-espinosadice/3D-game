@@ -73,21 +73,21 @@ def keydown_fun(event):
     amt = 7.00             # "Strength" of the keypress's velocity changes
     L.append(key)
     print(L)
-    if L[-1] == 'up' and L[-2] == '':
+    if L[-1] == 'up' and L[-2] == 'up':
         ball.vel = vector(0, 0, -amt)
-    elif L[-1] == 'left' and L[-2] == '':
+    elif L[-1] == 'left' and L[-2] == 'left':
         ball.vel = vector(-amt, 0, 0)
-    elif L[-1] == 'down' and L[-2] == '':
+    elif L[-1] == 'down' and L[-2] == 'down':
         ball.vel = vector(0, 0, amt)
-    elif L[-1] == 'right' and L[-2] == '':
+    elif L[-1] == 'right' and L[-2] == 'right':
         ball.vel = vector(amt, 0, 0)
-    elif L[-1] == 'up' and L[-2] == 'right':
+    elif L[-1] == 'up' and L[-2] == 'right' or L[-1] == 'right' and L[-2] == 'up':
         ball.vel = vector(amt/1.414, 0, amt/-1.414)
-    elif L[-1] == 'up' and L[-2] == 'left':
+    elif L[-1] == 'up' and L[-2] == 'left' or L[-1] == 'left' and L[-2] == 'up':
         ball.vel = vector(amt/-1.414, 0, amt/-1.414)
-    elif L[-1] == 'down' and L[-2] == 'right':
+    elif L[-1] == 'down' and L[-2] == 'right' or L[-1] == 'right' and L[-2] == 'down':
         ball.vel = vector(amt/1.414, 0, amt/1.414)
-    elif L[-1] == 'down' and L[-2] == 'left':
+    elif L[-1] == 'down' and L[-2] == 'left' or L[-1] == 'left' and L[-2] == 'down':
         ball.vel = vector(amt/-1.414, 0, amt/1.414)
     elif key in ' rR':
         ball.vel = vector(0, 0, 0) # Reset! via the spacebar, " "
