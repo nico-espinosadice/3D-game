@@ -3,9 +3,6 @@ GlowScript 2.7 VPython
 # Jacob van der Leeuw and Nico Espinosa Dice
 # Final Project - VPython
 
-
-
-
 scene.bind('keydown', keydown_fun)     # Function for key presses
 scene.bind('click', click_fun)         # Function for mouse clicks
 scene.background = 0.8*vector(1, 1, 1) # Light gray (0.8 out of 1.0)
@@ -36,12 +33,16 @@ I_wallW = box(pos = vector(-8, 0, 1), axis = vector(0, 0, 1), size = vector(18, 
 I_wallW2 = box(pos = vector(-4, 0, -1), axis = vector(0, 0, 1), size = vector(18, 1, .2), color = color.red) # "East" wall - yellow
 
 # Ball (user controls)
-ball = sphere(pos = vector(9, 0, 9), size = 1.0*vector(1, 1, 1), color = vector(0.8, 0.5, 0.0))   # ball is an object of class sphere
+ball = sphere(pos = vector(-5, 0, 8.5), size = 1.0*vector(1, 1, 1), color = vector(0.8, 0.5, 0.0))   # ball is an object of class sphere
 ball.vel = vector(0, 0, 0)     # this is its initial velocity
 
 # Cylinder (other control)
 chaseObj = cylinder(pos = vector(8.5, 0, 4), size = 1.0*vector(1,1,1), color = color.orange)
 chaseObj.vel = vector(0,0,-5) #initial velocity for chaseObj
+
+# Obstacle 1 (Moving Object)
+obstacle1 = sphere(pos = vector(-4, 0, 8.5), size = 0.5*vector(1, 1, 1), color = vector(1, 1, 1))   # ball is an object of class sphere
+obstacle1.vel = vector(-5, 0, 0)     # this is its initial velocity
 # +++ End of TRACK CREATION +++
 
 # +++ start of ANIMATION section ++
@@ -55,8 +56,8 @@ scene.forward = vector(0, -3, -2)  # Ask for a bird's-eye view of the scene...
 # Each pass through the loop will animate one step in time, dt
 while True:
     print("Ball Position =", ball.pos)
-    print("Object Velocity =", chaseObj.vel)
-    print("Object Position =", chaseObj.pos)
+    #print("Object Velocity =", chaseObj.vel)
+    #print("Object Position =", chaseObj.pos)
     #print("Wall Position =", O_wallS.pos)
     rate(RATE)   # maximum number of times per second the while loop runs
 
@@ -64,9 +65,11 @@ while True:
     ball.pos = ball.pos + ball.vel*dt      # Update the ball's position
     # +++ End of PHYSICS UPDATES -- be sure new objects are updated appropriately!
     chaseObj.pos = chaseObj.pos + chaseObj.vel*dt
+    obstacle1.pos = obstacle1.pos + obstacle1.vel*dt
 
     chaseObj_collide(chaseObj)
     corral_collide(ball)
+    obstacle1Collide(obstacle1)
 
 
 # +++ start of EVENT_HANDLING section -- separate functions for
@@ -89,8 +92,8 @@ def keydown_fun(event):
     elif key == 'right' or key in "dDlL":
         ball.vel = ball.vel + vector(amt, 0, 0)
     elif key in ' rR':
-        ball.vel = ball.vel * 0.45 # Reset! via the spacebar
-        chaseObj.pos = vector(8.5, 0, 4)
+        ball.vel = ball.vel * 0.45 
+        #chaseObj.pos = vector(8.5, 0, 4)
         
     #L.append(key)
     #print(L)
@@ -149,7 +152,6 @@ def randcolor():
     return vector(r, g, b)       # A color is a three-element vector
 
 def chaseObj_collide(chaseObj):
-    
         if (abs(chaseObj.pos.z - O_wallN.pos.z) < 0.25 or (chaseObj.pos.z <= -10)):  # Hit -- check for z
             chaseObj.vel = vector(-5,0,0)
         
@@ -170,9 +172,7 @@ def chaseObj_collide(chaseObj):
 
         if (abs(chaseObj.pos.x - O_wallW.pos.x) < 0.25):  # Hit -- check for z
             chaseObj.vel = vector(0,0,5)
-
-        
-            
+          
      # Reverse the z velocity 
     # if chaseObj.pos.x == 5.88:
     #     chaseObj.vel = vector(0,0,5)
@@ -187,6 +187,7 @@ def chaseObj_collide(chaseObj):
     # elif chaseObj.pos.z < -9 or chaseObj.pos.z > 9:
     #     chaseObj.vel = vector(-5, 0, 0)
 # +++ Start of COLLISIONS -- check for collisions & do the "right" thing
+
 def corral_collide(ball):
     """Corral collisions!
     Ball must have a .vel field and a .pos field. """
@@ -235,3 +236,13 @@ def corral_collide(ball):
         print("Oh no! You fell off!")
         ball.vel = vector(0, 0, 0)
         ball.pos = vector(9, 0, 9)
+    
+    if abs(ball.pos.x - obstacle1.pos.x) < 0.2 and abs(ball.pos.y - obstacle1.pos.y) < 0.2 and abs(ball.pos.z - obstacle1.pos.z) < 0.2:
+        ball.vel = 6 * ball.vel
+
+def obstacle1Collide(obstacle1):
+    if obstacle1.pos.x < -7.6:
+        obstacle1.vel = vector(5,0,0)
+        
+    if obstacle1.pos.x > -0.5:
+        obstacle1.vel = vector(-1, 0, 0)
