@@ -37,7 +37,7 @@ ball = sphere(pos = vector(9, 0, 9), size = 1.0*vector(1, 1, 1), color = vector(
 ball.vel = vector(0, 0, 0)     # this is its initial velocity
 
 # Cylinder (other control)
-chaseObject1 = cylinder(pos = vector(8.5, 0, 4), size = 1.0*vector(1,1,1), color = color.orange)
+chaseObject1 = cylinder(pos = vector(3, 0, 8.5), size = 1.0*vector(1,1,1), color = color.orange)
 chaseObject1.vel = vector(0,0,-5) #initial velocity for chaseObj
 
 # Obstacle 1 (Moving Object)
@@ -77,7 +77,6 @@ while not gameOver:
 
 # +++ start of EVENT_HANDLING section -- separate functions for
 #                                keypresses and mouse clicks...
-
 
 def gameFin(ball, chaseObject1):
     if (abs(ball.pos.x - chaseObject1.pos.x) < 0.10) and (abs(ball.pos.z - chaseObject1.pos.z) < 0.10):
@@ -147,35 +146,23 @@ def chaseObject_Path(chaseObject1):
         if abs(chaseObject1.pos.x - 2.5) < 0.2 and abs(chaseObject1.pos.z - 8.5) < 0.2:  # Hit -- check for z
             chaseObject1.vel = vector(0,0,-5)
 
-        if abs(chaseObject1.pos.x + 2) > -0.2 and abs(chaseObject1.pos.z + 8.5) < 0.2:  # Hit -- check for z
-            chaseObject1.vel = vector(0,0,-5)
+        if chaseObject1.pos.x > 2.9 and chaseObject1.pos.x < 3.1 and abs(chaseObject1.pos.z + 8.5) < 0.2:  # Hit -- check for z
+            chaseObject1.vel = vector(-5, 0, 0)
         
-        if abs(chaseObject1.pos.x - 2.5) < 0.2 and abs(chaseObject1.pos.z - 8.5) < 0.2:  # Hit -- check for z
+        if chaseObject1.pos.x < -1.9 and chaseObject1.pos.x > -2.1 and abs(chaseObject1.pos.z + 8.5) < 0.2:  # Hit -- check for z
+            chaseObject1.vel = vector(0,0,5)
+        
+        if chaseObject1.pos.x < -1.9 and chaseObject1.pos.x > -2.1 and abs(chaseObject1.pos.z - 8.5) < 0.2:  # Hit -- check for z
             chaseObject1.vel = vector(-5,0,0)
         
-        if abs(chaseObject1.pos.x + 6) < 0.2 and abs(chaseObject1.pos.z + 8.5) < 0.2:  # Hit -- check for z
+        if chaseObject1.pos.x < -5.9 and chaseObject1.pos.x > -6.1 and abs(chaseObject1.pos.z - 8.5) < 0.2:  # Hit -- check for z
             chaseObject1.vel = vector(0,0,-5)
         
-        if abs(chaseObject1.pos.x + 9) < 0.2 and abs(chaseObject1.pos.z + 8.5) < 0.2:  # Hit -- check for z
+        if chaseObject1.pos.x < -5.9 and chaseObject1.pos.x > -6.1 and abs(chaseObject1.pos.z + 8.5) < 0.2:  # Hit -- check for z
+            chaseObject1.vel = vector(-5,0,0)
+    
+        if chaseObject1.pos.x < -8.9 and chaseObject1.pos.x > -9.1 and abs(chaseObject1.pos.z + 8.5) < 0.2:  # Hit -- check for z
             chaseObject1.vel = vector(0,0,5)
-
-        if (abs(chaseObject1.pos.x + 8.61) < 0.15) and (abs(chaseObject1.pos.z - 10 < 0.15)):
-            gameplay = False
-            print("You Lose!")
-        # Reverse the z velocity 
-        # if chaseObject1.pos.x == 5.88:
-        #     chaseObject1.vel = vector(0,0,5)
-        # if chaseObject1.pos.x == 1.70:
-        #     chaseObject1.vel = vector(0,0,-5)
-        # if chaseObject1.pos.x == -2.7:
-        #     chaseObject1.vel = vector(0,0,5)
-        # if chaseObject1.pos.x == -5.88:
-        #     chaseObject1.vel = vector(0,0,-5)
-        # if chaseObject1.pos.x == -9.3:
-        #     chaseObject1.vel = vector(0,0,5)
-        # elif chaseObject1.pos.z < -9 or chaseObject1.pos.z > 9:
-        #     chaseObject1.vel = vector(-5, 0, 0)
-
 
 # +++ Start of COLLISIONS -- check for collisions & do the "right" thing
 
