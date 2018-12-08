@@ -43,7 +43,7 @@ ball.vel = vector(0, 0, 0)     # this is its initial velocity
 chaseObject1 = cylinder(pos = vector(8.5, 0, 4), size = 1.0*vector(1,1,1), color = color.orange)
 chaseObject1.vel = vector(0,0,-5) #initial velocity for chaseObject1
 # +++ End of TRACK CREATION +++
-
+gameplay = True
 # +++ start of ANIMATION section ++
 
 # Other constants
@@ -53,7 +53,7 @@ scene.autoscale = False  # Avoids changing the view automatically
 scene.forward = vector(0, -3, -2)  # Ask for a bird's-eye view of the scene...
 # This is the "event loop" or "animation loop"
 # Each pass through the loop will animate one step in time, dt
-while True:
+while gameplay:
     print("Ball Position =", ball.pos)
     print("Object Velocity =", chaseObject1.vel)
     print("Object Position =", chaseObject1.pos)
@@ -68,6 +68,7 @@ while True:
     Chaseobj_collide(chaseObject1)
     corral_collide(ball)
 
+    
 
 # +++ start of EVENT_HANDLING section -- separate functions for
 #                                keypresses and mouse clicks...
@@ -90,7 +91,7 @@ def keydown_fun(event):
         ball.vel = ball.vel + vector(amt, 0, 0)
     elif key in ' rR':
         ball.vel = ball.vel * 0.45 # Reset! via the spacebar
-        chaseObject1.pos = vector(8.5, 0, 4)
+        
         
     #L.append(key)
     #print(L)
@@ -172,7 +173,9 @@ def Chaseobj_collide(chaseObject1):
         if (abs(chaseObject1.pos.x - O_wallW.pos.x) < 0.25):  # Hit -- check for z
             chaseObject1.vel = vector(0,0,5)
 
-                    
+        if (abs(chaseObject1.pos.x + 8.61) < 0.15) and (abs(chaseObject1.pos.z - 10 < 0.15)):
+            gameplay = False
+            print("You Lose!")
         # Reverse the z velocity 
         # if chaseObject1.pos.x == 5.88:
         #     chaseObject1.vel = vector(0,0,5)
@@ -232,6 +235,7 @@ def corral_collide(ball):
     
     if (abs(ball.pos.x - chaseObject1.pos.x) < 0.10) and (abs(ball.pos.y - chaseObject1.pos.y) < 0.10) and (abs(ball.pos.z - chaseObject1.pos.z) < 0.10):
         print("You Win")
+        gameplay = False
 
     if (ball.pos.x > 15 or ball.pos.x < -11.5) or (ball.pos.z < -11) or (ball.pos.z > 15):
         print("Oh no! You fell off!")
