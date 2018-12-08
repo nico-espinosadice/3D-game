@@ -54,10 +54,9 @@ scene.forward = vector(0, -3, -2)  # Ask for a bird's-eye view of the scene...
 # This is the "event loop" or "animation loop"
 # Each pass through the loop will animate one step in time, dt
 while True:
-    print("Ball Position =", ball.pos)
-    print("Object Velocity =", chaseObject1.vel)
-    print("Object Position =", chaseObject1.pos)
-    #print("Wall Position =", O_wallS.pos)
+    #print("Object Position =", chaseObject1.pos)
+    print("Ball position =", ball.pos)
+
     rate(RATE)   # maximum number of times per second the while loop runs
 
     # +++ Start of PHYSICS UPDATES -- update all positions here, every time step
@@ -65,7 +64,7 @@ while True:
     # +++ End of PHYSICS UPDATES -- be sure new objects are updated appropriately!
     chaseObject1.pos = chaseObject1.pos + chaseObject1.vel*dt
 
-    Chaseobj_collide(chaseObject1)
+    chaseObject_Path(chaseObject1)
     corral_collide(ball)
 
 
@@ -89,35 +88,8 @@ def keydown_fun(event):
     elif key == 'right' or key in "dDlL":
         ball.vel = ball.vel + vector(amt, 0, 0)
     elif key in ' rR':
-        ball.vel = ball.vel * 0.45 # Reset! via the spacebar
-        chaseObject1.pos = vector(8.5, 0, 4)
-        
-    #L.append(key)
-    #print(L)
-    #print("L =", L)
-    #print("key:", key)  # Prints the key pressed -- caps only...
-    """L.append(key)
-    print(L)
-    if L[-1] == 'up' and L[-2] == '':
-        ball.vel = vector(0, 0, -amt)
-    elif L[-1] == 'left' and L[-2] == 'left':
-        ball.vel = vector(-amt, 0, 0)
-    elif L[-1] == 'down' and L[-2] == 'down':
-        ball.vel = vector(0, 0, amt)
-    elif L[-1] == 'right' and L[-2] == 'right':
-        ball.vel = vector(amt, 0, 0)
-    elif L[-1] == 'up' and L[-2] == 'right' or L[-1] == 'right' and L[-2] == 'up':
-        ball.vel = vector(amt/1.414, 0, amt/-1.414)
-    elif L[-1] == 'up' and L[-2] == 'left' or L[-1] == 'left' and L[-2] == 'up':
-        ball.vel = vector(amt/-1.414, 0, amt/-1.414)
-    elif L[-1] == 'down' and L[-2] == 'right' or L[-1] == 'right' and L[-2] == 'down':
-        ball.vel = vector(amt/1.414, 0, amt/1.414)
-    elif L[-1] == 'down' and L[-2] == 'left' or L[-1] == 'left' and L[-2] == 'down':
-        ball.vel = vector(amt/-1.414, 0, amt/1.414)
-    elif key in ' rR':
-        ball.vel = vector(0, 0, 0) # Reset! via the spacebar """
+        ball.vel = ball.vel * 0.45
     
-        
 def click_fun(event):
     """This function is called each time the mouse is clicked."""
     print("event is", event.event, event.which)
@@ -148,28 +120,30 @@ def randcolor():
     b = random(0.0, 1.0)
     return vector(r, g, b)       # A color is a three-element vector
 
-def Chaseobj_collide(chaseObject1):
-    
-        if (abs(chaseObject1.pos.z - O_wallN.pos.z) < 0.25 or (chaseObject1.pos.z <= -10)):  # Hit -- check for z
-            
+def chaseObject_Path(chaseObject1):
+
+        if abs(chaseObject1.pos.x - 8.5) < 0.2 and abs(chaseObject1.pos.z + 8.5) < 0.2:  # Hit -- check for z
             chaseObject1.vel = vector(-5,0,0)
         
-        if (abs(chaseObject1.pos.x - I_wallE2.pos.x) < 0.25):  # Hit -- check for z
+        if abs(chaseObject1.pos.x - 6) < 0.2 and abs(chaseObject1.pos.z + 8.5) < 0.2:  # Hit -- check for z
             chaseObject1.vel = vector(0,0,5)
 
-        if (abs(chaseObject1.pos.z - O_wallS.pos.z) < 0.25 or (chaseObject1.pos.z >= 10)):  # Hit -- check for z
+        if abs(chaseObject1.pos.x - 6) < 0.2 and abs(chaseObject1.pos.z - 8.5) < 0.2:  # Hit -- check for z
             chaseObject1.vel = vector(-5,0,0)
         
-        if (abs(chaseObject1.pos.x - I_wallC.pos.x) < 0.25):  # Hit -- check for z
+        if abs(chaseObject1.pos.x - 2.5) < 0.2 and abs(chaseObject1.pos.z - 8.5) < 0.2:  # Hit -- check for z
             chaseObject1.vel = vector(0,0,-5)
 
-        if (abs(chaseObject1.pos.x - I_wallW2.pos.x) < 0.25):  # Hit -- check for z
-            chaseObject1.vel = vector(0,0,5)
-
-        if (abs(chaseObject1.pos.x - I_wallW.pos.x) < 0.25):  # Hit -- check for z
-            chaseObject1.vel = vector(0,0,-5)    
-
-        if (abs(chaseObject1.pos.x - O_wallW.pos.x) < 0.25):  # Hit -- check for z
+        if abs(chaseObject1.pos.x + 2) > -0.2 and abs(chaseObject1.pos.z + 8.5) < 0.2:  # Hit -- check for z
+            chaseObject1.vel = vector(0,0,-5)
+        
+        if abs(chaseObject1.pos.x - 2.5) < 0.2 and abs(chaseObject1.pos.z - 8.5) < 0.2:  # Hit -- check for z
+            chaseObject1.vel = vector(-5,0,0)
+        
+        if abs(chaseObject1.pos.x + 6) < 0.2 and abs(chaseObject1.pos.z + 8.5) < 0.2:  # Hit -- check for z
+            chaseObject1.vel = vector(0,0,-5)
+        
+        if abs(chaseObject1.pos.x + 9) < 0.2 and abs(chaseObject1.pos.z + 8.5) < 0.2:  # Hit -- check for z
             chaseObject1.vel = vector(0,0,5)
 
                     
