@@ -45,6 +45,9 @@ obstacle1 = sphere(pos = vector(-4, 0, 8.5), size = 0.5*vector(1, 1, 1), color =
 obstacle1.vel = vector(-5, 0, 0)     # this is its initial velocity
 # +++ End of TRACK CREATION +++
 
+obstacle2 = sphere(pos = vector(4, 0, 8.5), size = 0.3*vector(1, 1, 1), color = vector(1, 1, 1))   # ball is an object of class sphere
+obstacle2.vel = vector(10, 0, 0)
+
 # +++ start of ANIMATION section ++
 
 # Other constants
@@ -70,10 +73,12 @@ while not gameOver:
     # +++ End of PHYSICS UPDATES -- be sure new objects are updated appropriately!
     chaseObject1.pos = chaseObject1.pos + chaseObject1.vel*dt
     obstacle1.pos = obstacle1.pos + obstacle1.vel*dt
+    obstacle2.pos = obstacle2.pos + obstacle2.vel*dt
 
     chaseObject_Path(chaseObject1)
     corral_collide(ball)
     obstacle1Collide(obstacle1)
+    obstacle2Collide(obstacle2)
 
 # +++ start of EVENT_HANDLING section -- separate functions for
 #                                keypresses and mouse clicks...
@@ -218,9 +223,19 @@ def corral_collide(ball):
         ball.vel.z = old_x_vel
         ball.vel = 2 * ball.vel
 
+    if abs(ball.pos.x - obstacle2.pos.x) < 0.3 and abs(ball.pos.y - obstacle2.pos.y) < 0.3 and abs(ball.pos.z - obstacle2.pos.z) < 0.3:
+        ball.vel = 0.5 * ball.vel
+
 def obstacle1Collide(obstacle1):
     if obstacle1.pos.x < -7.6:
         obstacle1.vel = vector(5,0,0)
         
     if obstacle1.pos.x > -0.5:
         obstacle1.vel = vector(-1, 0, 0)
+
+def obstacle2Collide(obstacle2):
+    if obstacle2.pos.x > 7.6:
+        obstacle2.vel = vector(-2,0,0)
+
+    if obstacle2.pos.x < 0.5: 
+        obstacle2.vel = vector(10,0,0)
