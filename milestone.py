@@ -36,9 +36,19 @@ I_wallW2 = box(pos = vector(-4, 0, -1), axis = vector(0, 0, 1), size = vector(18
 ball = sphere(pos = vector(9, 0, 9), size = 1.0*vector(1, 1, 1), color = vector(0.8, 0.5, 0.0))   # ball is an object of class sphere
 ball.vel = vector(0, 0, 0)     # this is its initial velocity
 
+# Cylinder (other control)
+chaseObject1 = cylinder(pos = vector(3, 0, 8.5), size = 1.0*vector(1,1,1), color = color.orange)
+chaseObject1.vel = vector(0,0,-5) #initial velocity for chaseObj
+
+# Obstacle 1 (Moving Object)
+obstacle1 = sphere(pos = vector(-4, 0, 8.5), size = 0.5*vector(1, 1, 1), color = vector(1, 1, 1))   # ball is an object of class sphere
+obstacle1.vel = vector(-5, 0, 0)     # this is its initial velocity
 # +++ End of TRACK CREATION +++
 
-# +++ start of ANIMATION section
+obstacle2 = sphere(pos = vector(4, 0, 8.5), size = 0.3*vector(1, 1, 1), color = vector(1, 1, 1))   # ball is an object of class sphere
+obstacle2.vel = vector(10, 0, 0)
+
+# +++ start of ANIMATION section ++
 
 # Other constants
 RATE = 30                # The number of times the while loop runs each second
@@ -47,26 +57,45 @@ scene.autoscale = False  # Avoids changing the view automatically
 scene.forward = vector(0, -3, -2)  # Ask for a bird's-eye view of the scene...
 # This is the "event loop" or "animation loop"
 # Each pass through the loop will animate one step in time, dt
-while True:
+
+gameOver = False
+
+while not gameOver:
+    print("Ball Position =", ball.pos)
+    #print("Object Velocity =", chaseObject1.vel)
+    #print("Object Position =", chaseObject1.pos)
+    #print("Wall Position =", O_wallS.pos)
+    
     rate(RATE)   # maximum number of times per second the while loop runs
 
     # +++ Start of PHYSICS UPDATES -- update all positions here, every time step
     ball.pos = ball.pos + ball.vel*dt      # Update the ball's position
     # +++ End of PHYSICS UPDATES -- be sure new objects are updated appropriately!
-    
+    chaseObject1.pos = chaseObject1.pos + chaseObject1.vel*dt
+    obstacle1.pos = obstacle1.pos + obstacle1.vel*dt
+    obstacle2.pos = obstacle2.pos + obstacle2.vel*dt
+
+    chaseObject_Path(chaseObject1)
     corral_collide(ball)
+    obstacle1Collide(obstacle1)
+    obstacle2Collide(obstacle2)
 
 # +++ start of EVENT_HANDLING section -- separate functions for
 #                                keypresses and mouse clicks...
 
+def gameFin(ball, chaseObject1):
+    if (abs(ball.pos.x - chaseObject1.pos.x) < 0.10) and (abs(ball.pos.z - chaseObject1.pos.z) < 0.10):
+        print("You Win")
+        gameplay = False
+
 def keydown_fun(event):
     """This function is called each time a key is pressed."""
+    global L
     ball.color = randcolor()
     key = event.key
-    ri = randint(0, 10)
-    print("key:", key, ri)  # Prints the key pressed -- caps only...
-
-    amt = 0.42             # "Strength" of the keypress's velocity changes
+    
+    amt = 0.9            # "Strength" of the keypress's velocity changes
+    
     if key == 'up' or key in 'wWiI':
         ball.vel = ball.vel + vector(0, 0, -amt)
     elif key == 'left' or key in 'aAjJ':
@@ -76,9 +105,8 @@ def keydown_fun(event):
     elif key == 'right' or key in "dDlL":
         ball.vel = ball.vel + vector(amt, 0, 0)
     elif key in ' rR':
-        ball.vel = vector(0, 0, 0) # Reset! via the spacebar, " "
-        ball.pos = vector(0, 0, 0)
-
+        ball.vel = ball.vel * 0.45
+    
 def click_fun(event):
     """This function is called each time the mouse is clicked."""
     print("event is", event.event, event.which)
@@ -109,48 +137,105 @@ def randcolor():
     b = random(0.0, 1.0)
     return vector(r, g, b)       # A color is a three-element vector
 
+def chaseObject_Path(chaseObject1):
+
+        if abs(chaseObject1.pos.x - 8.5) < 0.2 and abs(chaseObject1.pos.z + 8.5) < 0.2:  # Hit -- check for z
+            chaseObject1.vel = vector(-5,0,0)
+        
+        if abs(chaseObject1.pos.x - 6) < 0.2 and abs(chaseObject1.pos.z + 8.5) < 0.2:  # Hit -- check for z
+            chaseObject1.vel = vector(0,0,5)
+
+        if abs(chaseObject1.pos.x - 6) < 0.2 and abs(chaseObject1.pos.z - 8.5) < 0.2:  # Hit -- check for z
+            chaseObject1.vel = vector(-5,0,0)
+        
+        if abs(chaseObject1.pos.x - 2.5) < 0.2 and abs(chaseObject1.pos.z - 8.5) < 0.2:  # Hit -- check for z
+            chaseObject1.vel = vector(0,0,-5)
+
+        if chaseObject1.pos.x > 2.9 and chaseObject1.pos.x < 3.1 and abs(chaseObject1.pos.z + 8.5) < 0.2:  # Hit -- check for z
+            chaseObject1.vel = vector(-5, 0, 0)
+        
+        if chaseObject1.pos.x < -1.9 and chaseObject1.pos.x > -2.1 and abs(chaseObject1.pos.z + 8.5) < 0.2:  # Hit -- check for z
+            chaseObject1.vel = vector(0,0,5)
+        
+        if chaseObject1.pos.x < -1.9 and chaseObject1.pos.x > -2.1 and abs(chaseObject1.pos.z - 8.5) < 0.2:  # Hit -- check for z
+            chaseObject1.vel = vector(-5,0,0)
+        
+        if chaseObject1.pos.x < -5.9 and chaseObject1.pos.x > -6.1 and abs(chaseObject1.pos.z - 8.5) < 0.2:  # Hit -- check for z
+            chaseObject1.vel = vector(0,0,-5)
+        
+        if chaseObject1.pos.x < -5.9 and chaseObject1.pos.x > -6.1 and abs(chaseObject1.pos.z + 8.5) < 0.2:  # Hit -- check for z
+            chaseObject1.vel = vector(-5,0,0)
+    
+        if chaseObject1.pos.x < -8.9 and chaseObject1.pos.x > -9.1 and abs(chaseObject1.pos.z + 8.5) < 0.2:  # Hit -- check for z
+            chaseObject1.vel = vector(0,0,5)
+
 # +++ Start of COLLISIONS -- check for collisions & do the "right" thing
+
 def corral_collide(ball):
     """Corral collisions!
     Ball must have a .vel field and a .pos field. """
     # -- Outer walls --
-    # If the ball hits O_wallN
-    if ball.pos.z < O_wallN.pos.z:  # Hit -- check for z
-        ball.pos.z = O_wallN.pos.z  # Bring back into bounds
-        ball.vel.z *= -1.0        # Reverse the z velocity
+    # If the ball hits O_wallE
+    if (abs(ball.pos.x - O_wallE.pos.x) < 0.25) and (ball.pos.z >= -10) and (ball.pos.z <= 10):  # Hit -- check for z
+        ball.vel.x *= -1.0 # Reverse the x velocity   
 
     # If the ball hits O_wallW
-    if ball.pos.x < O_wallW.pos.x:  # Hit -- check for x
-        ball.pos.x = O_wallW.pos.x  # Bring back into bounds
-        ball.vel.x *= -1.0        # Reverse the x velocity
+    if (abs(ball.pos.x - O_wallW.pos.x) < 0.25) and (ball.pos.z >= -8) and (ball.pos.z <= 10):  # Hit -- check for z
+        ball.vel.x *= -1.0 # Reverse the x velocity   
         
-    # If the ball hits O_wallS
-    if ball.pos.z > O_wallS.pos.z:  # Hit -- check for z
-        ball.pos.z = O_wallS.pos.z  # Bring back into bounds
-        ball.vel.z *= -1.0        # Reverse the z velocity
+    # If the ball hits O_wallN
+    if (abs(ball.pos.z - O_wallN.pos.z) < 0.25) and (ball.pos.x >= -10) and (ball.pos.x <= 10):  # Hit -- check for z
+        ball.vel.z *= -1.0 # Reverse the z velocity
 
-    # If the ball hits O_wallE
-    if ball.pos.x > O_wallE.pos.x:  # Hit -- check for x
-        ball.pos.x = O_wallE.pos.x  # Bring back into bounds
-        ball.vel.x *= -1.0        # Reverse the x velocity
+    # If the ball hits O_wallS
+    if (abs(ball.pos.z - O_wallS.pos.z) < 0.25) and (ball.pos.x >= -8) and (ball.pos.x <= 8):  # Hit -- check for z
+        ball.vel.z *= -1.0 # Reverse the z velocity   
     
     # -- Inner Walls --
-    # If the ball hits I_wallN
-    if (abs(ball.pos.x - I_wallE.pos.x) < 0.25) and (ball.pos.z > (I_wallE.pos.z - 9)) and (ball.pos.z < (I_wallE.pos.z + 10)):  # Hit -- check for z
-        ball.vel.x *= -1.0 # Reverse the z velocity          
+    # If the ball hits I_wallE
+    if (abs(ball.pos.x - I_wallE.pos.x) < 0.25) and (ball.pos.z >= -8) and (ball.pos.z <= 10):  # Hit -- check for z
+        ball.vel.x *= -1.0 # Reverse the x velocity    
      
-    # If the ball hits I_wallN
-    if (abs(ball.pos.x - I_wallE2.pos.x) < 0.25) and (ball.pos.z > (I_wallE2.pos.z - 10)) and (ball.pos.z < (I_wallE2.pos.z + 9)):  # Hit -- check for z
-        ball.vel.x *= -1.0 # Reverse the z velocity       
+    # If the ball hits I_wallE2
+    if (abs(ball.pos.x - I_wallE2.pos.x) < 0.25) and (ball.pos.z >= -10) and (ball.pos.z <= 8):  # Hit -- check for z
+        ball.vel.x *= -1.0 # Reverse the x velocity       
     
-    # If the ball hits I_wallN
-    if (abs(ball.pos.x - I_wallC.pos.x) < 0.25) and (ball.pos.z > (I_wallC.pos.z - 9)) and (ball.pos.z < (I_wallC.pos.z + 10)):  # Hit -- check for z
-        ball.vel.x *= -1.0 # Reverse the z velocity       
+    # If the ball hits I_wallC
+    if (abs(ball.pos.x - I_wallC.pos.x) < 0.25) and (ball.pos.z >= -8) and (ball.pos.z <= 10):  # Hit -- check for z
+        ball.vel.x *= -1.0 # Reverse the x velocity       
     
-    # If the ball hits I_wallN
-    if (abs(ball.pos.x - I_wallW2.pos.x) < 0.25) and (ball.pos.z > (I_wallW2.pos.z - 10)) and (ball.pos.z < (I_wallW2.pos.z + 9)):  # Hit -- check for z
-        ball.vel.x *= -1.0 # Reverse the z velocity       
+    # If the ball hits I_wallW2
+    if (abs(ball.pos.x - I_wallW2.pos.x) < 0.25) and (ball.pos.z >= -10) and (ball.pos.z <= 8):  # Hit -- check for z
+        ball.vel.x *= -1.0 # Reverse the x velocity       
     
-    # If the ball hits I_wallN
-    if (abs(ball.pos.x - I_wallW.pos.x) < 0.25) and (ball.pos.z > (I_wallW.pos.z - 9)) and (ball.pos.z < (I_wallW.pos.z + 10)):  # Hit -- check for z
-        ball.vel.x *= -1.0 # Reverse the z velocity       
+    # If the ball hits I_wallW
+    if (abs(ball.pos.x - I_wallW.pos.x) < 0.25) and (ball.pos.z >= -8) and (ball.pos.z <= 10):  # Hit -- check for z
+        ball.vel.x *= -1.0
+    
+    if (ball.pos.x > 15 or ball.pos.x < -11.5) or (ball.pos.z < -11) or (ball.pos.z > 15):
+        print("Oh no! You fell off!")
+        ball.vel = vector(0, 0, 0)
+        ball.pos = vector(9, 0, 9)
+    
+    if abs(ball.pos.x - obstacle1.pos.x) < 0.3 and abs(ball.pos.y - obstacle1.pos.y) < 0.3 and abs(ball.pos.z - obstacle1.pos.z) < 0.3:
+        old_x_vel = ball.vel.x
+        ball.vel.x = ball.vel.z
+        ball.vel.z = old_x_vel
+        ball.vel = 2 * ball.vel
+
+    if abs(ball.pos.x - obstacle2.pos.x) < 0.3 and abs(ball.pos.y - obstacle2.pos.y) < 0.3 and abs(ball.pos.z - obstacle2.pos.z) < 0.3:
+        ball.vel = 0.5 * ball.vel
+
+def obstacle1Collide(obstacle1):
+    if obstacle1.pos.x < -7.6:
+        obstacle1.vel = vector(5,0,0)
+        
+    if obstacle1.pos.x > -0.5:
+        obstacle1.vel = vector(-1, 0, 0)
+
+def obstacle2Collide(obstacle2):
+    if obstacle2.pos.x > 7.6:
+        obstacle2.vel = vector(-2,0,0)
+
+    if obstacle2.pos.x < 0.5: 
+        obstacle2.vel = vector(10,0,0)
