@@ -3,9 +3,6 @@ GlowScript 2.7 VPython
 # Jacob van der Leeuw and Nico Espinosa Dice
 # Final Project - VPython
 
-
-
-
 scene.bind('keydown', keydown_fun)     # Function for key presses
 scene.bind('click', click_fun)         # Function for mouse clicks
 scene.background = 0.8*vector(1, 1, 1) # Light gray (0.8 out of 1.0)
@@ -41,7 +38,11 @@ ball.vel = vector(0, 0, 0)     # this is its initial velocity
 
 # Cylinder (other control)
 chaseObject1 = cylinder(pos = vector(8.5, 0, 4), size = 1.0*vector(1,1,1), color = color.orange)
-chaseObject1.vel = vector(0,0,-5) #initial velocity for chaseObject1
+chaseObject1.vel = vector(0,0,-5) #initial velocity for chaseObj
+
+# Obstacle 1 (Moving Object)
+obstacle1 = sphere(pos = vector(-4, 0, 8.5), size = 0.5*vector(1, 1, 1), color = vector(1, 1, 1))   # ball is an object of class sphere
+obstacle1.vel = vector(-5, 0, 0)     # this is its initial velocity
 # +++ End of TRACK CREATION +++
 
 # +++ start of ANIMATION section ++
@@ -63,9 +64,11 @@ while True:
     ball.pos = ball.pos + ball.vel*dt      # Update the ball's position
     # +++ End of PHYSICS UPDATES -- be sure new objects are updated appropriately!
     chaseObject1.pos = chaseObject1.pos + chaseObject1.vel*dt
+    obstacle1.pos = obstacle1.pos + obstacle1.vel*dt
 
     chaseObject_Path(chaseObject1)
     corral_collide(ball)
+    obstacle1Collide(obstacle1)
 
 
 # +++ start of EVENT_HANDLING section -- separate functions for
@@ -163,6 +166,7 @@ def chaseObject_Path(chaseObject1):
 
 
 # +++ Start of COLLISIONS -- check for collisions & do the "right" thing
+
 def corral_collide(ball):
     """Corral collisions!
     Ball must have a .vel field and a .pos field. """
@@ -204,10 +208,23 @@ def corral_collide(ball):
     if (abs(ball.pos.x - I_wallW.pos.x) < 0.25) and (ball.pos.z >= -8) and (ball.pos.z <= 10):  # Hit -- check for z
         ball.vel.x *= -1.0
     
-    if (abs(ball.pos.x - chaseObject1.pos.x) < 0.10) and (abs(ball.pos.y - chaseObject1.pos.y) < 0.10) and (abs(ball.pos.z - chaseObject1.pos.z) < 0.10):
+    if (abs(ball.pos.x - chaseObj.pos.x) < 0.10) and (abs(ball.pos.y - chaseObj.pos.y) < 0.10) and (abs(ball.pos.z - chaseObj.pos.z) < 0.10):
         print("You Win")
 
     if (ball.pos.x > 15 or ball.pos.x < -11.5) or (ball.pos.z < -11) or (ball.pos.z > 15):
         print("Oh no! You fell off!")
         ball.vel = vector(0, 0, 0)
         ball.pos = vector(9, 0, 9)
+    
+    if abs(ball.pos.x - obstacle1.pos.x) < 0.3 and abs(ball.pos.y - obstacle1.pos.y) < 0.3 and abs(ball.pos.z - obstacle1.pos.z) < 0.3:
+        old_x_vel = ball.vel.x
+        ball.vel.x = ball.vel.z
+        ball.vel.z = old_x_vel
+        ball.vel = 2 * ball.vel
+
+def obstacle1Collide(obstacle1):
+    if obstacle1.pos.x < -7.6:
+        obstacle1.vel = vector(5,0,0)
+        
+    if obstacle1.pos.x > -0.5:
+        obstacle1.vel = vector(-1, 0, 0)
