@@ -1,5 +1,4 @@
-# 3DGame
-##### 3D game for CS5 Final Project
+# CS5 Final Project - 3DGame
 ##### Creators: Jacob van der Leeuw and Nico Espinosa Dice
 
 ## How To Play
