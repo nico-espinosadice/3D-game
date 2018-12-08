@@ -45,6 +45,9 @@ obstacle1 = sphere(pos = vector(-4, 0, 8.5), size = 0.5*vector(1, 1, 1), color =
 obstacle1.vel = vector(-5, 0, 0)     # this is its initial velocity
 # +++ End of TRACK CREATION +++
 
+obstacle2 = sphere(pos = vector(4, 0, 8.5), size = 0.3*vector(1, 1, 1), color = vector(1, 1, 1))   # ball is an object of class sphere
+obstacle2.vel = vector(10, 0, 0)
+
 # +++ start of ANIMATION section ++
 
 # Other constants
@@ -66,11 +69,12 @@ while True:
     # +++ End of PHYSICS UPDATES -- be sure new objects are updated appropriately!
     chaseObj.pos = chaseObj.pos + chaseObj.vel*dt
     obstacle1.pos = obstacle1.pos + obstacle1.vel*dt
+    obstacle2.pos = obstacle2.pos + obstacle2.vel*dt
 
     chaseObj_collide(chaseObj)
     corral_collide(ball)
     obstacle1Collide(obstacle1)
-
+    obstacle2Collide(obstacle2)
 
 # +++ start of EVENT_HANDLING section -- separate functions for
 #                                keypresses and mouse clicks...
