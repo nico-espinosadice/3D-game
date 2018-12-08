@@ -33,7 +33,7 @@ I_wallW = box(pos = vector(-8, 0, 1), axis = vector(0, 0, 1), size = vector(18, 
 I_wallW2 = box(pos = vector(-4, 0, -1), axis = vector(0, 0, 1), size = vector(18, 1, .2), color = color.red) # "East" wall - yellow
 
 # Ball (user controls)
-ball = sphere(pos = vector(-5, 0, 8.5), size = 1.0*vector(1, 1, 1), color = vector(0.8, 0.5, 0.0))   # ball is an object of class sphere
+ball = sphere(pos = vector(9, 0, 9), size = 1.0*vector(1, 1, 1), color = vector(0.8, 0.5, 0.0))   # ball is an object of class sphere
 ball.vel = vector(0, 0, 0)     # this is its initial velocity
 
 # Cylinder (other control)
@@ -237,8 +237,11 @@ def corral_collide(ball):
         ball.vel = vector(0, 0, 0)
         ball.pos = vector(9, 0, 9)
     
-    if abs(ball.pos.x - obstacle1.pos.x) < 0.2 and abs(ball.pos.y - obstacle1.pos.y) < 0.2 and abs(ball.pos.z - obstacle1.pos.z) < 0.2:
-        ball.vel = 6 * ball.vel
+    if abs(ball.pos.x - obstacle1.pos.x) < 0.3 and abs(ball.pos.y - obstacle1.pos.y) < 0.3 and abs(ball.pos.z - obstacle1.pos.z) < 0.3:
+        old_x_vel = ball.vel.x
+        ball.vel.x = ball.vel.z
+        ball.vel.z = old_x_vel
+        ball.vel = 2 * ball.vel
 
 def obstacle1Collide(obstacle1):
     if obstacle1.pos.x < -7.6:
