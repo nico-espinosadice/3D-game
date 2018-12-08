@@ -43,7 +43,7 @@ ball.vel = vector(0, 0, 0)     # this is its initial velocity
 chaseObject1 = cylinder(pos = vector(8.5, 0, 4), size = 1.0*vector(1,1,1), color = color.orange)
 chaseObject1.vel = vector(0,0,-5) #initial velocity for chaseObject1
 # +++ End of TRACK CREATION +++
-gameplay = True
+
 # +++ start of ANIMATION section ++
 
 # Other constants
@@ -67,11 +67,17 @@ while gameplay:
 
     Chaseobj_collide(chaseObject1)
     corral_collide(ball)
-
+    gameFin(ball, chaseObject1)
     
 
 # +++ start of EVENT_HANDLING section -- separate functions for
 #                                keypresses and mouse clicks...
+
+
+def gameFin(ball, chaseObject1):
+    if (abs(ball.pos.x - chaseObject1.pos.x) < 0.10) and (abs(ball.pos.z - chaseObject1.pos.z) < 0.10):
+        print("You Win")
+        gameplay = False
 
 def keydown_fun(event):
     """This function is called each time a key is pressed."""
@@ -233,10 +239,6 @@ def corral_collide(ball):
     if (abs(ball.pos.x - I_wallW.pos.x) < 0.25) and (ball.pos.z >= -8) and (ball.pos.z <= 10):  # Hit -- check for z
         ball.vel.x *= -1.0
     
-    if (abs(ball.pos.x - chaseObject1.pos.x) < 0.10) and (abs(ball.pos.y - chaseObject1.pos.y) < 0.10) and (abs(ball.pos.z - chaseObject1.pos.z) < 0.10):
-        print("You Win")
-        gameplay = False
-
     if (ball.pos.x > 15 or ball.pos.x < -11.5) or (ball.pos.z < -11) or (ball.pos.z > 15):
         print("Oh no! You fell off!")
         ball.vel = vector(0, 0, 0)
