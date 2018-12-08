@@ -148,7 +148,7 @@ def randcolor():
     b = random(0.0, 1.0)
     return vector(r, g, b)       # A color is a three-element vector
 
-def obj_collide(obj1):
+def Chaseobj_collide(obj1):
     
         if (abs(obj1.pos.z - O_wallN.pos.z) < 0.25 or (obj1.pos.z <= -10)):  # Hit -- check for z
             
@@ -172,21 +172,22 @@ def obj_collide(obj1):
         if (abs(obj1.pos.x - O_wallW.pos.x) < 0.25):  # Hit -- check for z
             obj1.vel = vector(0,0,5)
 
-        
-            
-     # Reverse the z velocity 
-    # if obj1.pos.x == 5.88:
-    #     obj1.vel = vector(0,0,5)
-    # if obj1.pos.x == 1.70:
-    #     obj1.vel = vector(0,0,-5)
-    # if obj1.pos.x == -2.7:
-    #     obj1.vel = vector(0,0,5)
-    # if obj1.pos.x == -5.88:
-    #     obj1.vel = vector(0,0,-5)
-    # if obj1.pos.x == -9.3:
-    #     obj1.vel = vector(0,0,5)
-    # elif obj1.pos.z < -9 or obj1.pos.z > 9:
-    #     obj1.vel = vector(-5, 0, 0)
+                    
+        # Reverse the z velocity 
+        # if obj1.pos.x == 5.88:
+        #     obj1.vel = vector(0,0,5)
+        # if obj1.pos.x == 1.70:
+        #     obj1.vel = vector(0,0,-5)
+        # if obj1.pos.x == -2.7:
+        #     obj1.vel = vector(0,0,5)
+        # if obj1.pos.x == -5.88:
+        #     obj1.vel = vector(0,0,-5)
+        # if obj1.pos.x == -9.3:
+        #     obj1.vel = vector(0,0,5)
+        # elif obj1.pos.z < -9 or obj1.pos.z > 9:
+        #     obj1.vel = vector(-5, 0, 0)
+
+
 # +++ Start of COLLISIONS -- check for collisions & do the "right" thing
 def corral_collide(ball):
     """Corral collisions!
