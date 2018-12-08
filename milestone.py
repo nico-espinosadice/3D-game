@@ -65,7 +65,7 @@ while True:
     # +++ End of PHYSICS UPDATES -- be sure new objects are updated appropriately!
     obj1.pos = obj1.pos + obj1.vel*dt
 
-    obj_collide(obj1)
+    Chaseobj_collide(obj1)
     corral_collide(ball)
 
 
