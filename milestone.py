@@ -54,10 +54,15 @@ scene.autoscale = False  # Avoids changing the view automatically
 scene.forward = vector(0, -3, -2)  # Ask for a bird's-eye view of the scene...
 # This is the "event loop" or "animation loop"
 # Each pass through the loop will animate one step in time, dt
-while True:
-    #print("Object Position =", chaseObject1.pos)
-    print("Ball position =", ball.pos)
 
+gameOver = False
+
+while not gameOver:
+    print("Ball Position =", ball.pos)
+    #print("Object Velocity =", chaseObject1.vel)
+    #print("Object Position =", chaseObject1.pos)
+    #print("Wall Position =", O_wallS.pos)
+    
     rate(RATE)   # maximum number of times per second the while loop runs
 
     # +++ Start of PHYSICS UPDATES -- update all positions here, every time step
@@ -70,9 +75,14 @@ while True:
     corral_collide(ball)
     obstacle1Collide(obstacle1)
 
-
 # +++ start of EVENT_HANDLING section -- separate functions for
 #                                keypresses and mouse clicks...
+
+
+def gameFin(ball, chaseObject1):
+    if (abs(ball.pos.x - chaseObject1.pos.x) < 0.10) and (abs(ball.pos.z - chaseObject1.pos.z) < 0.10):
+        print("You Win")
+        gameplay = False
 
 def keydown_fun(event):
     """This function is called each time a key is pressed."""
@@ -149,7 +159,9 @@ def chaseObject_Path(chaseObject1):
         if abs(chaseObject1.pos.x + 9) < 0.2 and abs(chaseObject1.pos.z + 8.5) < 0.2:  # Hit -- check for z
             chaseObject1.vel = vector(0,0,5)
 
-                    
+        if (abs(chaseObject1.pos.x + 8.61) < 0.15) and (abs(chaseObject1.pos.z - 10 < 0.15)):
+            gameplay = False
+            print("You Lose!")
         # Reverse the z velocity 
         # if chaseObject1.pos.x == 5.88:
         #     chaseObject1.vel = vector(0,0,5)
@@ -208,9 +220,6 @@ def corral_collide(ball):
     if (abs(ball.pos.x - I_wallW.pos.x) < 0.25) and (ball.pos.z >= -8) and (ball.pos.z <= 10):  # Hit -- check for z
         ball.vel.x *= -1.0
     
-    if (abs(ball.pos.x - chaseObj.pos.x) < 0.10) and (abs(ball.pos.y - chaseObj.pos.y) < 0.10) and (abs(ball.pos.z - chaseObj.pos.z) < 0.10):
-        print("You Win")
-
     if (ball.pos.x > 15 or ball.pos.x < -11.5) or (ball.pos.z < -11) or (ball.pos.z > 15):
         print("Oh no! You fell off!")
         ball.vel = vector(0, 0, 0)
