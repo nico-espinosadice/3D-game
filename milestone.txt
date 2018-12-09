@@ -1,21 +1,20 @@
-A text document called milestone.txt with your name and the name of your partner (if any), 
-the project that you've chosen, and a brief description of your plans for your game. 
-One paragraph will suffice for the description. Also, include a description of the objective 
-of the game—and how we should run it!
+milestone.txt
+Jacob van der Leeuw and Nico Espinosa Dice
+December 10, 2018
 
-In addition, your document should give instructions for playing the game as it
-currently operates, e.g. "Pressing the "s" key will do one thing, the mouse will 
-allow the user to do another thing, etc."
+Project: vPython 3D Game
 
-Implementation of enough of the functions, with docstrings, that the game does something 
-interesting (even if it is far short of the complete implementation) in a file called 
-milestone.py—in fact, if your file is named something else, this is completely OK—just 
-note how we should run it in your milestone.txt file.
+Paragraph
+The game involves the user controlling a character that is chasing after three runaway balls. The box travels through a track attempting to catch the three balls. The track itself is filled with obstacles and a speed boosting section. Collisions will include bouncing off the stationary walls and off the obstacles moving throughout the track. 
 
-Specifically, your program should include at least some "linear" collisions (a point 
-object with a plane or a line) and at least some "spherical" collisions (a point object 
-with another point object).
+For the milestone submission, we have the basic structure of the track complete, including the walls and 
+stationary obstacles. The milestone submission also contains the user-controlled character. The user controlled object 
+operates in a similar way to the object from the vPython Lab.
 
-Include any other files needed to test your game, as well...all of these should be zipped 
-into vpython_milestone.zip and submitted.
-
+We also have some of the moving obstacles, the “physics” of the collisions, and the “penalty” 
+for running into certain obstacles. The moving objects appearing in different parts of the track pose challenges 
+to the player, including collisions, potential penalties if the user touches object, speed boosts, and more. 
+The three runaway balls move at different but constant velocities, which will allow us to change the 
+difficulty of the game. (The runaway balls will only be affected by some of the objects on the track). Once 
+the user-controlled character captures all three balls, they win the game. If they fail to do so in the alloted 
+time, they lose. If possible, we will try to add curves to the track. 
