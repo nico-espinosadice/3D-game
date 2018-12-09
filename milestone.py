@@ -4,7 +4,8 @@ GlowScript 2.7 VPython
 # Final Project - VPython
 
 gameOver = False
-lapCount = 0
+lapCount = 1
+lapLimit = 3
 
 # +++ Start of SCENE SETUP +++ 
 scene.bind('keydown', keydown_fun)     # Function for key presses
@@ -281,11 +282,7 @@ def corral_collide(ball):
     
     # If the ball collides with chaseObject1
     if abs(ball.pos.x - chaseObject1.pos.x) < 0.4 and abs(ball.pos.y - chaseObject1.pos.y) < 0.4 and abs(ball.pos.z - chaseObject1.pos.z) < 0.4:
-        ball.vel = vector(0, 0, 0)
-        chaseObject1.vel = vector(0, 0, 0)
-        obstacle1.vel = vector(0, 0, 0)
-        obstacle2.vel = vector(0, 0, 0)
-        gameOver = True
+        endGame()
         print("You captured the runaway cylinder! Congratulations! You win!")
     
     # If the ball "falls off" track
@@ -314,4 +311,20 @@ def newLap_Collide(ball):
     global lapCount
     if ball.pos.x > 8 and ball.pos.x < 9 and ball.pos.z > 8.9 and ball.pos.z < 9.2:
         newLap()
+
+def lapLimitReached(lapCount):
+    """ Checks to see if lapLimit is reached. If yes, ends game. """
+    if lapCount > lapLimit:
+        endGame()
+        print("You have reached your lap limit!")
+        print("Game over. You lose!")
+
+def endGame():
+    """ Ends game. Stops all object motion. Sets gameOver to True. """
+    global gameOver
+    gameOver = True
+    ball.vel = vector(0, 0, 0)
+    chaseObject1.vel = vector(0, 0, 0)
+    obstacle1.vel = vector(0, 0, 0)
+    obstacle2.vel = vector(0, 0, 0)
 # +++ End of COLLISIONS +++
