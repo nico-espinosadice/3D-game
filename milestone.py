@@ -52,8 +52,22 @@ chaseObject1.vel = vector(0,0,-5) #initial velocity for chaseObj
 # Obstacle 1 (moving object)
 obstacle1 = box(pos = vector(-4, 0, 8.5), size = 0.5*vector(1, 1, 1), color = vector(1, 1, 1))   # ball is an object of class sphere
 obstacle1.vel = vector(-5, 0, 0)     # this is its initial velocity
-obstacle2 = box(pos = vector(4, 0, 8.5), size = 0.3*vector(1, 1, 1), color = vector(1, 1, 1))   # ball is an object of class sphere
-obstacle2.vel = vector(10, 0, 0)
+
+obstacle2_1 = box(pos = vector(3.4, 0, 3), size = 0.3*vector(1, 1, 1), color = vector(1, 1, 1))   # ball is an object of class sphere
+obstacle2_1.vel = vector(-2, 0, 0)
+
+obstacle2_2= box(pos = vector(2.4, 0, 0), size = 0.3*vector(1, 1, 1), color = vector(1, 1, 1))   # ball is an object of class sphere
+obstacle2_2.vel = vector(-2, 0, 0)
+
+obstacle2_3 = box(pos = vector(1.4, 0, -3), size = 0.3*vector(1, 1, 1), color = vector(1, 1, 1))   # ball is an object of class sphere
+obstacle2_3.vel = vector(-2, 0, 0)
+
+obstacle2_4 = box(pos = vector(0.4, 0, -6), size = 0.3*vector(1, 1, 1), color = vector(1, 1, 1))   # ball is an object of class sphere
+obstacle2_4.vel = vector(-2, 0, 0)
+
+obstacle2_5 = box(pos = vector(0.4, 0, 6), size = 0.3*vector(1, 1, 1), color = vector(1, 1, 1))   # ball is an object of class sphere
+obstacle2_5.vel = vector(-2, 0, 0)
+
 # +++ End of OBJECT CREATION ++
 
 
@@ -86,7 +100,11 @@ while not gameOver: # Each pass through the loop will animate one step in time (
     ball.pos = ball.pos + ball.vel*dt # Update the ball's position
     chaseObject1.pos = chaseObject1.pos + chaseObject1.vel*dt # Update chaseObject1's position
     obstacle1.pos = obstacle1.pos + obstacle1.vel*dt # Update obstacle1's position
-    obstacle2.pos = obstacle2.pos + obstacle2.vel*dt # Update obstacle2's position
+    obstacle2_1.pos = obstacle2_1.pos + obstacle2_1.vel*dt # Update obstacle2_1's position
+    obstacle2_2.pos = obstacle2_2.pos + obstacle2_2.vel*dt # Update obstacle2_2's position
+    obstacle2_3.pos = obstacle2_3.pos + obstacle2_3.vel*dt # Update obstacle2_3's position
+    obstacle2_4.pos = obstacle2_4.pos + obstacle2_4.vel*dt # Update obstacle2_4's position
+    obstacle2_5.pos = obstacle2_5.pos + obstacle2_5.vel*dt # Update obstacle2_5's position
     # +++ End of PHYSICS UPDATES +++
     
     # +++ Start of EVENT CHECKING +++ 
@@ -98,7 +116,12 @@ while not gameOver: # Each pass through the loop will animate one step in time (
 
     # Obstacles
     obstacle1Collide(obstacle1) # Checks to see if obstacle1 has collided with something
-    obstacle2Collide(obstacle2) # Checks to see if obstacle2 has collided with something
+    
+    obstacle2_1.vel = obstacle2Collide(obstacle2_1) # Checks to see if obstacle2_1 has collided with something
+    obstacle2_2.vel = obstacle2Collide(obstacle2_2) # Checks to see if obstacle2_2 has collided with something
+    obstacle2_3.vel = obstacle2Collide(obstacle2_3) # Checks to see if obstacle2_3 has collided with something
+    obstacle2_4.vel = obstacle2Collide(obstacle2_4) # Checks to see if obstacle2_4 has collided with something
+    obstacle2_5.vel = obstacle2Collide(obstacle2_5) # Checks to see if obstacle2_5 has collided with something
 
     # New Lap
     newLap_Collide(ball)
@@ -172,6 +195,22 @@ def newLap():
     """ Adds 1 to lapCount """
     global lapCount
     lapCount += 1
+
+def endGame():
+    """ Ends game. Stops all object motion. Sets gameOver to True. """
+    global gameOver
+    gameOver = True
+    ball.vel = vector(0, 0, 0)
+    chaseObject1.vel = vector(0, 0, 0)
+    obstacle1.vel = vector(0, 0, 0)
+    obstacle2_1.vel = vector(0, 0, 0)
+
+def lapLimitReached(lapCount):
+    """ Checks to see if lapLimit is reached. If yes, ends game. """
+    if lapCount > lapLimit:
+        endGame()
+        print("You have reached your lap limit!")
+        print("Game over. You lose!")
 # +++ End of OTHER FUNCTIONS +++
 
 # +++ Start of COLLISIONS +++
@@ -269,6 +308,7 @@ def corral_collide(ball):
     if (abs(ball.pos.x - I_wallW.pos.x) < 0.25) and (ball.pos.z >= -8) and (ball.pos.z <= 10):  # Hit -- check for z
         ball.vel.x *= -1.0
     
+    # -- Obstacles --
     # If the ball collides with obstacle1
     if abs(ball.pos.x - obstacle1.pos.x) < 0.4 and abs(ball.pos.y - obstacle1.pos.y) < 0.4 and abs(ball.pos.z - obstacle1.pos.z) < 0.4:
         old_x_vel = ball.vel.x
@@ -276,15 +316,34 @@ def corral_collide(ball):
         ball.vel.z = old_x_vel
         ball.vel = 2 * ball.vel
    
-    # If the ball collides with obstacle2
-    if abs(ball.pos.x - obstacle2.pos.x) < 0.3 and abs(ball.pos.y - obstacle2.pos.y) < 0.3 and abs(ball.pos.z - obstacle2.pos.z) < 0.3:
-        ball.vel = 0.5 * ball.vel
+    # - Obstacle 2's -
+    # If the ball collides with obstacle2_1
+    if abs(ball.pos.x - obstacle2_1.pos.x) < 0.3 and abs(ball.pos.y - obstacle2_1.pos.y) < 0.3 and abs(ball.pos.z - obstacle2_1.pos.z) < 0.3:
+        ball.vel = 0.2 * ball.vel
     
+    # If the ball collides with obstacle2_2
+    if abs(ball.pos.x - obstacle2_2.pos.x) < 0.3 and abs(ball.pos.y - obstacle2_2.pos.y) < 0.3 and abs(ball.pos.z - obstacle2_2.pos.z) < 0.3:
+        ball.vel = 0.2 * ball.vel
+    
+    # If the ball collides with obstacle2_3
+    if abs(ball.pos.x - obstacle2_3.pos.x) < 0.3 and abs(ball.pos.y - obstacle2_3.pos.y) < 0.3 and abs(ball.pos.z - obstacle2_3.pos.z) < 0.3:
+        ball.vel = 0.2 * ball.vel
+    
+    # If the ball collides with obstacle2_4
+    if abs(ball.pos.x - obstacle2_4.pos.x) < 0.3 and abs(ball.pos.y - obstacle2_4.pos.y) < 0.3 and abs(ball.pos.z - obstacle2_4.pos.z) < 0.3:
+        ball.vel = 0.2 * ball.vel
+    
+    # If the ball collides with obstacle2_5
+    if abs(ball.pos.x - obstacle2_5.pos.x) < 0.3 and abs(ball.pos.y - obstacle2_5.pos.y) < 0.3 and abs(ball.pos.z - obstacle2_5.pos.z) < 0.3:
+        ball.vel = 0.2 * ball.vel
+    
+    # - chaseObjects - 
     # If the ball collides with chaseObject1
     if abs(ball.pos.x - chaseObject1.pos.x) < 0.4 and abs(ball.pos.y - chaseObject1.pos.y) < 0.4 and abs(ball.pos.z - chaseObject1.pos.z) < 0.4:
         endGame()
         print("You captured the runaway cylinder! Congratulations! You win!")
     
+    # -- Miscellaneous -- 
     # If the ball "falls off" track
     if (ball.pos.x > 15 or ball.pos.x < -11.5) or (ball.pos.z < -11) or (ball.pos.z > 15):
         print("Oh no! You fell off!")
@@ -299,32 +358,18 @@ def obstacle1Collide(obstacle1):
     if obstacle1.pos.x > -0.5:
         obstacle1.vel = vector(-1, 0, 0)
 
-def obstacle2Collide(obstacle2):
-    if obstacle2.pos.x > 7.6:
-        obstacle2.vel = vector(-2,0,0)
+def obstacle2Collide(obstacle):
+    if obstacle.pos.x > 3.5:
+        obstacle.vel = vector(-2,0,0)
 
-    if obstacle2.pos.x < 0.5: 
-        obstacle2.vel = vector(10,0,0)
+    if obstacle.pos.x < 0.5: 
+        obstacle.vel = vector(10,0,0)
+    
+    return obstacle.vel
     
 def newLap_Collide(ball):
     """ Checks to see if the ball passes through the "start" of the track. If yes, then adds 1 to lapCount. """
     global lapCount
     if ball.pos.x > 8 and ball.pos.x < 9 and ball.pos.z > 8.9 and ball.pos.z < 9.2:
         newLap()
-
-def lapLimitReached(lapCount):
-    """ Checks to see if lapLimit is reached. If yes, ends game. """
-    if lapCount > lapLimit:
-        endGame()
-        print("You have reached your lap limit!")
-        print("Game over. You lose!")
-
-def endGame():
-    """ Ends game. Stops all object motion. Sets gameOver to True. """
-    global gameOver
-    gameOver = True
-    ball.vel = vector(0, 0, 0)
-    chaseObject1.vel = vector(0, 0, 0)
-    obstacle1.vel = vector(0, 0, 0)
-    obstacle2.vel = vector(0, 0, 0)
 # +++ End of COLLISIONS +++
