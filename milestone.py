@@ -46,7 +46,7 @@ ball = sphere(pos = vector(9, 0, 9), size = 1.0*vector(1, 1, 1), color = vector(
 ball.vel = vector(0, 0, 0)     # this is its initial velocity
 
 # Chase Object #1 (autonomous)
-chaseObject1 = cylinder(pos = vector(8.5, 0, -5.5), size = 1.0*vector(1,1,1), color = color.orange)
+chaseObject1 = sphere(pos = vector(8.5, 0, -5.5), size = 0.5*vector(1,1,1), color = color.orange)
 chaseObject1.vel = vector(0,0,-5) #initial velocity for chaseObj
 
 # Obstacle 1 (moving object)
