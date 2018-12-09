@@ -7,6 +7,8 @@ gameOver = False
 newLapPossible = False
 lapCount = 1
 lapLimit = 3
+points = 0
+totalPointsPossible = 6
 
 # +++ Start of SCENE SETUP +++ 
 scene.bind('keydown', keydown_fun)     # Function for key presses
@@ -340,13 +342,14 @@ def corral_collide(ball):
     # - chaseObjects - 
     # If the ball collides with chaseObject1
     if abs(ball.pos.x - chaseObject1.pos.x) < 0.4 and abs(ball.pos.y - chaseObject1.pos.y) < 0.4 and abs(ball.pos.z - chaseObject1.pos.z) < 0.4:
+        global points, totalPointsPossible
         endGame()
-        print("You captured the runaway cylinder! Congratulations! You win!")
+        print("You captured a runaway ball! You have", points, "(out of)", totalPointsPossible, "so far!")
     
     # -- Miscellaneous -- 
     # If the ball "falls off" track
     if (ball.pos.x > 15 or ball.pos.x < -11.5) or (ball.pos.z < -11) or (ball.pos.z > 15):
-        print("Oh no! You fell off!")
+        print("Oh no! You fell off the track!")
         ball.vel = vector(0, 0, 0)
         ball.pos = vector(9, 0, 9)
         newLap()
