@@ -69,7 +69,7 @@ obstacle2_5 = box(pos = vector(0.4, 0, 6), size = 0.3*vector(1, 1, 1), color = v
 obstacle2_5.vel = vector(-2, 0, 0)
 
 # Speed Section
-speedSection = box(size = vector(2, 0.0001, 5), pos = vector(-6, 0, 0, color = color.blue))
+speedSection = box(size = vector(2, 0.0001, 5), pos = vector(-6, 0, 4), color = color.blue)
 # +++ End of OBJECT CREATION ++
 
 
@@ -114,6 +114,7 @@ while not gameOver: # Each pass through the loop will animate one step in time (
     # +++ Start of EVENT CHECKING +++ 
     # Ball
     corral_collide(ball) # Checks to see if ball has collided with something
+    speedSectionCollide(ball) # Checks to see if ball is in speed section
 
     # Chase Object
     chaseObject_Path(chaseObject1) # Checks to see if chaseObject has collided with something (keeps chaseObject on correct path)
@@ -135,11 +136,6 @@ while not gameOver: # Each pass through the loop will animate one step in time (
 
 # +++ start of EVENT_HANDLING section +++
 # Separate functions for keypresses and mouse clicks
-def gameFin(ball, chaseObject1):
-    if (abs(ball.pos.x - chaseObject1.pos.x) < 0.10) and (abs(ball.pos.z - chaseObject1.pos.z) < 0.10):
-        print("You Win")
-        gameplay = False
-
 def keydown_fun(event):
     """This function is called each time a key is pressed."""    
     ball.color = randcolor() # Randomize ball's color every time a key is pressed
@@ -354,6 +350,11 @@ def corral_collide(ball):
         ball.vel = vector(0, 0, 0)
         ball.pos = vector(9, 0, 9)
         newLap()
+
+def speedSectionCollide(ball):
+    if ball.pos.x > -7 and ball.pos.x < -5 and ball.pos.z > 1 and ball.pos.z < 6:
+        ball.vel = ball.vel * 1.1
+        print("SPEED BOOST!")
 
 def obstacle1Collide(obstacle1):
     if obstacle1.pos.x < -7.6:
