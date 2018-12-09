@@ -4,12 +4,12 @@ GlowScript 2.7 VPython
 # Final Project - VPython
 
 gameOver = False
+newLapPossible = False
 lapCount = 1
 lapLimit = 3
 
 # +++ Start of SCENE SETUP +++ 
 scene.bind('keydown', keydown_fun)     # Function for key presses
-scene.bind('click', click_fun)         # Function for mouse clicks
 scene.background = 0.8*vector(1, 1, 1) # Light gray (0.8 out of 1.0)
 scene.width = 640                      # Make the 3D canvas larger
 scene.height = 480
@@ -80,19 +80,19 @@ scene.forward = vector(0, -3, -2)  # Ask for a bird's-eye view of the scene...
 # +++ End of ANIMATION +++
 
 # +++ Start of GAME EXPLANATION to user +++ 
-print("Hurry, the runaway cylinder is getting away!")
-print("Use the arrow keys to move the ball through the track while avoiding the obstacles!")
+print("Objective: Capture the runaway cylinder.")
+print("How: Use the arrow keys to mvoe the ball through the track (while avoiding the obstacles)!")
 print("Tip: use the space bar to slow down before turns.")
-print("GOOD LUCK!!!")
+print("Hurry! The ball is getting away!")
+print("Press a key to begin.")
 # +++ End of GAME EXPLANATION to user +++ 
 
-
 # +++ Start of GAME LOOP +++ 
+scene.waitfor('keydown') # wait for keyboard key press
 gameOver = False # Keeps track of whether the game is over
 
-while not gameOver: # Each pass through the loop will animate one step in time (dt) 
-    print(ball.pos)
-
+while not gameOver: # Each pass through the loop will animate one step in time (dt)
+    #print(ball.pos)
     rate(RATE)   # maximum number of times per second the while loop runs
 
     # +++ Start of PHYSICS UPDATES +++
@@ -124,6 +124,7 @@ while not gameOver: # Each pass through the loop will animate one step in time (
     obstacle2_5.vel = obstacle2Collide(obstacle2_5) # Checks to see if obstacle2_5 has collided with something
 
     # New Lap
+    newLapPossible_Collide(ball)
     newLap_Collide(ball)
      # +++ End of EVENT CHECKING +++ 
 
@@ -161,10 +162,6 @@ def keydown_fun(event):
     # If spacebar is pressed, reduce ball's velocity
     elif key in ' rR':
         ball.vel = ball.vel * 0.45
-    
-def click_fun(event):
-    """This function is called each time the mouse is clicked."""
-    print("event is", event.event, event.which)
 # +++ End of EVENT_HANDLING +++
 
 # +++ Start of OTHER FUNCTIONS +++
@@ -311,6 +308,7 @@ def corral_collide(ball):
     # -- Obstacles --
     # If the ball collides with obstacle1
     if abs(ball.pos.x - obstacle1.pos.x) < 0.4 and abs(ball.pos.y - obstacle1.pos.y) < 0.4 and abs(ball.pos.z - obstacle1.pos.z) < 0.4:
+        print("Oh no! You've hit the obstacle! Press the spacebar or risk falling off the track!")
         old_x_vel = ball.vel.x
         ball.vel.x = ball.vel.z
         ball.vel.z = old_x_vel
@@ -370,6 +368,17 @@ def obstacle2Collide(obstacle):
 def newLap_Collide(ball):
     """ Checks to see if the ball passes through the "start" of the track. If yes, then adds 1 to lapCount. """
     global lapCount
-    if ball.pos.x > 8 and ball.pos.x < 9 and ball.pos.z > 8.9 and ball.pos.z < 9.2:
-        newLap()
+    global newLapPossible
+
+    if newLapPossible == True:
+        if ball.pos.x > 8 and ball.pos.x < 10 and ball.pos.z > 9.5 and ball.pos.z < 10.3:
+            newLap()
+            print("Lap:", lapCount)
+            newLapPossible = False
+
+def newLapPossible_Collide(ball):
+    """ Checks to see if the ball has passed the spot that makes a new lap possible """
+    global newLapPossible
+    if ball.pos.x > 8 and ball.pos.x < 10 and ball.pos.z > 4 and ball.pos.z < 5:
+        newLapPossible = True
 # +++ End of COLLISIONS +++
