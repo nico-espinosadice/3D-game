@@ -49,7 +49,6 @@ ball.vel = vector(0, 0, 0)     # this is its initial velocity
 chaseObject1 = sphere(pos = vector(9.0, 0, -5.0), size = 0.5*vector(1,1,1), color = color.orange)
 chaseObject1.vel = vector(0,0,-5) #initial velocity for chaseObj
 
-
 # Obstacle 1 (moving object)
 obstacle1 = box(pos = vector(-4, 0, 8.5), size = 0.5*vector(1, 1, 1), color = vector(1, 1, 1))   # ball is an object of class sphere
 obstacle1.vel = vector(-5, 0, 0)     # this is its initial velocity
@@ -69,6 +68,8 @@ obstacle2_4.vel = vector(-2, 0, 0)
 obstacle2_5 = box(pos = vector(0.4, 0, 6), size = 0.3*vector(1, 1, 1), color = vector(1, 1, 1))   # ball is an object of class sphere
 obstacle2_5.vel = vector(-2, 0, 0)
 
+# Speed Section
+speedSection = box(size = vector(2, 0.0001, 5), pos = vector(-6, 0, 0, color = color.blue))
 # +++ End of OBJECT CREATION ++
 
 
@@ -93,6 +94,7 @@ scene.waitfor('keydown') # wait for keyboard key press
 gameOver = False # Keeps track of whether the game is over
 
 while not gameOver: # Each pass through the loop will animate one step in time (dt)
+    print(ball.pos)
     lapLimitReached(lapCount)
 
     rate(RATE)   # maximum number of times per second the while loop runs
@@ -207,7 +209,7 @@ def endGame():
 def lapLimitReached(lapCount):
     """ Checks to see if lapLimit is reached. If yes, ends game. """
     global lapLimit
-    
+
     if lapCount > lapLimit:
         endGame()
         print("You have reached your lap limit!")
@@ -277,7 +279,7 @@ def corral_collide(ball):
         ball.vel.x *= -1.0 # Reverse the x velocity   
 
     # If the ball hits O_wallW
-    if (abs(ball.pos.x - O_wallW.pos.x) < 0.25) and (ball.pos.z >= -8) and (ball.pos.z <= 10):  # Hit -- check for z
+    if ball.pos.x < -9.5 and ball.pos.z > -10 and ball.pos.z <= 10:  # Hit -- check for z
         ball.vel.x *= -1.0 # Reverse the x velocity   
         
     # If the ball hits O_wallN
