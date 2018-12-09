@@ -100,7 +100,6 @@ while not gameOver: # Each pass through the loop will animate one step in time (
 
 # +++ start of EVENT_HANDLING section +++
 # Separate functions for keypresses and mouse clicks
-
 def gameFin(ball, chaseObject1):
     if (abs(ball.pos.x - chaseObject1.pos.x) < 0.10) and (abs(ball.pos.z - chaseObject1.pos.z) < 0.10):
         print("You Win")
@@ -108,35 +107,42 @@ def gameFin(ball, chaseObject1):
 
 def keydown_fun(event):
     """This function is called each time a key is pressed."""
-    global L
-    ball.color = randcolor()
+    ball.color = randcolor() # Randomize ball's color every time a key is pressed
     key = event.key
     
-    amt = 0.9            # "Strength" of the keypress's velocity changes
+    amt = 0.9 # "Strength" of the keypress's velocity changes
     
+    # If up key is pressed, accelerate ball in the -Z direction
     if key == 'up' or key in 'wWiI':
         ball.vel = ball.vel + vector(0, 0, -amt)
+    
+    # If left key is pressed, accelerate ball in the -X direction
     elif key == 'left' or key in 'aAjJ':
         ball.vel = ball.vel + vector(-amt, 0, 0)
+    
+    # If down key is pressed, accelerate ball in the +Z direction
     elif key == 'down' or key in 'sSkK':
         ball.vel = ball.vel + vector(0, 0, amt)
+    
+    # If right key is pressed, accelerate ball in the +X direction
     elif key == 'right' or key in "dDlL":
         ball.vel = ball.vel + vector(amt, 0, 0)
+    
+    # If spacebar is pressed, reduce ball's velocity
     elif key in ' rR':
         ball.vel = ball.vel * 0.45
     
 def click_fun(event):
     """This function is called each time the mouse is clicked."""
     print("event is", event.event, event.which)
-
-# +++ End of EVENT_HANDLING section
+# +++ End of EVENT_HANDLING +++
 
 # +++ Start of OTHER FUNCTIONS +++
 def choice(L):
     """Implements Python's choice using the random() function."""
-    LEN = len(L)              # Get the length
-    randomindex = int(LEN*random())  # Get a random index
-    return L[randomindex]     # Return that element
+    LEN = len(L) # Get the length
+    randomindex = int(LEN*random()) # Get a random index
+    return L[randomindex] # Return that element
 
 def randint(low, hi):
     """Implements Python's randint using the random() function.
@@ -153,53 +159,64 @@ def randcolor():
     r = random(0.0, 1.0)
     g = random(0.0, 1.0)
     b = random(0.0, 1.0)
-    return vector(r, g, b)       # A color is a three-element vector
+    return vector(r, g, b) # Returns 3 element color vector
+# +++ End of OTHER FUNCTIONS +++
 
+# +++ Start of COLLISIONS +++
+# Check for collisions and do the "right" thing
 def chaseObject_Path(chaseObject1):
 
-        if abs(chaseObject1.pos.x - 8.5) < 0.2 and abs(chaseObject1.pos.z + 8.5) < 0.2:  # Hit -- check for z
+        # Top Right (right)
+        if abs(chaseObject1.pos.x - 8.5) < 0.2 and abs(chaseObject1.pos.z + 8.5) < 0.2:
             chaseObject1.vel = vector(-5,0,0)
         
-        if abs(chaseObject1.pos.x - 6) < 0.2 and abs(chaseObject1.pos.z + 8.5) < 0.2:  # Hit -- check for z
+        # Top Right (left)
+        if abs(chaseObject1.pos.x - 6) < 0.2 and abs(chaseObject1.pos.z + 8.5) < 0.2:
             chaseObject1.vel = vector(0,0,5)
 
-        if abs(chaseObject1.pos.x - 6) < 0.2 and abs(chaseObject1.pos.z - 8.5) < 0.2:  # Hit -- check for z
+        # Bottom Right (right)
+        if abs(chaseObject1.pos.x - 6) < 0.2 and abs(chaseObject1.pos.z - 8.5) < 0.2:
             chaseObject1.vel = vector(-5,0,0)
         
-        if abs(chaseObject1.pos.x - 2) < 0.2 and abs(chaseObject1.pos.z - 8.5) < 0.2:  # Hit -- check for z
+        # Bottom Right (left)
+        if abs(chaseObject1.pos.x - 2) < 0.2 and abs(chaseObject1.pos.z - 8.5) < 0.2:
             chaseObject1.vel = vector(0,0,-5)
-
-        if chaseObject1.pos.x > 1.8 and chaseObject1.pos.x < 2.2 and abs(chaseObject1.pos.z + 8.5) < 0.2:  # Hit -- check for z
+        
+        # Top Middle (right)
+        if chaseObject1.pos.x > 1.8 and chaseObject1.pos.x < 2.2 and abs(chaseObject1.pos.z + 8.5) < 0.2:
             chaseObject1.vel = vector(-5, 0, 0)
         
-        if chaseObject1.pos.x < -1.9 and chaseObject1.pos.x > -2.1 and abs(chaseObject1.pos.z + 8.5) < 0.2:  # Hit -- check for z
+        # Top Middle (left)
+        if chaseObject1.pos.x < -1.9 and chaseObject1.pos.x > -2.1 and abs(chaseObject1.pos.z + 8.5) < 0.2:
             chaseObject1.vel = vector(0,0,5)
         
-        if chaseObject1.pos.x < -1.9 and chaseObject1.pos.x > -2.1 and abs(chaseObject1.pos.z - 8.5) < 0.2:  # Hit -- check for z
+        # Bottom Left (right)
+        if chaseObject1.pos.x < -1.9 and chaseObject1.pos.x > -2.1 and abs(chaseObject1.pos.z - 8.5) < 0.2:
             chaseObject1.vel = vector(-5,0,0)
         
-        if chaseObject1.pos.x < -5.9 and chaseObject1.pos.x > -6.1 and abs(chaseObject1.pos.z - 8.5) < 0.2:  # Hit -- check for z
+        # Bottom Left (left)
+        if chaseObject1.pos.x < -5.9 and chaseObject1.pos.x > -6.1 and abs(chaseObject1.pos.z - 8.5) < 0.2:
             chaseObject1.vel = vector(0,0,-5)
         
-        if chaseObject1.pos.x < -5.9 and chaseObject1.pos.x > -6.1 and abs(chaseObject1.pos.z + 8.5) < 0.2:  # Hit -- check for z
+        # Top Left (right)
+        if chaseObject1.pos.x < -5.9 and chaseObject1.pos.x > -6.1 and abs(chaseObject1.pos.z + 8.5) < 0.2:
             chaseObject1.vel = vector(-5,0,0)
     
-        if chaseObject1.pos.x < -8.9 and chaseObject1.pos.x > -9.1 and abs(chaseObject1.pos.z + 8.5) < 0.2:  # Hit -- check for z
+        # Top Left (left)
+        if chaseObject1.pos.x < -8.9 and chaseObject1.pos.x > -9.1 and abs(chaseObject1.pos.z + 8.5) < 0.2:
             chaseObject1.vel = vector(0,0,5)
         
-        if chaseObject1.pos.x < -8.9 and chaseObject1.pos.x > -9.1 and abs(chaseObject1.pos.z - 12) < 0.2:  # Hit -- check for z
+        # Bottom Left
+        if chaseObject1.pos.x < -8.9 and chaseObject1.pos.x > -9.1 and abs(chaseObject1.pos.z - 12) < 0.2:
             chaseObject1.vel = vector(5,0,0)
         
-        if chaseObject1.pos.x > 8.4 and chaseObject1.pos.x < 8.6 and abs(chaseObject1.pos.z - 12) < 0.2:  # Hit -- check for z
+        # Bottom Portion of Track
+        if chaseObject1.pos.x > 8.4 and chaseObject1.pos.x < 8.6 and abs(chaseObject1.pos.z - 12) < 0.2:
             chaseObject1.vel = vector(0,0,-5)
-
-
-# +++ Start of COLLISIONS -- check for collisions & do the "right" thing
 
 def corral_collide(ball):
     """Corral collisions!
     Ball must have a .vel field and a .pos field. """
-
     global gameOver 
 
     # -- Outer walls --
@@ -240,20 +257,18 @@ def corral_collide(ball):
     if (abs(ball.pos.x - I_wallW.pos.x) < 0.25) and (ball.pos.z >= -8) and (ball.pos.z <= 10):  # Hit -- check for z
         ball.vel.x *= -1.0
     
-    if (ball.pos.x > 15 or ball.pos.x < -11.5) or (ball.pos.z < -11) or (ball.pos.z > 15):
-        print("Oh no! You fell off!")
-        ball.vel = vector(0, 0, 0)
-        ball.pos = vector(9, 0, 9)
-    
+    # If the ball collides with obstacle1
     if abs(ball.pos.x - obstacle1.pos.x) < 0.3 and abs(ball.pos.y - obstacle1.pos.y) < 0.3 and abs(ball.pos.z - obstacle1.pos.z) < 0.3:
         old_x_vel = ball.vel.x
         ball.vel.x = ball.vel.z
         ball.vel.z = old_x_vel
         ball.vel = 2 * ball.vel
-
+   
+    # If the ball collides with obstacle2
     if abs(ball.pos.x - obstacle2.pos.x) < 0.3 and abs(ball.pos.y - obstacle2.pos.y) < 0.3 and abs(ball.pos.z - obstacle2.pos.z) < 0.3:
         ball.vel = 0.5 * ball.vel
     
+    # If the ball collides with chaseObject1
     if abs(ball.pos.x - chaseObject1.pos.x) < 0.3 and abs(ball.pos.y - chaseObject1.pos.y) < 0.3 and abs(ball.pos.z - chaseObject1.pos.z) < 0.3:
         ball.vel = vector(0, 0, 0)
         chaseObject1.vel = vector(0, 0, 0)
@@ -261,6 +276,12 @@ def corral_collide(ball):
         obstacle2.vel = vector(0, 0, 0)
         gameOver = True
         print("You captured the runaway cylinder! Congratulations! You win!")
+    
+    # If the ball "falls off" track
+    if (ball.pos.x > 15 or ball.pos.x < -11.5) or (ball.pos.z < -11) or (ball.pos.z > 15):
+        print("Oh no! You fell off!")
+        ball.vel = vector(0, 0, 0)
+        ball.pos = vector(9, 0, 9)
 
 def obstacle1Collide(obstacle1):
     if obstacle1.pos.x < -7.6:
@@ -275,3 +296,4 @@ def obstacle2Collide(obstacle2):
 
     if obstacle2.pos.x < 0.5: 
         obstacle2.vel = vector(10,0,0)
+# +++ End of COLLISIONS +++
