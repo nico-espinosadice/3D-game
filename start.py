@@ -1,3 +1,4 @@
+GlowScript 2.7 VPython
 # Start.py
 # Jacob van der Leeuw and Nico Espinosa Dice
 # Final Project - VPython
@@ -153,7 +154,7 @@ def keydown_fun(event):
     ri = randint(0, 10)
     print("key:", key, ri)  # Prints the key pressed -- caps only...
 
-    amt = 0.42              # "Strength" of the keypress's velocity changes
+    amt = 5            # "Strength" of the keypress's velocity changes
     if key == 'up' or key in 'wWiI':
         ball.vel = ball.vel + vector(0, 0, -amt)
     elif key == 'left' or key in 'aAjJ':
@@ -163,8 +164,7 @@ def keydown_fun(event):
     elif key == 'right' or key in "dDlL":
         ball.vel = ball.vel + vector(amt, 0, 0)
     elif key in ' rR':
-        ball.vel = vector(0, 0, 0) # Reset! via the spacebar, " "
-        ball.pos = vector(0, 0, 0)
+        ball.vel = ball.vel * 0.5 # Reset! via the spacebar, " "
 
 def click_fun(event):
     """This function is called each time the mouse is clicked."""

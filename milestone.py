@@ -37,7 +37,7 @@ ball = sphere(pos = vector(9, 0, 9), size = 1.0*vector(1, 1, 1), color = vector(
 ball.vel = vector(0, 0, 0)     # this is its initial velocity
 
 # Cylinder (other control)
-chaseObject1 = cylinder(pos = vector(3, 0, 8.5), size = 1.0*vector(1,1,1), color = color.orange)
+chaseObject1 = cylinder(pos = vector(8.5, 0, -5.5), size = 1.0*vector(1,1,1), color = color.orange)
 chaseObject1.vel = vector(0,0,-5) #initial velocity for chaseObj
 
 # Obstacle 1 (Moving Object)
@@ -60,12 +60,7 @@ scene.forward = vector(0, -3, -2)  # Ask for a bird's-eye view of the scene...
 
 gameOver = False
 
-while not gameOver:
-    print("Ball Position =", ball.pos)
-    #print("Object Velocity =", chaseObject1.vel)
-    #print("Object Position =", chaseObject1.pos)
-    #print("Wall Position =", O_wallS.pos)
-    
+while not gameOver:    
     rate(RATE)   # maximum number of times per second the while loop runs
 
     # +++ Start of PHYSICS UPDATES -- update all positions here, every time step
@@ -148,10 +143,10 @@ def chaseObject_Path(chaseObject1):
         if abs(chaseObject1.pos.x - 6) < 0.2 and abs(chaseObject1.pos.z - 8.5) < 0.2:  # Hit -- check for z
             chaseObject1.vel = vector(-5,0,0)
         
-        if abs(chaseObject1.pos.x - 2.5) < 0.2 and abs(chaseObject1.pos.z - 8.5) < 0.2:  # Hit -- check for z
+        if abs(chaseObject1.pos.x - 2) < 0.2 and abs(chaseObject1.pos.z - 8.5) < 0.2:  # Hit -- check for z
             chaseObject1.vel = vector(0,0,-5)
 
-        if chaseObject1.pos.x > 2.9 and chaseObject1.pos.x < 3.1 and abs(chaseObject1.pos.z + 8.5) < 0.2:  # Hit -- check for z
+        if chaseObject1.pos.x > 1.8 and chaseObject1.pos.x < 2.2 and abs(chaseObject1.pos.z + 8.5) < 0.2:  # Hit -- check for z
             chaseObject1.vel = vector(-5, 0, 0)
         
         if chaseObject1.pos.x < -1.9 and chaseObject1.pos.x > -2.1 and abs(chaseObject1.pos.z + 8.5) < 0.2:  # Hit -- check for z
@@ -168,6 +163,13 @@ def chaseObject_Path(chaseObject1):
     
         if chaseObject1.pos.x < -8.9 and chaseObject1.pos.x > -9.1 and abs(chaseObject1.pos.z + 8.5) < 0.2:  # Hit -- check for z
             chaseObject1.vel = vector(0,0,5)
+        
+        if chaseObject1.pos.x < -8.9 and chaseObject1.pos.x > -9.1 and abs(chaseObject1.pos.z - 12) < 0.2:  # Hit -- check for z
+            chaseObject1.vel = vector(5,0,0)
+        
+        if chaseObject1.pos.x > 8.4 and chaseObject1.pos.x < 8.6 and abs(chaseObject1.pos.z - 12) < 0.2:  # Hit -- check for z
+            chaseObject1.vel = vector(0,0,-5)
+
 
 # +++ Start of COLLISIONS -- check for collisions & do the "right" thing
 
@@ -225,6 +227,14 @@ def corral_collide(ball):
 
     if abs(ball.pos.x - obstacle2.pos.x) < 0.3 and abs(ball.pos.y - obstacle2.pos.y) < 0.3 and abs(ball.pos.z - obstacle2.pos.z) < 0.3:
         ball.vel = 0.5 * ball.vel
+    
+    if abs(ball.pos.x - chaseObject1.pos.x) < 0.3 and abs(ball.pos.y - chaseObject1.pos.y) < 0.3 and abs(ball.pos.z - chaseObject1.pos.z) < 0.3:
+        ball.vel = vector(0, 0, 0)
+        chaseObject1.vel = vector(0, 0, 0)
+        obstacle1.vel = vector(0, 0, 0)
+        obstacle2.vel = vector(0, 0, 0)
+        gameOver = True
+        print("You captured the runaway cylinder! Congratulations! You win!")
 
 def obstacle1Collide(obstacle1):
     if obstacle1.pos.x < -7.6:
