@@ -93,7 +93,8 @@ scene.waitfor('keydown') # wait for keyboard key press
 gameOver = False # Keeps track of whether the game is over
 
 while not gameOver: # Each pass through the loop will animate one step in time (dt)
-    #print(ball.pos)
+    lapLimitReached(lapCount)
+
     rate(RATE)   # maximum number of times per second the while loop runs
 
     # +++ Start of PHYSICS UPDATES +++
@@ -138,7 +139,7 @@ def gameFin(ball, chaseObject1):
         gameplay = False
 
 def keydown_fun(event):
-    """This function is called each time a key is pressed."""
+    """This function is called each time a key is pressed."""    
     ball.color = randcolor() # Randomize ball's color every time a key is pressed
     key = event.key
     
@@ -205,6 +206,8 @@ def endGame():
 
 def lapLimitReached(lapCount):
     """ Checks to see if lapLimit is reached. If yes, ends game. """
+    global lapLimit
+    
     if lapCount > lapLimit:
         endGame()
         print("You have reached your lap limit!")
