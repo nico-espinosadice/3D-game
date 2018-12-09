@@ -4,6 +4,7 @@ GlowScript 2.7 VPython
 # Final Project - VPython
 
 gameOver = False
+lapCount = 0
 
 # +++ Start of SCENE SETUP +++ 
 scene.bind('keydown', keydown_fun)     # Function for key presses
@@ -48,9 +49,9 @@ chaseObject1 = cylinder(pos = vector(8.5, 0, -5.5), size = 1.0*vector(1,1,1), co
 chaseObject1.vel = vector(0,0,-5) #initial velocity for chaseObj
 
 # Obstacle 1 (moving object)
-obstacle1 = sphere(pos = vector(-4, 0, 8.5), size = 0.5*vector(1, 1, 1), color = vector(1, 1, 1))   # ball is an object of class sphere
+obstacle1 = box(pos = vector(-4, 0, 8.5), size = 0.5*vector(1, 1, 1), color = vector(1, 1, 1))   # ball is an object of class sphere
 obstacle1.vel = vector(-5, 0, 0)     # this is its initial velocity
-obstacle2 = sphere(pos = vector(4, 0, 8.5), size = 0.3*vector(1, 1, 1), color = vector(1, 1, 1))   # ball is an object of class sphere
+obstacle2 = box(pos = vector(4, 0, 8.5), size = 0.3*vector(1, 1, 1), color = vector(1, 1, 1))   # ball is an object of class sphere
 obstacle2.vel = vector(10, 0, 0)
 # +++ End of OBJECT CREATION ++
 
@@ -75,6 +76,8 @@ print("GOOD LUCK!!!")
 gameOver = False # Keeps track of whether the game is over
 
 while not gameOver: # Each pass through the loop will animate one step in time (dt) 
+    print(ball.pos)
+
     rate(RATE)   # maximum number of times per second the while loop runs
 
     # +++ Start of PHYSICS UPDATES +++
@@ -95,6 +98,9 @@ while not gameOver: # Each pass through the loop will animate one step in time (
     # Obstacles
     obstacle1Collide(obstacle1) # Checks to see if obstacle1 has collided with something
     obstacle2Collide(obstacle2) # Checks to see if obstacle2 has collided with something
+
+    # New Lap
+    newLap_Collide(ball)
      # +++ End of EVENT CHECKING +++ 
 
 
@@ -160,6 +166,11 @@ def randcolor():
     g = random(0.0, 1.0)
     b = random(0.0, 1.0)
     return vector(r, g, b) # Returns 3 element color vector
+
+def newLap():
+    """ Adds 1 to lapCount """
+    global lapCount
+    lapCount += 1
 # +++ End of OTHER FUNCTIONS +++
 
 # +++ Start of COLLISIONS +++
@@ -258,7 +269,7 @@ def corral_collide(ball):
         ball.vel.x *= -1.0
     
     # If the ball collides with obstacle1
-    if abs(ball.pos.x - obstacle1.pos.x) < 0.3 and abs(ball.pos.y - obstacle1.pos.y) < 0.3 and abs(ball.pos.z - obstacle1.pos.z) < 0.3:
+    if abs(ball.pos.x - obstacle1.pos.x) < 0.4 and abs(ball.pos.y - obstacle1.pos.y) < 0.4 and abs(ball.pos.z - obstacle1.pos.z) < 0.4:
         old_x_vel = ball.vel.x
         ball.vel.x = ball.vel.z
         ball.vel.z = old_x_vel
@@ -269,7 +280,7 @@ def corral_collide(ball):
         ball.vel = 0.5 * ball.vel
     
     # If the ball collides with chaseObject1
-    if abs(ball.pos.x - chaseObject1.pos.x) < 0.3 and abs(ball.pos.y - chaseObject1.pos.y) < 0.3 and abs(ball.pos.z - chaseObject1.pos.z) < 0.3:
+    if abs(ball.pos.x - chaseObject1.pos.x) < 0.4 and abs(ball.pos.y - chaseObject1.pos.y) < 0.4 and abs(ball.pos.z - chaseObject1.pos.z) < 0.4:
         ball.vel = vector(0, 0, 0)
         chaseObject1.vel = vector(0, 0, 0)
         obstacle1.vel = vector(0, 0, 0)
@@ -282,6 +293,7 @@ def corral_collide(ball):
         print("Oh no! You fell off!")
         ball.vel = vector(0, 0, 0)
         ball.pos = vector(9, 0, 9)
+        newLap()
 
 def obstacle1Collide(obstacle1):
     if obstacle1.pos.x < -7.6:
@@ -296,4 +308,10 @@ def obstacle2Collide(obstacle2):
 
     if obstacle2.pos.x < 0.5: 
         obstacle2.vel = vector(10,0,0)
+    
+def newLap_Collide(ball):
+    """ Checks to see if the ball passes through the "start" of the track. If yes, then adds 1 to lapCount. """
+    global lapCount
+    if ball.pos.x > 8 and ball.pos.x < 9 and ball.pos.z > 8.9 and ball.pos.z < 9.2:
+        newLap()
 # +++ End of COLLISIONS +++
