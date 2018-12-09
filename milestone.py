@@ -46,7 +46,7 @@ ball = sphere(pos = vector(9, 0, 9), size = 1.0*vector(1, 1, 1), color = vector(
 ball.vel = vector(0, 0, 0)     # this is its initial velocity
 
 # Chase Object #1 (autonomous)
-chaseObject1 = sphere(pos = vector(8.5, 0, -5.5), size = 0.5*vector(1,1,1), color = color.orange)
+chaseObject1 = sphere(pos = vector(9.0, 0, -5.0), size = 0.5*vector(1,1,1), color = color.orange)
 chaseObject1.vel = vector(0,0,-5) #initial velocity for chaseObj
 
 # Obstacle 1 (moving object)
@@ -215,7 +215,7 @@ def lapLimitReached(lapCount):
 def chaseObject_Path(chaseObject1):
 
         # Top Right (right)
-        if abs(chaseObject1.pos.x - 8.5) < 0.2 and abs(chaseObject1.pos.z + 8.5) < 0.2:
+        if abs(chaseObject1.pos.x - 9.0) < 0.2 and abs(chaseObject1.pos.z + 8.5) < 0.2:
             chaseObject1.vel = vector(-5,0,0)
         
         # Top Right (left)
@@ -259,7 +259,7 @@ def chaseObject_Path(chaseObject1):
             chaseObject1.vel = vector(5,0,0)
         
         # Bottom Portion of Track
-        if chaseObject1.pos.x > 8.4 and chaseObject1.pos.x < 8.6 and abs(chaseObject1.pos.z - 12) < 0.2:
+        if chaseObject1.pos.x > 8.9 and chaseObject1.pos.x < 9.1 and abs(chaseObject1.pos.z - 12) < 0.2:
             chaseObject1.vel = vector(0,0,-5)
 
 def corral_collide(ball):
