@@ -4,12 +4,14 @@
 # Final Project - VPython
 # URL: http://www.glowscript.org/#/user/nespinosadice/folder/MyPrograms/program/Milestone
 
-gameOver = False
+gameOver = False #changes to true if the user has caught all three chaseObjects
+#or if the user has not caught all objects by the time
 newLapPossible = False
-lapCount = 1
+lapCount = 1 #user starts on the first lap
 lapLimit = 3
 points = 0
-totalPointsPossible = 6
+totalPointsPossible = 6 #1 point for slowest chaseObject, 2 for second
+#chaseObject, and 3 for third chaseObject
 
 # +++ Start of SCENE SETUP +++ 
 scene.bind('keydown', keydown_fun)     # Function for key presses
@@ -76,7 +78,7 @@ obstacle2_5 = box(pos = vector(0.4, 0, 6), size = 0.3*vector(1, 1, 1), color = v
 obstacle2_5.vel = vector(-2, 0, 0)
 
 # Speed Section
-speedSection = box(size = vector(2, 0.0001, 5), pos = vector(-6, 0, 4), color = color.blue)
+speedSection = box(size = vector(2, 0.0001, 5), pos = vector(-6, 0, 4), color = color.blue) # speed boost section on track
 # +++ End of OBJECT CREATION ++
 
 
@@ -113,7 +115,7 @@ while not gameOver: # Each pass through the loop will animate one step in time (
     ball.pos = ball.pos + ball.vel*dt # Update the ball's position
     chaseObject1.pos = chaseObject1.pos + chaseObject1.vel*dt # Update chaseObject1's position
     chaseObject2.pos = chaseObject2.pos + chaseObject2.vel*dt # Update chaseObject2's position
-    chaseObject3.pos = chaseObject3.pos + chaseObject3.vel*dt
+    chaseObject3.pos = chaseObject3.pos + chaseObject3.vel*dt # Update chaseObject3's position
     obstacle1.pos = obstacle1.pos + obstacle1.vel*dt # Update obstacle1's position
     obstacle2_1.pos = obstacle2_1.pos + obstacle2_1.vel*dt # Update obstacle2_1's position
     obstacle2_2.pos = obstacle2_2.pos + obstacle2_2.vel*dt # Update obstacle2_2's position
@@ -128,7 +130,7 @@ while not gameOver: # Each pass through the loop will animate one step in time (
     speedSectionCollide(ball) # Checks to see if ball is in speed section
 
     # Chase Object
-    chaseObject1.vel = chaseObject_Path(chaseObject1)
+    chaseObject1.vel = chaseObject_Path(chaseObject1) #updates the velocities of the chaseObjects
     chaseObject2.vel = chaseObject_Path(chaseObject2)
     chaseObject3.vel = chaseObject_Path(chaseObject3)
     
@@ -235,7 +237,8 @@ def lapLimitReached(lapCount):
 # +++ Start of COLLISIONS +++
 # Check for collisions and do the "right" thing
 def chaseObject_Path(chaseObject):
-
+    "makes the chaseObjects move along a specified path through the track"
+    "by checking where they are on the track"
         # Top Right (right)
         if abs(chaseObject.pos.x - 9.0) < 0.2 and abs(chaseObject.pos.z + 8.5) < 0.2:
             if abs(chaseObject.vel) == 3:
@@ -348,9 +351,9 @@ def chaseObject_Path(chaseObject):
 
 
 
-def corral_collide(ball):
-    """Corral collisions!
-    Ball must have a .vel field and a .pos field. """
+def corral_collide(ball):    
+    """This is what happens when the ball collides with a wall/it bounces
+    off of walls """
     global gameOver 
     global points
     global totalPointsPossible
@@ -404,6 +407,7 @@ def corral_collide(ball):
         ball.vel = 2 * ball.vel
    
     # - Obstacle 2's -
+    # ball's velocity is slowed
     # If the ball collides with obstacle2_1
     if abs(ball.pos.x - obstacle2_1.pos.x) < 0.3 and abs(ball.pos.y - obstacle2_1.pos.y) < 0.3 and abs(ball.pos.z - obstacle2_1.pos.z) < 0.3:
         ball.vel = 0.2 * ball.vel
@@ -426,6 +430,9 @@ def corral_collide(ball):
     
     # - chaseObjects - 
     # If the ball collides with chaseObject1
+    # chaseObjects become invisible when they are caught
+
+    #ball reaches the first chaseObject
     if abs(ball.pos.x - chaseObject1.pos.x) < 0.4 and abs(ball.pos.y - chaseObject1.pos.y) < 0.4 and abs(ball.pos.z - chaseObject1.pos.z) < 0.4:
         points += 1
         if points != totalPointsPossible:
@@ -437,6 +444,7 @@ def corral_collide(ball):
             print("Congratulations! You captured all the runaway spheres!")
             endGame()
 
+    #ball reaches the second chaseObject
     if abs(ball.pos.x - chaseObject2.pos.x) < 0.4 and abs(ball.pos.y - chaseObject2.pos.y) < 0.4 and abs(ball.pos.z - chaseObject2.pos.z) < 0.4:
         points += 2
         if points != totalPointsPossible:
@@ -448,6 +456,7 @@ def corral_collide(ball):
             print("Congratulations! You captured all the runaway spheres!")
             endGame()
 
+    #ball reaches the third chaseObject
     if abs(ball.pos.x - chaseObject3.pos.x) < 0.4 and abs(ball.pos.y - chaseObject3.pos.y) < 0.4 and abs(ball.pos.z - chaseObject3.pos.z) < 0.4:
         points += 3
         if points != totalPointsPossible:
@@ -460,7 +469,7 @@ def corral_collide(ball):
             endGame()
 
     # -- Miscellaneous -- 
-    # If the ball "falls off" track
+    # If the ball "falls off" track, place it back at the start of the lap
     if (ball.pos.x > 15 or ball.pos.x < -11.5) or (ball.pos.z < -11) or (ball.pos.z > 15):
         print("Oh no! You fell off the track!")
         ball.vel = vector(0, 0, 0)
@@ -472,12 +481,16 @@ def corral_collide(ball):
             newLap()
             print("Lap", lapCount, "out of", lapLimit)
 
+
 def speedSectionCollide(ball):
+    """ball reaches the speed boost section of the track; increase the 
+    ball's velocity"""
     if ball.pos.x > -7 and ball.pos.x < -5 and ball.pos.z > 1 and ball.pos.z < 6:
         ball.vel = ball.vel * 1.1
         print("SPEED BOOST!")
 
 def obstacle1Collide(obstacle1):
+    """obstacle1 collides with the walls"""
     if obstacle1.pos.x < -7.6:
         obstacle1.vel = vector(5,0,0)
         
@@ -485,6 +498,7 @@ def obstacle1Collide(obstacle1):
         obstacle1.vel = vector(-1, 0, 0)
 
 def obstacle2Collide(obstacle):
+    """obstacle2s ollide with the walls"""
     if obstacle.pos.x > 3.5:
         obstacle.vel = vector(-2,0,0)
 
