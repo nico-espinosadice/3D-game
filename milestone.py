@@ -215,14 +215,18 @@ def endGame():
     obstacle1.vel = vector(0, 0, 0)
     obstacle2_1.vel = vector(0, 0, 0)
 
+def isLastLap(lapCount):
+    if lapCount == lapLimit:
+        return True
+    else:
+        return False
+
 def lapLimitReached(lapCount):
     """ Checks to see if lapLimit is reached. If yes, ends game. """
     global lapLimit
-
-    if lapCount > lapLimit:
-        endGame()
-        print("You have reached your lap limit!")
-        print("Game over. You lose!")
+    endGame()
+    print("You have reached your lap limit!")
+    print("Game over. You lose!")
 # +++ End of OTHER FUNCTIONS +++
 
 # +++ Start of COLLISIONS +++
@@ -347,6 +351,7 @@ def corral_collide(ball):
     global gameOver 
     global points
     global totalPointsPossible
+    global lapCount
 
     # -- Outer walls --
     # If the ball hits O_wallE
@@ -454,13 +459,15 @@ def corral_collide(ball):
     # -- Miscellaneous -- 
     # If the ball "falls off" track
     if (ball.pos.x > 15 or ball.pos.x < -11.5) or (ball.pos.z < -11) or (ball.pos.z > 15):
-        global lapCount
         print("Oh no! You fell off the track!")
         ball.vel = vector(0, 0, 0)
         ball.pos = vector(9, 0, 9)
-        newLap()
-        lapLimitReached(lapCount)
-        print("Lap", lapCount, "out of", lapLimit)
+        
+        if isLastLap(lapCount):
+            lapLimitReached(lapCount)
+        else:
+            newLap()
+            print("Lap", lapCount, "out of", lapLimit)
 
 def speedSectionCollide(ball):
     if ball.pos.x > -7 and ball.pos.x < -5 and ball.pos.z > 1 and ball.pos.z < 6:
@@ -490,10 +497,12 @@ def newLap_Collide(ball):
 
     if newLapPossible == True:
         if ball.pos.x > 8 and ball.pos.x < 10 and ball.pos.z > 9.5 and ball.pos.z < 10.3:
-            newLap()
-            lapLimitReached(lapCount)
-            print("Lap", lapCount, "out of", lapLimit)
-            newLapPossible = False
+            if isLastLap(lapCount):
+                lapLimitReached(lapCount)
+            else:
+                newLap()
+                print("Lap", lapCount, "out of", lapLimit)
+                newLapPossible = False
 
 def newLapPossible_Collide(ball):
     """ Checks to see if the ball has passed the spot that makes a new lap possible """
