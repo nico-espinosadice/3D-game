@@ -52,11 +52,11 @@ ball.vel = vector(0, 0, 0)     # this is its initial velocity
 
 # Chase Objects #1, 2, 3 (autonomous)
 chaseObject1 = sphere(pos = vector(9.0, 0, -5.0), size = 0.5*vector(1,1,1), color = color.orange)
-chaseObject1.vel = vector(0,0,-3) #initial velocity for chaseObj1
+chaseObject1.vel = vector(0,0,-1) #initial velocity for chaseObj1
 chaseObject2 = sphere(pos = vector(6.0, 0, 5.0), size = 0.5*vector(1,1,1), color = color.purple)
-chaseObject2.vel = vector(0,0,5) #initial velocity for chaseObj2
+chaseObject2.vel = vector(0,0,3) #initial velocity for chaseObj2
 chaseObject3 = sphere(pos = vector(2.0, 0, 5.0), size = 0.5*vector(1,1,1), color = color.green)
-chaseObject3.vel = vector(0,0,-7) #initial velocity for chaseObj3
+chaseObject3.vel = vector(0,0,-5) #initial velocity for chaseObj3
 
 # Obstacle 1 (moving object)
 obstacle1 = box(pos = vector(-4, 0, 8.5), size = 0.5*vector(1, 1, 1), color = vector(1, 1, 1))   # ball is an object of class sphere
@@ -242,111 +242,111 @@ def chaseObject_Path(chaseObject):
     by checking where they are on the track"""
     # Top Right (right)
     if abs(chaseObject.pos.x - 9.0) < 0.2 and abs(chaseObject.pos.z + 8.5) < 0.2:
-        if abs(chaseObject.vel) == 3:
-            chaseObject.vel = vector(-3,0,0)
-        elif abs(chaseObject.vel) == 5:
-            chaseObject.vel = vector(-5, 0, 0)
+        if abs(chaseObject.vel) == 1:
+            chaseObject.vel = vector(-1,0,0)
+        elif abs(chaseObject.vel) == 3:
+            chaseObject.vel = vector(-3, 0, 0)
         else:
-            chaseObject.vel = vector(-7, 0, 0)
+            chaseObject.vel = vector(-5, 0, 0)
                 
     # Top Right (left)
     if abs(chaseObject.pos.x - 6) < 0.2 and abs(chaseObject.pos.z + 8.5) < 0.2:
-        if abs(chaseObject.vel) == 3:
+        if abs(chaseObject.vel) == 1:
+            chaseObject.vel = vector(0, 0, 1)
+        elif abs(chaseObject.vel) == 3:
             chaseObject.vel = vector(0, 0, 3)
-        elif abs(chaseObject.vel) == 5:
-            chaseObject.vel = vector(0, 0, 5)
         else:
-            chaseObject.vel = vector(0, 0, 7)
+            chaseObject.vel = vector(0, 0, 5)
 
     # Bottom Right (right)
     if abs(chaseObject.pos.x - 6) < 0.2 and abs(chaseObject.pos.z - 8.5) < 0.2:
-        if abs(chaseObject.vel) == 3:
+        if abs(chaseObject.vel) == 1:
+            chaseObject.vel = vector(-1, 0, 0)
+        elif abs(chaseObject.vel) == 3:
             chaseObject.vel = vector(-3, 0, 0)
-        elif abs(chaseObject.vel) == 5:
-            chaseObject.vel = vector(-5, 0, 0)
         else:
-            chaseObject.vel = vector(-7, 0, 0)
+            chaseObject.vel = vector(-5, 0, 0)
         
     # Bottom Right (left)
     if abs(chaseObject.pos.x - 2) < 0.2 and abs(chaseObject.pos.z - 8.5) < 0.2:
-        if abs(chaseObject.vel) == 3:
+        if abs(chaseObject.vel) == 1:
+            chaseObject.vel = vector(0, 0, -1)
+        elif abs(chaseObject.vel) == 3:
             chaseObject.vel = vector(0, 0, -3)
-        elif abs(chaseObject.vel) == 5:
-            chaseObject.vel = vector(0, 0, -5)
         else:
-            chaseObject.vel = vector(0, 0, -7)
+            chaseObject.vel = vector(0, 0, -5)
         
     # Top Middle (right)
     if chaseObject.pos.x > 1.8 and chaseObject.pos.x < 2.2 and abs(chaseObject.pos.z + 8.5) < 0.2:
-        if abs(chaseObject.vel) == 3:
+        if abs(chaseObject.vel) == 1:
+            chaseObject.vel = vector(-1, 0, 0)
+        elif abs(chaseObject.vel) == 3:
             chaseObject.vel = vector(-3, 0, 0)
-        elif abs(chaseObject.vel) == 5:
-            chaseObject.vel = vector(-5, 0, 0)
         else:
-            chaseObject.vel = vector(-7, 0, 0)
+            chaseObject.vel = vector(-5, 0, 0)
         
     # Top Middle (left)
     if chaseObject.pos.x < -1.9 and chaseObject.pos.x > -2.1 and abs(chaseObject.pos.z + 8.5) < 0.2:
-        if abs(chaseObject.vel) == 3:
+        if abs(chaseObject.vel) == 1:
+            chaseObject.vel = vector(0, 0, 1)
+        elif abs(chaseObject.vel) == 3:
             chaseObject.vel = vector(0, 0, 3)
-        elif abs(chaseObject.vel) == 5:
-            chaseObject.vel = vector(0, 0, 5)
         else:
-            chaseObject.vel = vector(0, 0, 7)
+            chaseObject.vel = vector(0, 0, 5)
         
     # Bottom Left (right)
     if chaseObject.pos.x < -1.9 and chaseObject.pos.x > -2.1 and abs(chaseObject.pos.z - 8.5) < 0.2:
-        if abs(chaseObject.vel) == 3:
+        if abs(chaseObject.vel) == 1:
+            chaseObject.vel = vector(-1, 0, 0)
+        elif abs(chaseObject.vel) == 3:
             chaseObject.vel = vector(-3, 0, 0)
-        elif abs(chaseObject.vel) == 5:
-            chaseObject.vel = vector(-5, 0, 0)
         else:
-            chaseObject.vel = vector(-7, 0, 0)
+            chaseObject.vel = vector(-5, 0, 0)
     
     # Bottom Left (left)
     if chaseObject.pos.x < -5.9 and chaseObject.pos.x > -6.1 and abs(chaseObject.pos.z - 8.5) < 0.2:
-        if abs(chaseObject.vel) == 3:
+        if abs(chaseObject.vel) == 1:
+            chaseObject.vel = vector(0, 0, -1)
+        elif abs(chaseObject.vel) == 3:
             chaseObject.vel = vector(0, 0, -3)
-        elif abs(chaseObject.vel) == 5:
-            chaseObject.vel = vector(0, 0, -5)
         else:
-            chaseObject.vel = vector(0, 0, -7)
+            chaseObject.vel = vector(0, 0, -5)
     
     # Top Left (right)
     if chaseObject.pos.x < -5.9 and chaseObject.pos.x > -6.1 and abs(chaseObject.pos.z + 8.5) < 0.2:
-        if abs(chaseObject.vel) == 3:
+        if abs(chaseObject.vel) == 1:
+            chaseObject.vel = vector(-1, 0, 0)
+        elif abs(chaseObject.vel) == 3:
             chaseObject.vel = vector(-3, 0, 0)
-        elif abs(chaseObject.vel) == 5:
-            chaseObject.vel = vector(-5, 0, 0)
         else:
-            chaseObject.vel = vector(-7, 0, 0)
+            chaseObject.vel = vector(-5, 0, 0)
 
     # Top Left (left)
     if chaseObject.pos.x < -8.9 and chaseObject.pos.x > -9.1 and abs(chaseObject.pos.z + 8.5) < 0.2:
-        if abs(chaseObject.vel) == 3:
+        if abs(chaseObject.vel) == 1:
+            chaseObject.vel = vector(0, 0, 1)
+        elif abs(chaseObject.vel) == 3:
             chaseObject.vel = vector(0, 0, 3)
-        elif abs(chaseObject.vel) == 5:
-            chaseObject.vel = vector(0, 0, 5)
         else:
-            chaseObject.vel = vector(0, 0, 7)
+            chaseObject.vel = vector(0, 0, 5)
     
     # Bottom Left
     if chaseObject.pos.x < -8.9 and chaseObject.pos.x > -9.1 and abs(chaseObject.pos.z - 12) < 0.2:
-        if abs(chaseObject.vel) == 3:
+        if abs(chaseObject.vel) == 1:
+            chaseObject.vel = vector(1, 0, 0)
+        elif abs(chaseObject.vel) == 3:
             chaseObject.vel = vector(3, 0, 0)
-        elif abs(chaseObject.vel) == 5:
-            chaseObject.vel = vector(5, 0, 0)
         else:
-            chaseObject.vel = vector(7, 0, 0)
+            chaseObject.vel = vector(5, 0, 0)
     
     # Bottom Portion of Track
     if chaseObject.pos.x > 8.9 and chaseObject.pos.x < 9.1 and abs(chaseObject.pos.z - 12) < 0.2:
-        if abs(chaseObject.vel) == 3:
+        if abs(chaseObject.vel) == 1:
+            chaseObject.vel = vector(0, 0, -1)
+        elif abs(chaseObject.vel) == 3:
             chaseObject.vel = vector(0, 0, -3)
-        elif abs(chaseObject.vel) == 5:
-            chaseObject.vel = vector(0, 0, -5)
         else:
-            chaseObject.vel = vector(0, 0, -7)
+            chaseObject.vel = vector(0, 0, -5)
     
     return chaseObject.vel
 
