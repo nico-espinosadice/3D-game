@@ -102,7 +102,8 @@ scene.waitfor('keydown') # wait for keyboard key press
 gameOver = False # Keeps track of whether the game is over
 
 while not gameOver: # Each pass through the loop will animate one step in time (dt)
-    lapLimitReached(lapCount)
+    if isLastLap(lapCount):
+        lapLimitReached(lapCount)
 
     rate(RATE)   # maximum number of times per second the while loop runs
 
@@ -216,10 +217,11 @@ def endGame():
     obstacle2_1.vel = vector(0, 0, 0)
 
 def isLastLap(lapCount):
-    if lapCount == lapLimit:
-        return True
-    else:
+    global lapLimit
+    if lapCount <= lapLimit:
         return False
+    else:
+        return True
 
 def lapLimitReached(lapCount):
     """ Checks to see if lapLimit is reached. If yes, ends game. """
