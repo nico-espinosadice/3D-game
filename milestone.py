@@ -100,7 +100,6 @@ scene.waitfor('keydown') # wait for keyboard key press
 gameOver = False # Keeps track of whether the game is over
 
 while not gameOver: # Each pass through the loop will animate one step in time (dt)
-    print(ball.pos)
     lapLimitReached(lapCount)
 
     rate(RATE)   # maximum number of times per second the while loop runs
@@ -344,6 +343,8 @@ def corral_collide(ball):
     """Corral collisions!
     Ball must have a .vel field and a .pos field. """
     global gameOver 
+    global points
+    global totalPointsPossible
 
     # -- Outer walls --
     # If the ball hits O_wallE
@@ -416,16 +417,37 @@ def corral_collide(ball):
     # - chaseObjects - 
     # If the ball collides with chaseObject1
     if abs(ball.pos.x - chaseObject1.pos.x) < 0.4 and abs(ball.pos.y - chaseObject1.pos.y) < 0.4 and abs(ball.pos.z - chaseObject1.pos.z) < 0.4:
-        print("You captured runaway sphere 1! Congratulations! You Have One Point")
-        chaseObject1.vel = vector(0,0,0)
+        points += 1
+        if points != totalPointsPossible:
+            print("Congratulations! You captured the first runaway sphere! You have", points, "out of", totalPointsPossible, "possible points.")
+            chaseObject1.vel = vector(0,0,0)
+            chaseObject1.pos = vector(15, 15, 15)
+            chaseObject1.visible = False
+        else:
+            print("Congratulations! You captured all the runaway spheres!")
+            endGame()
 
     if abs(ball.pos.x - chaseObject2.pos.x) < 0.4 and abs(ball.pos.y - chaseObject2.pos.y) < 0.4 and abs(ball.pos.z - chaseObject2.pos.z) < 0.4:
-        print("You captured runaway sphere 2! Congratulations! You Have Two Points")
-        chaseObject2.vel = vector(0,0,0)
+        points += 2
+        if points != totalPointsPossible:
+            print("Congratulations! You captured the second runaway sphere! You have", points, "out of", totalPointsPossible, "possible points.")
+            chaseObject2.vel = vector(0,0,0)
+            chaseObject2.pos = vector(15, 15, 15)
+            chaseObject2.visible = False
+        else:
+            print("Congratulations! You captured all the runaway spheres!")
+            endGame()
 
     if abs(ball.pos.x - chaseObject3.pos.x) < 0.4 and abs(ball.pos.y - chaseObject3.pos.y) < 0.4 and abs(ball.pos.z - chaseObject3.pos.z) < 0.4:
-        endGame()
-        print("You captured the final runaway sphere! Congratulations! You win!")
+        points += 3
+        if points != totalPointsPossible:
+            print("Congratulations! You captured the third runaway sphere! You have", points, "out of", totalPointsPossible, "possible points.")
+            chaseObject3.vel = vector(0,0,0)
+            chaseObject3.pos = vector(15, 15, 15)
+            chaseObject3.visible = False
+        else:
+            print("Congratulations! You captured all the runaway spheres!")
+            endGame()
 
     # -- Miscellaneous -- 
     # If the ball "falls off" track
