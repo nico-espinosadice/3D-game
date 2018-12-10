@@ -91,10 +91,9 @@ scene.forward = vector(0, -3, -2)  # Ask for a bird's-eye view of the scene...
 # +++ End of ANIMATION +++
 
 # +++ Start of GAME EXPLANATION to user +++ 
-print("Objective: Capture the runaway cylinder.")
-print("How: Use the arrow keys to mvoe the ball through the track (while avoiding the obstacles)!")
+print("Objective: Capture the runaway spheres!")
+print("How: Use the arrow keys to move the ball through the track (while avoiding the obstacles)!")
 print("Tip: use the space bar to slow down before turns.")
-print("Hurry! The ball is getting away!")
 print("Press a key to begin.")
 print()
 print("Lap", lapCount, "out of", lapLimit)
@@ -105,8 +104,9 @@ scene.waitfor('keydown') # wait for keyboard key press
 gameOver = False # Keeps track of whether the game is over
 
 while not gameOver: # Each pass through the loop will animate one step in time (dt)
-    if isLastLap(lapCount):
-        lapLimitReached(lapCount)
+    if isLapLimitExceded(lapCount):
+        lapLimitReached()
+        continue
 
     rate(RATE)   # maximum number of times per second the while loop runs
 
@@ -211,6 +211,7 @@ def newLap():
 def endGame():
     """ Ends game. Stops all object motion. Sets gameOver to True. """
     global gameOver
+    global points
     gameOver = True
     ball.vel = vector(0, 0, 0)
     chaseObject1.vel = vector(0, 0, 0)
@@ -219,20 +220,19 @@ def endGame():
     obstacle1.vel = vector(0, 0, 0)
     obstacle2_1.vel = vector(0, 0, 0)
 
-def isLastLap(lapCount):
+def isLapLimitExceded(lapCount):
     """ Checks to see if the ball is on the last lap """
     global lapLimit
-    if lapCount <= lapLimit:
-        return False
-    else:
+    if lapCount > lapLimit:
         return True
+    else:
+        return False
 
-def lapLimitReached(lapCount):
+def lapLimitReached():
     """ Checks to see if lapLimit is reached. If yes, ends game. """
-    global lapLimit
+    print("You have reached the lap limit!")
     endGame()
-    print("You have reached your lap limit!")
-    print("Game over. You lose!")
+    print("You got", points, "out of", totalPointsPossible, "possible points.")
 # +++ End of OTHER FUNCTIONS +++
 
 # +++ Start of COLLISIONS +++
@@ -476,10 +476,11 @@ def corral_collide(ball):
         ball.vel = vector(0, 0, 0)
         ball.pos = vector(9, 0, 9)
         
-        if isLastLap(lapCount):
-            lapLimitReached(lapCount)
+        newLap()
+
+        if isLapLimitExceded(lapCount):
+            lapLimitReached()
         else:
-            newLap()
             print("Lap", lapCount, "out of", lapLimit)
 
 
@@ -515,10 +516,10 @@ def newLap_Collide(ball):
 
     if newLapPossible == True:
         if ball.pos.x > 8 and ball.pos.x < 10 and ball.pos.z > 9.5 and ball.pos.z < 10.3:
-            if isLastLap(lapCount):
-                lapLimitReached(lapCount)
+            newLap()
+            if isLapLimitExceded(lapCount):
+                lapLimitReached()
             else:
-                newLap()
                 print("Lap", lapCount, "out of", lapLimit)
                 newLapPossible = False
 
