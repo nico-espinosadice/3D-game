@@ -53,7 +53,7 @@ chaseObject1.vel = vector(0,0,-5) #initial velocity for chaseObj1
 chaseObject2 = sphere(pos = vector(6.0, 0, 5.0), size = 0.5*vector(1,1,1), color = color.purple)
 chaseObject2.vel = vector(0,0,6) #initial velocity for chaseObj2
 chaseObject3 = sphere(pos = vector(2.0, 0, 5.0), size = 0.5*vector(1,1,1), color = color.green)
-chaseObject3.vel = vector(0,0,-5) #initial velocity for chaseObj3
+chaseObject3.vel = vector(0,0,-7) #initial velocity for chaseObj3
 
 # Obstacle 1 (moving object)
 obstacle1 = box(pos = vector(-4, 0, 8.5), size = 0.5*vector(1, 1, 1), color = vector(1, 1, 1))   # ball is an object of class sphere
