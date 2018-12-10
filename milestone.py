@@ -104,9 +104,9 @@ scene.waitfor('keydown') # wait for keyboard key press
 gameOver = False # Keeps track of whether the game is over
 
 while not gameOver: # Each pass through the loop will animate one step in time (dt)
-    if isLapLimitExceded(lapCount):
+    if isLapLimitExceded(lapCount): # Checks to see if the lapLimit has been reached
         lapLimitReached()
-        continue
+        continue # Skips over the iteration of the while loop if the lapLimit has been reached
 
     rate(RATE)   # maximum number of times per second the while loop runs
 
@@ -348,7 +348,7 @@ def chaseObject_Path(chaseObject):
         else:
             chaseObject.vel = vector(0, 0, -5)
     
-    return chaseObject.vel
+    return chaseObject.vel # Returns velocity
 
 
 
@@ -433,41 +433,41 @@ def corral_collide(ball):
     # If the ball collides with chaseObject1
     # chaseObjects become invisible when they are caught
 
-    #ball reaches the first chaseObject
+    # Ball reaches the first chaseObject
     if abs(ball.pos.x - chaseObject1.pos.x) < 0.4 and abs(ball.pos.y - chaseObject1.pos.y) < 0.4 and abs(ball.pos.z - chaseObject1.pos.z) < 0.4:
         points += 1
-        if points != totalPointsPossible:
+        if points != totalPointsPossible:  # If the user has NOT captured all of the spheres
             print("Congratulations! You captured the first runaway sphere! You have", points, "out of", totalPointsPossible, "possible points.")
             chaseObject1.vel = vector(0,0,0)
             chaseObject1.pos = vector(15, 15, 15)
             chaseObject1.visible = False
-        else:
+        else: # If the user HAS captured all the spheres
             print("Congratulations! You captured all the runaway spheres!")
             endGame()
 
-    #ball reaches the second chaseObject
+    # Ball reaches the second chaseObject
     if abs(ball.pos.x - chaseObject2.pos.x) < 0.4 and abs(ball.pos.y - chaseObject2.pos.y) < 0.4 and abs(ball.pos.z - chaseObject2.pos.z) < 0.4:
         points += 2
-        if points != totalPointsPossible:
+        if points != totalPointsPossible:  # If the user has NOT captured all of the spheres
             print("Congratulations! You captured the second runaway sphere! You have", points, "out of", totalPointsPossible, "possible points.")
             chaseObject2.vel = vector(0,0,0)
             chaseObject2.pos = vector(15, 15, 15)
             chaseObject2.visible = False
-        else:
+        else: # If the user HAS captured all the spheres
             print("Congratulations! You captured all the runaway spheres!")
             endGame()
 
-    #ball reaches the third chaseObject
+    # Ball reaches the third chaseObject
     if abs(ball.pos.x - chaseObject3.pos.x) < 0.4 and abs(ball.pos.y - chaseObject3.pos.y) < 0.4 and abs(ball.pos.z - chaseObject3.pos.z) < 0.4:
         points += 3
-        if points != totalPointsPossible:
+        if points != totalPointsPossible: # If the user has NOT captured all of the spheres
             print("Congratulations! You captured the third runaway sphere! You have", points, "out of", totalPointsPossible, "possible points.")
             chaseObject3.vel = vector(0,0,0)
             chaseObject3.pos = vector(15, 15, 15)
             chaseObject3.visible = False
-        else:
+        else: # If the user HAS captured all the spheres
             print("Congratulations! You captured all the runaway spheres!")
-            endGame()
+            endGame() # Ends the game
 
     # -- Miscellaneous -- 
     # If the ball "falls off" track, place it back at the start of the lap
@@ -476,12 +476,12 @@ def corral_collide(ball):
         ball.vel = vector(0, 0, 0)
         ball.pos = vector(9, 0, 9)
         
-        newLap()
+        newLap() # Adds a new lap
 
-        if isLapLimitExceded(lapCount):
+        if isLapLimitExceded(lapCount): # Checks to see if the lapLimit has been exceded
             lapLimitReached()
         else:
-            print("Lap", lapCount, "out of", lapLimit)
+            print("Lap", lapCount, "out of", lapLimit) # Notifies user of the current lap they are on
 
 
 def speedSectionCollide(ball):
