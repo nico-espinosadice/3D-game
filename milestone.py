@@ -93,8 +93,8 @@ scene.forward = vector(0, -3, -2)  # Ask for a bird's-eye view of the scene...
 # +++ Start of GAME EXPLANATION to user +++ 
 print("Objective: Capture the runaway spheres!")
 print("How: Use the arrow keys to move the ball through the track (while avoiding the obstacles)!")
-print("Tip: use the space bar to slow down before turns.")
-print("Press a key to begin.")
+print("Tip: Use the space bar to slow down before turns.")
+print("Press a key to begin and good luck!")
 print()
 print("Lap", lapCount, "out of", lapLimit)
 # +++ End of GAME EXPLANATION to user +++ 
