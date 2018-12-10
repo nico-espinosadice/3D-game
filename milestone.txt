@@ -4,7 +4,7 @@ December 10, 2018
 
 Project: vPython 3D Game
 
-http://www.glowscript.org/#/user/glowy27/folder/MyPrograms/program/klddfsklsdf 
+URL: http://www.glowscript.org/#/user/nespinosadice/folder/MyPrograms/program/Milestone
 
 Paragraph
 The game involves the user controlling a character that is chasing after three runaway balls. These move at different speeds through the track. Based on which of these objects the user catches, a point value is awarded. If the user catches the first ball, they receive 1 point. If they catch the second ball, they receive two points. If they catch the third ball, they receive three points and the game ends. The user travels through a track attempting to catch the three balls. The track itself is filled with obstacles and a speed boosting section. Collisions will include bouncing off the stationary walls and off the obstacles moving throughout the track. 
@@ -22,3 +22,6 @@ The three runaway balls move at different but constant velocities, which will al
 difficulty of the game. (The runaway balls will only be affected by some of the objects on the track). Once 
 the user-controlled character captures all three balls, they win the game. If they fail to do so in the alloted 
 time, they lose. If possible, we will try to add curves to the track. Additionally, we will try to make it so that the user cannot cheat and wait for a ball to come to them so that they can win the game.
+
+# How To Play
+Use the arrow keys to navigate through the track. Avoid the obstacles (white boxes) while trying to capture the runaway spheres. It is highly recommended that you use the space bar to slow down before turns. You have three laps to capture all the spheres. Good luck!
