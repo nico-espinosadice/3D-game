@@ -1,4 +1,4 @@
-GlowScript 2.7 VPython
+# GlowScript 2.7 VPython
 # Milestone.py
 # Jacob van der Leeuw and Nico Espinosa Dice
 # Final Project - VPython
