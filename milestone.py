@@ -220,6 +220,7 @@ def endGame():
     obstacle2_1.vel = vector(0, 0, 0)
 
 def isLastLap(lapCount):
+    """ Checks to see if the ball is on the last lap """
     global lapLimit
     if lapCount <= lapLimit:
         return False
