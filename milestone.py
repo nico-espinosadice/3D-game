@@ -127,7 +127,6 @@ while not gameOver: # Each pass through the loop will animate one step in time (
         continue # Skips over the iteration of the while loop if the lapLimit has been reached
 
     if isLapLimitExceded(lapCount_obj1): # Checks to see if the lapLimit has been reached
-        print("Sphere 1 reached 3 laps.")
         endGame()
         continue # Skips over the iteration of the while loop if the lapLimit has been reached
 
