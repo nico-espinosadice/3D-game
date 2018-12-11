@@ -56,32 +56,32 @@ I_wallW2 = box(pos = vector(-4, 0, -1), axis = vector(0, 0, 1), size = vector(18
 
 # +++ Start of OBJECT CREATION +++ 
 # Ball (user controls)
-ball = sphere(pos = vector(9, 0, 9), size = 1.0*vector(1, 1, 1), color = vector(0.8, 0.5, 0.0))   # ball is an object of class sphere
+ball = sphere(pos = vector(9, 0, 9), size = 1*vector(1, 1, 1), color = color.red)   # ball is an object of class sphere
 ball.vel = vector(0, 0, 0)     # this is its initial velocity
 
 # Chase Objects #1, 2, 3 (autonomous)
-chaseObject1 = sphere(pos = vector(9.0, 0, -5.0), size = 0.5*vector(1,1,1), color = color.orange)
-chaseObject2 = sphere(pos = vector(6.0, 0, 5.0), size = 0.5*vector(1,1,1), color = color.purple)
-chaseObject3 = sphere(pos = vector(2.0, 0, 5.0), size = 0.5*vector(1,1,1), color = color.green)
+chaseObject1 = sphere(pos = vector(9.0, 0, -5.0), size = 0.35*vector(1,1,1), color = color.orange)
+chaseObject2 = sphere(pos = vector(6.0, 0, 5.0), size = 0.45*vector(1,1,1), color = color.orange)
+chaseObject3 = sphere(pos = vector(2.0, 0, 5.0), size = 0.55*vector(1,1,1), color = color.orange)
 
 
 # Obstacle 1 (moving object)
-obstacle1 = box(pos = vector(-4, 0, 8.5), size = 0.5*vector(1, 1, 1), color = vector(1, 1, 1))   # ball is an object of class sphere
+obstacle1 = box(pos = vector(-4, 0, 8.5), size = 0.5*vector(1, 1, 1), color = vector(1, 105/255, 180/255))  # obstacle1 is an object of class sphere, color = pink
 obstacle1.vel = vector(-5, 0, 0)     # this is its initial velocity
 
-obstacle2_1 = box(pos = vector(3.4, 0, 3), size = 0.3*vector(1, 1, 1), color = vector(1, 1, 1))   # ball is an object of class sphere
+obstacle2_1 = box(pos = vector(3.4, 0, 3), size = 0.3*vector(1, 1, 1), color = vector(1, 192/255, 203/255))   # obstacle2 is an object of class sphere
 obstacle2_1.vel = vector(-2, 0, 0)
 
-obstacle2_2= box(pos = vector(2.4, 0, 0), size = 0.3*vector(1, 1, 1), color = vector(1, 1, 1))   # ball is an object of class sphere
+obstacle2_2= box(pos = vector(2.4, 0, 0), size = 0.3*vector(1, 1, 1), color = vector(1, 192/255, 203/255))   # obstacle2 is an object of class sphere
 obstacle2_2.vel = vector(-2, 0, 0)
 
-obstacle2_3 = box(pos = vector(1.4, 0, -3), size = 0.3*vector(1, 1, 1), color = vector(1, 1, 1))   # ball is an object of class sphere
+obstacle2_3 = box(pos = vector(1.4, 0, -3), size = 0.3*vector(1, 1, 1), color = vector(1, 192/255, 203/255))   # obstacle2 is an object of class sphere
 obstacle2_3.vel = vector(-2, 0, 0)
 
-obstacle2_4 = box(pos = vector(0.4, 0, -6), size = 0.3*vector(1, 1, 1), color = vector(1, 1, 1))   # ball is an object of class sphere
+obstacle2_4 = box(pos = vector(0.4, 0, -6), size = 0.3*vector(1, 1, 1), color = vector(1, 192/255, 203/255))   # obstacle2 is an object of class sphere
 obstacle2_4.vel = vector(-2, 0, 0)
 
-obstacle2_5 = box(pos = vector(0.4, 0, 6), size = 0.3*vector(1, 1, 1), color = vector(1, 1, 1))   # ball is an object of class sphere
+obstacle2_5 = box(pos = vector(0.4, 0, 6), size = 0.3*vector(1, 1, 1), color = vector(1, 192/255, 203/255))   # obstacle2 is an object of class sphere
 obstacle2_5.vel = vector(-2, 0, 0)
 
 # Speed Section
@@ -504,39 +504,48 @@ def corral_collide(ball):
     # If the ball hits O_wallE
     if (abs(ball.pos.x - O_wallE.pos.x) < 0.25) and (ball.pos.z >= -10) and (ball.pos.z <= 10):  # Hit -- check for z
         ball.vel.x *= -1.0 # Reverse the x velocity   
+        O_wallE.color = randcolor()
 
     # If the ball hits O_wallW
     if ball.pos.x < -9.5 and ball.pos.z > -10 and ball.pos.z <= 10:  # Hit -- check for z
-        ball.vel.x *= -1.0 # Reverse the x velocity   
+        ball.vel.x *= -1.0 # Reverse the x velocity  
+        O_wallW.color = randcolor() 
         
     # If the ball hits O_wallN
     if (abs(ball.pos.z - O_wallN.pos.z) < 0.25) and (ball.pos.x >= -10) and (ball.pos.x <= 10):  # Hit -- check for z
         ball.vel.z *= -1.0 # Reverse the z velocity
+        O_wallN.color = randcolor()
 
     # If the ball hits O_wallS
     if (abs(ball.pos.z - O_wallS.pos.z) < 0.25) and (ball.pos.x >= -8) and (ball.pos.x <= 8):  # Hit -- check for z
         ball.vel.z *= -1.0 # Reverse the z velocity   
+        O_wallS.color = randcolor()
     
     # -- Inner Walls --
     # If the ball hits I_wallE
     if (abs(ball.pos.x - I_wallE.pos.x) < 0.25) and (ball.pos.z >= -8) and (ball.pos.z <= 10):  # Hit -- check for z
         ball.vel.x *= -1.0 # Reverse the x velocity    
+        I_wallE.color = randcolor()
      
     # If the ball hits I_wallE2
     if (abs(ball.pos.x - I_wallE2.pos.x) < 0.25) and (ball.pos.z >= -10) and (ball.pos.z <= 8):  # Hit -- check for z
-        ball.vel.x *= -1.0 # Reverse the x velocity       
+        ball.vel.x *= -1.0 # Reverse the x velocity   
+        I_wallE2.color = randcolor()    
     
     # If the ball hits I_wallC
     if (abs(ball.pos.x - I_wallC.pos.x) < 0.25) and (ball.pos.z >= -8) and (ball.pos.z <= 10):  # Hit -- check for z
-        ball.vel.x *= -1.0 # Reverse the x velocity       
+        ball.vel.x *= -1.0 # Reverse the x velocity    
+        I_wallC.color = randcolor()   
     
     # If the ball hits I_wallW2
     if (abs(ball.pos.x - I_wallW2.pos.x) < 0.25) and (ball.pos.z >= -10) and (ball.pos.z <= 8):  # Hit -- check for z
         ball.vel.x *= -1.0 # Reverse the x velocity       
+        I_wallW2.color = randcolor()
     
     # If the ball hits I_wallW
     if (abs(ball.pos.x - I_wallW.pos.x) < 0.25) and (ball.pos.z >= -8) and (ball.pos.z <= 10):  # Hit -- check for z
         ball.vel.x *= -1.0
+        I_wallW.color = randcolor()
     
     # -- Obstacles --
     # If the ball collides with obstacle1
@@ -546,28 +555,34 @@ def corral_collide(ball):
         ball.vel.x = ball.vel.z
         ball.vel.z = old_x_vel
         ball.vel = 2 * ball.vel
+        obstacle1.color = randcolor()
    
     # - Obstacle 2's -
     # ball's velocity is slowed
     # If the ball collides with obstacle2_1
     if abs(ball.pos.x - obstacle2_1.pos.x) < 0.3 and abs(ball.pos.y - obstacle2_1.pos.y) < 0.3 and abs(ball.pos.z - obstacle2_1.pos.z) < 0.3:
         ball.vel = 0.2 * ball.vel
+        obstacle2_1.color = randcolor()
     
     # If the ball collides with obstacle2_2
     if abs(ball.pos.x - obstacle2_2.pos.x) < 0.3 and abs(ball.pos.y - obstacle2_2.pos.y) < 0.3 and abs(ball.pos.z - obstacle2_2.pos.z) < 0.3:
         ball.vel = 0.2 * ball.vel
+        obstacle2_2.color = randcolor()
     
     # If the ball collides with obstacle2_3
     if abs(ball.pos.x - obstacle2_3.pos.x) < 0.3 and abs(ball.pos.y - obstacle2_3.pos.y) < 0.3 and abs(ball.pos.z - obstacle2_3.pos.z) < 0.3:
         ball.vel = 0.2 * ball.vel
+        obstacle2_3.color = randcolor()
     
     # If the ball collides with obstacle2_4
     if abs(ball.pos.x - obstacle2_4.pos.x) < 0.3 and abs(ball.pos.y - obstacle2_4.pos.y) < 0.3 and abs(ball.pos.z - obstacle2_4.pos.z) < 0.3:
         ball.vel = 0.2 * ball.vel
+        obstacle2_4.color = randcolor()
     
     # If the ball collides with obstacle2_5
     if abs(ball.pos.x - obstacle2_5.pos.x) < 0.3 and abs(ball.pos.y - obstacle2_5.pos.y) < 0.3 and abs(ball.pos.z - obstacle2_5.pos.z) < 0.3:
         ball.vel = 0.2 * ball.vel
+        obstacle2_5.color = randcolor()
     
     # - chaseObjects - 
     # If the ball collides with chaseObject1
@@ -629,6 +644,7 @@ def speedSectionCollide(ball):
     ball's velocity"""
     if ball.pos.x > -7 and ball.pos.x < -5 and ball.pos.z > 1 and ball.pos.z < 6:
         ball.vel = ball.vel * 1.1
+        speedSection.color = randcolor()
         print("SPEED BOOST!")
 
 def obstacle1Collide(obstacle1):
@@ -657,6 +673,7 @@ def newLap_Collide(ball):
     if newLapPossible == True:
         if ball.pos.x > 8 and ball.pos.x < 10 and ball.pos.z > 9.5 and ball.pos.z < 10.3:
             newLap()
+            ball.color = randcolor()
             if isLapLimitExceded(lapCount):
                 lapLimitReached()
             else:
