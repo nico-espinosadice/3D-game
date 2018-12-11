@@ -632,6 +632,9 @@ def corral_collide(ball):
         ball.pos = vector(9, 0, 9)
         
         newLap() # Adds a new lap
+        ball.color = randcolor()
+        ground.color = randcolor()
+        ground2.color = randcolor()
 
         if isLapLimitExceded(lapCount): # Checks to see if the lapLimit has been exceded
             lapLimitReached()
@@ -674,6 +677,8 @@ def newLap_Collide(ball):
         if ball.pos.x > 8 and ball.pos.x < 10 and ball.pos.z > 9.5 and ball.pos.z < 10.3:
             newLap()
             ball.color = randcolor()
+            ground.color = randcolor()
+            ground2.color = randcolor()
             if isLapLimitExceded(lapCount):
                 lapLimitReached()
             else:
@@ -709,10 +714,13 @@ def newLap_Collide_chaseObject(object_number, object, newLapPossible, lap):
             else:
                 if object_number == 1:
                     newLapPossible_obj1 = False
+                    chaseObject1.color = randcolor()
                 elif object_number == 2:
                     newLapPossible_obj2 = False
+                    chaseObject2.color = randcolor()
                 else:
                     newLapPossible_obj3 = False
+                    chaseObject3.color = randcolor()
     return lap
 
 def newLapPossible_Collide(object, newLapPossible):
