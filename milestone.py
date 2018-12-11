@@ -11,7 +11,7 @@ newLapPossible_obj1 = True
 newLapPossible_obj2 = True
 newLapPossible_obj3 = True
 lapCount = 1 # user starts on the first lap
-lapLimit = 3
+lapLimit = 2
 lapCount_obj1 = 1
 lapCount_obj2 = 1
 lapCount_obj3 = 1
@@ -129,20 +129,6 @@ while not gameOver: # Each pass through the loop will animate one step in time (
     if isLapLimitExceded(lapCount_obj1): # Checks to see if the lapLimit has been reached
         print("Sphere 1 reached 3 laps.")
         endGame()
-        continue # Skips over the iteration of the while loop if the lapLimit has been reached
-    
-    if isLapLimitExceded(lapCount_obj2): # Checks to see if the lapLimit has been reached
-        print("Sphere 2 reached 3 laps")
-        chaseObject2.vel = vector(0,0,0)
-        chaseObject2.pos = vector(15, 15, 15)
-        chaseObject2.visible = False
-        continue # Skips over the iteration of the while loop if the lapLimit has been reached
-
-    if isLapLimitExceded(lapCount_obj3): # Checks to see if the lapLimit has been reached
-        print("Sphere 3 reached 3 laps")
-        chaseObject3.vel = vector(0,0,0)
-        chaseObject3.pos = vector(15, 15, 15)
-        chaseObject3.visible = False
         continue # Skips over the iteration of the while loop if the lapLimit has been reached
 
     rate(RATE)   # maximum number of times per second the while loop runs
@@ -680,23 +666,30 @@ def newLap_Collide(ball):
 
 def newLap_Collide_chaseObject(object_number, object, newLapPossible, lap):
     """ Checks to see if the ball passes through the "start" of the track. If yes, then adds 1 to lapCount. """
+    global newLapPossible_obj1
+    global newLapPossible_obj2
+    global newLapPossible_obj3
+    
     if newLapPossible == True:
         if object.pos.x > 8 and object.pos.x < 10 and object.pos.z > 9.5 and object.pos.z < 10.3:
             lap += 1
             if isLapLimitExceded(lap):
-                print("Sphere", object_number, "reached 3 laps")
+                print("Sphere", object_number, "reached 3 laps.")
                 if object_number == 1:
                     chaseObject1.vel = vector(0,0,0)
                     chaseObject1.pos = vector(15, 15, 15)
                     chaseObject1.visible = False
+                    newLapPossible_obj1 = False
                 elif object_number == 2:
                     chaseObject2.vel = vector(0,0,0)
                     chaseObject2.pos = vector(15, 15, 15)
                     chaseObject2.visible = False
+                    newLapPossible_obj2 = False
                 else:
                     chaseObject3.vel = vector(0,0,0)
                     chaseObject3.pos = vector(15, 15, 15)
                     chaseObject3.visible = False
+                    newLapPossible_obj3 = False
             else:
                 if object_number == 1:
                     newLapPossible_obj1 = False
