@@ -1,4 +1,4 @@
-# GlowScript 2.7 VPython
+GlowScript 2.7 VPython
 # Milestone.py
 # Jacob van der Leeuw and Nico Espinosa Dice
 # Final Project - VPython
@@ -10,8 +10,11 @@ newLapPossible = False
 lapCount = 1 #user starts on the first lap
 lapLimit = 3
 points = 0
-totalPointsPossible = 6 #1 point for slowest chaseObject, 2 for second
-#chaseObject, and 3 for third chaseObject
+totalPointsPossible = 6 #1 point for slowest chaseObject, 2 for second chaseObject, and 3 for third chaseObject
+
+easy_vel = [1, 3, 5] # creates velocity list for easier game
+hard_vel = [3, 5, 7] # creates velocity list for more challenging game
+game_difficulty = "easy" # sets default game_difficulty to easy
 
 # +++ Start of SCENE SETUP +++ 
 scene.bind('keydown', keydown_fun)     # Function for key presses
@@ -52,11 +55,9 @@ ball.vel = vector(0, 0, 0)     # this is its initial velocity
 
 # Chase Objects #1, 2, 3 (autonomous)
 chaseObject1 = sphere(pos = vector(9.0, 0, -5.0), size = 0.5*vector(1,1,1), color = color.orange)
-chaseObject1.vel = vector(0,0,-1) #initial velocity for chaseObj1
 chaseObject2 = sphere(pos = vector(6.0, 0, 5.0), size = 0.5*vector(1,1,1), color = color.purple)
-chaseObject2.vel = vector(0,0,3) #initial velocity for chaseObj2
 chaseObject3 = sphere(pos = vector(2.0, 0, 5.0), size = 0.5*vector(1,1,1), color = color.green)
-chaseObject3.vel = vector(0,0,-5) #initial velocity for chaseObj3
+
 
 # Obstacle 1 (moving object)
 obstacle1 = box(pos = vector(-4, 0, 8.5), size = 0.5*vector(1, 1, 1), color = vector(1, 1, 1))   # ball is an object of class sphere
@@ -94,7 +95,7 @@ scene.forward = vector(0, -3, -2)  # Ask for a bird's-eye view of the scene...
 print("Objective: Capture the runaway spheres!")
 print("How: Use the arrow keys to move the ball through the track (while avoiding the obstacles)!")
 print("Tip: Use the space bar to slow down before turns.")
-print("Press a key to begin and good luck!")
+print("Press the 'e' key to start an easy level or the 'h' key to begin the harder level.")
 print()
 print("Lap", lapCount, "out of", lapLimit)
 # +++ End of GAME EXPLANATION to user +++ 
@@ -102,6 +103,17 @@ print("Lap", lapCount, "out of", lapLimit)
 # +++ Start of GAME LOOP +++ 
 scene.waitfor('keydown') # wait for keyboard key press
 gameOver = False # Keeps track of whether the game is over
+
+# +++ Setting ChaseObject Velocity +++
+if game_difficulty == "easy":
+    chaseObject1.vel = vector(0,0,-1) #initial velocity for chaseObj1
+    chaseObject2.vel = vector(0,0,3) #initial velocity for chaseObj2
+    chaseObject3.vel = vector(0,0,-5) #initial velocity for chaseObj3
+else:
+    chaseObject1.vel = vector(0,0,-3) #initial velocity for chaseObj1
+    chaseObject2.vel = vector(0,0,5) #initial velocity for chaseObj2
+    chaseObject3.vel = vector(0,0,-7) #initial velocity for chaseObj3
+# +++ End of ChaseObject Velocity +++
 
 while not gameOver: # Each pass through the loop will animate one step in time (dt)
     if isLapLimitExceded(lapCount): # Checks to see if the lapLimit has been reached
@@ -152,7 +164,9 @@ while not gameOver: # Each pass through the loop will animate one step in time (
 # +++ start of EVENT_HANDLING section +++
 # Separate functions for keypresses and mouse clicks
 def keydown_fun(event):
-    """This function is called each time a key is pressed."""    
+    """This function is called each time a key is pressed."""  
+    global game_difficulty
+
     ball.color = randcolor() # Randomize ball's color every time a key is pressed
     key = event.key
     
@@ -177,6 +191,15 @@ def keydown_fun(event):
     # If spacebar is pressed, reduce ball's velocity
     elif key in ' rR':
         ball.vel = ball.vel * 0.45
+    
+    elif key in 'hH':
+        game_difficulty = "hard"
+        print("Hard game selected")
+    
+    elif key in 'eE':
+        game_difficulty = "easy"
+        print("Easy game selected")
+
 # +++ End of EVENT_HANDLING +++
 
 # +++ Start of OTHER FUNCTIONS +++
@@ -185,6 +208,10 @@ def choice(L):
     LEN = len(L) # Get the length
     randomindex = int(LEN*random()) # Get a random index
     return L[randomindex] # Return that element
+
+def getSpeed(vel):
+    """ Gets the speed from an object's velocity (magnitude) """
+    return sqrt((vel.x ** 2) + (vel.y ** 2) + (vel.z ** 2))
 
 def randint(low, hi):
     """Implements Python's randint using the random() function.
@@ -242,111 +269,207 @@ def chaseObject_Path(chaseObject):
     by checking where they are on the track"""
     # Top Right (right)
     if abs(chaseObject.pos.x - 9.0) < 0.2 and abs(chaseObject.pos.z + 8.5) < 0.2:
-        if abs(chaseObject.vel) == 1:
-            chaseObject.vel = vector(-1,0,0)
-        elif abs(chaseObject.vel) == 3:
-            chaseObject.vel = vector(-3, 0, 0)
+        if game_difficulty == "easy":
+            if getSpeed(chaseObject.vel) == 1:
+                chaseObject.vel = vector(-1,0,0)
+            elif getSpeed(chaseObject.vel) == 3:
+                chaseObject.vel = vector(-3, 0, 0)
+            else:
+                chaseObject.vel = vector(-5, 0, 0)
         else:
-            chaseObject.vel = vector(-5, 0, 0)
+            if getSpeed(chaseObject.vel) == 3:
+                chaseObject.vel = vector(-3,0,0)
+            elif getSpeed(chaseObject.vel) == 5:
+                chaseObject.vel = vector(-5, 0, 0)
+            else:
+                chaseObject.vel = vector(-7, 0, 0)
                 
     # Top Right (left)
     if abs(chaseObject.pos.x - 6) < 0.2 and abs(chaseObject.pos.z + 8.5) < 0.2:
-        if abs(chaseObject.vel) == 1:
-            chaseObject.vel = vector(0, 0, 1)
-        elif abs(chaseObject.vel) == 3:
-            chaseObject.vel = vector(0, 0, 3)
+        if game_difficulty == "easy":
+            if getSpeed(chaseObject.vel) == 1:
+                chaseObject.vel = vector(0, 0, 1)
+            elif getSpeed(chaseObject.vel) == 3:
+                chaseObject.vel = vector(0, 0, 3)
+            else:
+                chaseObject.vel = vector(0, 0, 5)
         else:
-            chaseObject.vel = vector(0, 0, 5)
+            if getSpeed(chaseObject.vel) == 3:
+                chaseObject.vel = vector(0, 0, 3)
+            elif getSpeed(chaseObject.vel) == 5:
+                chaseObject.vel = vector(0, 0, 5)
+            else:
+                chaseObject.vel = vector(0, 0, 7)
 
     # Bottom Right (right)
     if abs(chaseObject.pos.x - 6) < 0.2 and abs(chaseObject.pos.z - 8.5) < 0.2:
-        if abs(chaseObject.vel) == 1:
-            chaseObject.vel = vector(-1, 0, 0)
-        elif abs(chaseObject.vel) == 3:
-            chaseObject.vel = vector(-3, 0, 0)
+        if game_difficulty == "easy":
+            if getSpeed(chaseObject.vel) == 1:
+                chaseObject.vel = vector(-1, 0, 0)
+            elif getSpeed(chaseObject.vel) == 3:
+                chaseObject.vel = vector(-3, 0, 0)
+            else:
+                chaseObject.vel = vector(-5, 0, 0)
         else:
-            chaseObject.vel = vector(-5, 0, 0)
+            if getSpeed(chaseObject.vel) == 3:
+                chaseObject.vel = vector(-3, 0, 0)
+            elif getSpeed(chaseObject.vel) == 5:
+                chaseObject.vel = vector(-5, 0, 0)
+            else:
+                chaseObject.vel = vector(-7, 0, 0)
         
     # Bottom Right (left)
     if abs(chaseObject.pos.x - 2) < 0.2 and abs(chaseObject.pos.z - 8.5) < 0.2:
-        if abs(chaseObject.vel) == 1:
-            chaseObject.vel = vector(0, 0, -1)
-        elif abs(chaseObject.vel) == 3:
-            chaseObject.vel = vector(0, 0, -3)
+        if game_difficulty == "easy":
+            if getSpeed(chaseObject.vel) == 1:
+                chaseObject.vel = vector(0, 0, -1)
+            elif getSpeed(chaseObject.vel) == 3:
+                chaseObject.vel = vector(0, 0, -3)
+            else:
+                chaseObject.vel = vector(0, 0, -5)
         else:
-            chaseObject.vel = vector(0, 0, -5)
+            if getSpeed(chaseObject.vel) == 3:
+                chaseObject.vel = vector(0, 0, -3)
+            elif getSpeed(chaseObject.vel) == 5:
+                chaseObject.vel = vector(0, 0, -5)
+            else:
+                chaseObject.vel = vector(0, 0, -7)
         
     # Top Middle (right)
     if chaseObject.pos.x > 1.8 and chaseObject.pos.x < 2.2 and abs(chaseObject.pos.z + 8.5) < 0.2:
-        if abs(chaseObject.vel) == 1:
-            chaseObject.vel = vector(-1, 0, 0)
-        elif abs(chaseObject.vel) == 3:
-            chaseObject.vel = vector(-3, 0, 0)
+        if game_difficulty == "easy":
+            if getSpeed(chaseObject.vel) == 1:
+                chaseObject.vel = vector(-1, 0, 0)
+            elif getSpeed(chaseObject.vel) == 3:
+                chaseObject.vel = vector(-3, 0, 0)
+            else:
+                chaseObject.vel = vector(-5, 0, 0)
         else:
-            chaseObject.vel = vector(-5, 0, 0)
+            if getSpeed(chaseObject.vel) == 3:
+                chaseObject.vel = vector(-3, 0, 0)
+            elif getSpeed(chaseObject.vel) == 5:
+                chaseObject.vel = vector(-5, 0, 0)
+            else:
+                chaseObject.vel = vector(-7, 0, 0)
         
     # Top Middle (left)
     if chaseObject.pos.x < -1.9 and chaseObject.pos.x > -2.1 and abs(chaseObject.pos.z + 8.5) < 0.2:
-        if abs(chaseObject.vel) == 1:
-            chaseObject.vel = vector(0, 0, 1)
-        elif abs(chaseObject.vel) == 3:
-            chaseObject.vel = vector(0, 0, 3)
+        if game_difficulty == "easy":
+            if getSpeed(chaseObject.vel) == 1:
+                chaseObject.vel = vector(0, 0, 1)
+            elif getSpeed(chaseObject.vel) == 3:
+                chaseObject.vel = vector(0, 0, 3)
+            else:
+                chaseObject.vel = vector(0, 0, 5)
         else:
-            chaseObject.vel = vector(0, 0, 5)
+            if getSpeed(chaseObject.vel) == 3:
+                chaseObject.vel = vector(0, 0, 3)
+            elif getSpeed(chaseObject.vel) == 5:
+                chaseObject.vel = vector(0, 0, 5)
+            else:
+                chaseObject.vel = vector(0, 0, 7)
         
     # Bottom Left (right)
     if chaseObject.pos.x < -1.9 and chaseObject.pos.x > -2.1 and abs(chaseObject.pos.z - 8.5) < 0.2:
-        if abs(chaseObject.vel) == 1:
-            chaseObject.vel = vector(-1, 0, 0)
-        elif abs(chaseObject.vel) == 3:
-            chaseObject.vel = vector(-3, 0, 0)
+        if game_difficulty == "easy":
+            if getSpeed(chaseObject.vel) == 1:
+                chaseObject.vel = vector(-1, 0, 0)
+            elif getSpeed(chaseObject.vel) == 3:
+                chaseObject.vel = vector(-3, 0, 0)
+            else:
+                chaseObject.vel = vector(-5, 0, 0)
         else:
-            chaseObject.vel = vector(-5, 0, 0)
+            if getSpeed(chaseObject.vel) == 3:
+                chaseObject.vel = vector(-3, 0, 0)
+            elif getSpeed(chaseObject.vel) == 5:
+                chaseObject.vel = vector(-5, 0, 0)
+            else:
+                chaseObject.vel = vector(-7, 0, 0)
     
     # Bottom Left (left)
     if chaseObject.pos.x < -5.9 and chaseObject.pos.x > -6.1 and abs(chaseObject.pos.z - 8.5) < 0.2:
-        if abs(chaseObject.vel) == 1:
-            chaseObject.vel = vector(0, 0, -1)
-        elif abs(chaseObject.vel) == 3:
-            chaseObject.vel = vector(0, 0, -3)
+        if game_difficulty == "easy":
+            if getSpeed(chaseObject.vel) == 1:
+                chaseObject.vel = vector(0, 0, -1)
+            elif getSpeed(chaseObject.vel) == 3:
+                chaseObject.vel = vector(0, 0, -3)
+            else:
+                chaseObject.vel = vector(0, 0, -5)
         else:
-            chaseObject.vel = vector(0, 0, -5)
+            if getSpeed(chaseObject.vel) == 3:
+                chaseObject.vel = vector(0, 0, -3)
+            elif getSpeed(chaseObject.vel) == 5:
+                chaseObject.vel = vector(0, 0, -5)
+            else:
+                chaseObject.vel = vector(0, 0, -7)
     
     # Top Left (right)
     if chaseObject.pos.x < -5.9 and chaseObject.pos.x > -6.1 and abs(chaseObject.pos.z + 8.5) < 0.2:
-        if abs(chaseObject.vel) == 1:
-            chaseObject.vel = vector(-1, 0, 0)
-        elif abs(chaseObject.vel) == 3:
-            chaseObject.vel = vector(-3, 0, 0)
+        if game_difficulty == "easy":
+            if getSpeed(chaseObject.vel) == 1:
+                chaseObject.vel = vector(-1, 0, 0)
+            elif getSpeed(chaseObject.vel) == 3:
+                chaseObject.vel = vector(-3, 0, 0)
+            else:
+                chaseObject.vel = vector(-5, 0, 0)
         else:
-            chaseObject.vel = vector(-5, 0, 0)
+            if getSpeed(chaseObject.vel) == 3:
+                chaseObject.vel = vector(-3, 0, 0)
+            elif getSpeed(chaseObject.vel) == 5:
+                chaseObject.vel = vector(-5, 0, 0)
+            else:
+                chaseObject.vel = vector(-7, 0, 0)
 
     # Top Left (left)
     if chaseObject.pos.x < -8.9 and chaseObject.pos.x > -9.1 and abs(chaseObject.pos.z + 8.5) < 0.2:
-        if abs(chaseObject.vel) == 1:
-            chaseObject.vel = vector(0, 0, 1)
-        elif abs(chaseObject.vel) == 3:
-            chaseObject.vel = vector(0, 0, 3)
+        if game_difficulty == "easy":
+            if getSpeed(chaseObject.vel) == 1:
+                chaseObject.vel = vector(0, 0, 1)
+            elif getSpeed(chaseObject.vel) == 3:
+                chaseObject.vel = vector(0, 0, 3)
+            else:
+                chaseObject.vel = vector(0, 0, 5)
         else:
-            chaseObject.vel = vector(0, 0, 5)
+            if getSpeed(chaseObject.vel) == 3:
+                chaseObject.vel = vector(0, 0, 3)
+            elif getSpeed(chaseObject.vel) == 5:
+                chaseObject.vel = vector(0, 0, 5)
+            else:
+                chaseObject.vel = vector(0, 0, 7)
     
     # Bottom Left
     if chaseObject.pos.x < -8.9 and chaseObject.pos.x > -9.1 and abs(chaseObject.pos.z - 12) < 0.2:
-        if abs(chaseObject.vel) == 1:
-            chaseObject.vel = vector(1, 0, 0)
-        elif abs(chaseObject.vel) == 3:
-            chaseObject.vel = vector(3, 0, 0)
+        if game_difficulty == "easy":
+            if getSpeed(chaseObject.vel) == 1:
+                chaseObject.vel = vector(1, 0, 0)
+            elif getSpeed(chaseObject.vel) == 3:
+                chaseObject.vel = vector(3, 0, 0)
+            else:
+                chaseObject.vel = vector(5, 0, 0)
         else:
-            chaseObject.vel = vector(5, 0, 0)
+            if getSpeed(chaseObject.vel) == 3:
+                chaseObject.vel = vector(3, 0, 0)
+            elif getSpeed(chaseObject.vel) == 5:
+                chaseObject.vel = vector(5, 0, 0)
+            else:
+                chaseObject.vel = vector(7, 0, 0)
     
     # Bottom Portion of Track
     if chaseObject.pos.x > 8.9 and chaseObject.pos.x < 9.1 and abs(chaseObject.pos.z - 12) < 0.2:
-        if abs(chaseObject.vel) == 1:
-            chaseObject.vel = vector(0, 0, -1)
-        elif abs(chaseObject.vel) == 3:
-            chaseObject.vel = vector(0, 0, -3)
+        if game_difficulty == "easy":
+            if getSpeed(chaseObject.vel) == 1:
+                chaseObject.vel = vector(0, 0, -1)
+            elif getSpeed(chaseObject.vel) == 3:
+                chaseObject.vel = vector(0, 0, -3)
+            else:
+                chaseObject.vel = vector(0, 0, -5)
         else:
-            chaseObject.vel = vector(0, 0, -5)
+            if getSpeed(chaseObject.vel) == 3:
+                chaseObject.vel = vector(0, 0, -3)
+            elif getSpeed(chaseObject.vel) == 3:
+                chaseObject.vel = vector(0, 0, -5)
+            else:
+                chaseObject.vel = vector(0, 0, -7)
     
     return chaseObject.vel # Returns velocity
 
