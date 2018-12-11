@@ -7,8 +7,14 @@ GlowScript 2.7 VPython
 gameOver = False #changes to true if the user has caught all three chaseObjects
 #or if the user has not caught all objects by the time
 newLapPossible = False
-lapCount = 1 #user starts on the first lap
+newLapPossible_obj1 = True
+newLapPossible_obj2 = True
+newLapPossible_obj3 = True
+lapCount = 1 # user starts on the first lap
 lapLimit = 3
+lapCount_obj1 = 1
+lapCount_obj2 = 1
+lapCount_obj3 = 1
 points = 0
 totalPointsPossible = 6 #1 point for slowest chaseObject, 2 for second chaseObject, and 3 for third chaseObject
 
@@ -120,6 +126,25 @@ while not gameOver: # Each pass through the loop will animate one step in time (
         lapLimitReached()
         continue # Skips over the iteration of the while loop if the lapLimit has been reached
 
+    if isLapLimitExceded(lapCount_obj1): # Checks to see if the lapLimit has been reached
+        print("Sphere 1 reached 3 laps.")
+        endGame()
+        continue # Skips over the iteration of the while loop if the lapLimit has been reached
+    
+    if isLapLimitExceded(lapCount_obj2): # Checks to see if the lapLimit has been reached
+        print("Sphere 2 reached 3 laps")
+        chaseObject2.vel = vector(0,0,0)
+        chaseObject2.pos = vector(15, 15, 15)
+        chaseObject2.visible = False
+        continue # Skips over the iteration of the while loop if the lapLimit has been reached
+
+    if isLapLimitExceded(lapCount_obj3): # Checks to see if the lapLimit has been reached
+        print("Sphere 3 reached 3 laps")
+        chaseObject3.vel = vector(0,0,0)
+        chaseObject3.pos = vector(15, 15, 15)
+        chaseObject3.visible = False
+        continue # Skips over the iteration of the while loop if the lapLimit has been reached
+
     rate(RATE)   # maximum number of times per second the while loop runs
 
     # +++ Start of PHYSICS UPDATES +++
@@ -156,8 +181,14 @@ while not gameOver: # Each pass through the loop will animate one step in time (
     obstacle2_5.vel = obstacle2Collide(obstacle2_5) # Checks to see if obstacle2_5 has collided with something
 
     # New Lap
-    newLapPossible_Collide(ball)
+    newLapPossible = newLapPossible_Collide(ball, newLapPossible)
+    newLapPossible_obj1 = newLapPossible_Collide(chaseObject1, newLapPossible_obj1)
+    newLapPossible_obj2 = newLapPossible_Collide(chaseObject2, newLapPossible_obj2)
+    newLapPossible_obj3 = newLapPossible_Collide(chaseObject3, newLapPossible_obj3)
     newLap_Collide(ball)
+    lapCount_obj1 = newLap_Collide_chaseObject(1, chaseObject1, newLapPossible_obj1, lapCount_obj1)
+    lapCount_obj2 = newLap_Collide_chaseObject(2, chaseObject2, newLapPossible_obj2, lapCount_obj2)
+    lapCount_obj3 = newLap_Collide_chaseObject(3, chaseObject3, newLapPossible_obj3, lapCount_obj3)
      # +++ End of EVENT CHECKING +++ 
 
 
@@ -247,10 +278,11 @@ def endGame():
     obstacle1.vel = vector(0, 0, 0)
     obstacle2_1.vel = vector(0, 0, 0)
 
-def isLapLimitExceded(lapCount):
+def isLapLimitExceded(lap):
     """ Checks to see if the ball is on the last lap """
     global lapLimit
-    if lapCount > lapLimit:
+
+    if lap > lapLimit:
         return True
     else:
         return False
@@ -646,9 +678,37 @@ def newLap_Collide(ball):
                 print("Lap", lapCount, "out of", lapLimit)
                 newLapPossible = False
 
-def newLapPossible_Collide(ball):
+def newLap_Collide_chaseObject(object_number, object, newLapPossible, lap):
+    """ Checks to see if the ball passes through the "start" of the track. If yes, then adds 1 to lapCount. """
+    if newLapPossible == True:
+        if object.pos.x > 8 and object.pos.x < 10 and object.pos.z > 9.5 and object.pos.z < 10.3:
+            lap += 1
+            if isLapLimitExceded(lap):
+                print("Sphere", object_number, "reached 3 laps")
+                if object_number == 1:
+                    chaseObject1.vel = vector(0,0,0)
+                    chaseObject1.pos = vector(15, 15, 15)
+                    chaseObject1.visible = False
+                elif object_number == 2:
+                    chaseObject2.vel = vector(0,0,0)
+                    chaseObject2.pos = vector(15, 15, 15)
+                    chaseObject2.visible = False
+                else:
+                    chaseObject3.vel = vector(0,0,0)
+                    chaseObject3.pos = vector(15, 15, 15)
+                    chaseObject3.visible = False
+            else:
+                if object_number == 1:
+                    newLapPossible_obj1 = False
+                elif object_number == 2:
+                    newLapPossible_obj2 = False
+                else:
+                    newLapPossible_obj3 = False
+    return lap
+
+def newLapPossible_Collide(object, newLapPossible):
     """ Checks to see if the ball has passed the spot that makes a new lap possible """
-    global newLapPossible
-    if ball.pos.x > 8 and ball.pos.x < 10 and ball.pos.z > 4 and ball.pos.z < 5:
+    if object.pos.x > 8 and object.pos.x < 10 and object.pos.z > 4 and object.pos.z < 5:
         newLapPossible = True
+    return newLapPossible
 # +++ End of COLLISIONS +++
