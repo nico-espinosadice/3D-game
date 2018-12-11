@@ -627,7 +627,7 @@ def corral_collide(ball):
     # -- Miscellaneous -- 
     # If the ball "falls off" track, place it back at the start of the lap
     if (ball.pos.x > 15 or ball.pos.x < -11.5) or (ball.pos.z < -11) or (ball.pos.z > 15):
-        print("Oh no! You fell off the track!")
+        print("Oh no! You went too far off the track!")
         ball.vel = vector(0, 0, 0)
         ball.pos = vector(9, 0, 9)
         
