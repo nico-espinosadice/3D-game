@@ -13,7 +13,9 @@ points = 0
 totalPointsPossible = 6 #1 point for slowest chaseObject, 2 for second
 #chaseObject, and 3 for third chaseObject
 
+           
 # +++ Start of SCENE SETUP +++ 
+
 scene.bind('keydown', keydown_fun)     # Function for key presses
 scene.background = 0.8*vector(1, 1, 1) # Light gray (0.8 out of 1.0)
 scene.width = 640                      # Make the 3D canvas larger
@@ -101,6 +103,8 @@ print("Lap", lapCount, "out of", lapLimit)
 
 # +++ Start of GAME LOOP +++ 
 scene.waitfor('keydown') # wait for keyboard key press
+clock()
+timeEnded = 0
 gameOver = False # Keeps track of whether the game is over
 
 while not gameOver: # Each pass through the loop will animate one step in time (dt)
@@ -112,7 +116,7 @@ while not gameOver: # Each pass through the loop will animate one step in time (
 
     # +++ Start of PHYSICS UPDATES +++
     # Update all positions here (every time step)
-    t1 = clock()
+    
     
     ball.pos = ball.pos + ball.vel*dt # Update the ball's position
     chaseObject1.pos = chaseObject1.pos + chaseObject1.vel*dt # Update chaseObject1's position
@@ -175,10 +179,18 @@ def keydown_fun(event):
     # If right key is pressed, accelerate ball in the +X direction
     elif key == 'right' or key in "dDlL":
         ball.vel = ball.vel + vector(amt, 0, 0)
+
+    elif key == 'y':
+        new_game()        
+
+    elif key == 'n':
+        endGame()
     
     # If spacebar is pressed, reduce ball's velocity
     elif key in ' rR':
         ball.vel = ball.vel * 0.45
+
+    
 # +++ End of EVENT_HANDLING +++
 
 # +++ Start of OTHER FUNCTIONS +++
@@ -222,6 +234,54 @@ def endGame():
     obstacle1.vel = vector(0, 0, 0)
     obstacle2_1.vel = vector(0, 0, 0)
 
+def new_game():
+    global gameOver
+    global points
+    global lapCount
+    # global t1
+    global timeEnded
+    gameOver = False        
+    ball.vel = vector(0,0,0)
+    lapCount = 1
+    points = 0
+    ball.pos = vector(9, 0, 9)
+    chaseObject1.visible = True
+    chaseObject2.visible = True
+    chaseObject3.visible = True    
+    chaseObject1.pos = vector(9.0, 0, -5.0)
+    chaseObject2.pos = vector(6.0, 0, 5.0)
+    chaseObject3.pos = vector(2.0, 0, 5.0)
+    obstacle1.pos = vector(-4, 0, 8.5)
+    obstacle2_1.pos = vector(3.4, 0, 3)
+    obstacle2_2.pos = vector(2.4, 0, 0)
+    obstacle2_3.pos = vector(1.4, 0, -3)
+    obstacle2_4.pos = vector(0.4, 0, -6)
+    obstacle2_5.pos = vector(0.4, 0, 6)
+    obstacle1.vel = vector(0, 0, 0)
+    obstacle2_1.vel = vector(0, 0, 0)
+    obstacle2_2.vel = vector(0, 0, 0)
+    obstacle2_3.vel = vector(0, 0, 0)
+    obstacle2_4.vel = vector(0, 0, 0)
+    obstacle2_5.vel = vector(0, 0, 0)   
+    chaseObject1.vel = vector(0,0,0)
+    chaseObject2.vel = vector(0, 0, 0)
+    chaseObject3.vel = vector(0, 0, 0)    
+    chaseObject1.vel = vector(0,0,-1)
+    chaseObject2.vel = vector(0, 0, 3)
+    chaseObject3.vel = vector(0, 0, -5)
+    obstacle1.vel = vector(-5, 0, 0) 
+    obstacle2_1.vel = vector(-2, 0, 0)
+    obstacle2_2.vel = vector(-2, 0, 0)
+    obstacle2_3.vel = vector(-2, 0, 0)
+    obstacle2_4.vel = vector(-2, 0, 0)
+    obstacle2_5.vel = vector(-2, 0, 0)    
+    timeEnded = clock() #allows the time it took to win the current game
+    #to be found based on the elapsed time between the end of the last
+    #game and the end of this game
+    points = 0
+    lapCount = 0
+    
+    
 def isLapLimitExceded(lapCount):
     """ Checks to see if the ball is on the last lap """
     global lapLimit
@@ -232,9 +292,17 @@ def isLapLimitExceded(lapCount):
 
 def lapLimitReached():
     """ Checks to see if lapLimit is reached. If yes, ends game. """
-    print("You have reached the lap limit!")
-    endGame()
+    print("You have reached the lap limit!")    
     print("You got", points, "out of", totalPointsPossible, "possible points.")
+    print("Would you like to play again? Please Press y for yes and n for no.")    
+    obstacle1.vel = vector(0,0,0)
+    obstacle2_1.vel = vector(0,0,0)
+    obstacle2_2.vel = vector(0,0,0)
+    obstacle2_3.vel = vector(0,0,0)
+    obstacle2_4.vel = vector(0,0,0)
+    obstacle2_5.vel = vector(0,0,0)
+    
+
 # +++ End of OTHER FUNCTIONS +++
 
 # +++ Start of COLLISIONS +++
@@ -439,37 +507,61 @@ def corral_collide(ball):
     if abs(ball.pos.x - chaseObject1.pos.x) < 0.4 and abs(ball.pos.y - chaseObject1.pos.y) < 0.4 and abs(ball.pos.z - chaseObject1.pos.z) < 0.4:
         points += 1
         if points != totalPointsPossible:  # If the user has NOT captured all of the spheres
-            print("Congratulations! You captured the first runaway sphere in " + t1 + " seconds! You have", points, "out of", totalPointsPossible, "possible points.")
+            print("Congratulations! You captured the first runaway sphere in " + (clock() - timeEnded) + " seconds! You have", points, "out of", totalPointsPossible, "possible points.")
             chaseObject1.vel = vector(0,0,0)
             chaseObject1.pos = vector(15, 15, 15)
             chaseObject1.visible = False
         else: # If the user HAS captured all the spheres
-            print("Congratulations! You captured all the runaway spheres in " + t1 + " seconds!")
-            endGame()
+            print("Congratulations! You captured all the runaway spheres in " + (clock() - timeEnded) + " seconds!")
+            gameOver = True
+            obstacle1.vel = vector(0,0,0)
+            obstacle2_1.vel = vector(0,0,0)
+            obstacle2_2.vel = vector(0,0,0)
+            obstacle2_3.vel = vector(0,0,0)
+            obstacle2_4.vel = vector(0,0,0)
+            obstacle2_5.vel = vector(0,0,0) 
+            print("Would you like to play again? Please enter y or n for yes or no")           
+            scene.waitfor('keydown')
 
     # Ball reaches the second chaseObject
     if abs(ball.pos.x - chaseObject2.pos.x) < 0.4 and abs(ball.pos.y - chaseObject2.pos.y) < 0.4 and abs(ball.pos.z - chaseObject2.pos.z) < 0.4:
         points += 2
         if points != totalPointsPossible:  # If the user has NOT captured all of the spheres
-            print("Congratulations! You captured the second runaway sphere in " + t1 + "seconds! You have", points, "out of", totalPointsPossible, "possible points.")
+            print("Congratulations! You captured the second runaway sphere in " + (clock() - timeEnded) + "seconds! You have", points, "out of", totalPointsPossible, "possible points.")
             chaseObject2.vel = vector(0,0,0)
             chaseObject2.pos = vector(15, 15, 15)
             chaseObject2.visible = False
         else: # If the user HAS captured all the spheres
-            print("Congratulations! You captured all the runaway spheres in " + t1 + " seconds!")
-            endGame()
+            print("Congratulations! You captured all the runaway spheres in " + (clock() - timeEnded) + " seconds!")
+            gameOver = True
+            obstacle1.vel = vector(0,0,0)
+            obstacle2_1.vel = vector(0,0,0)
+            obstacle2_2.vel = vector(0,0,0)
+            obstacle2_3.vel = vector(0,0,0)
+            obstacle2_4.vel = vector(0,0,0)
+            obstacle2_5.vel = vector(0,0,0)
+            print("Would you like to play again? Please Press y for yes and n for no.")
+            scene.waitfor('keydown')
 
     # Ball reaches the third chaseObject
     if abs(ball.pos.x - chaseObject3.pos.x) < 0.4 and abs(ball.pos.y - chaseObject3.pos.y) < 0.4 and abs(ball.pos.z - chaseObject3.pos.z) < 0.4:
         points += 3
         if points != totalPointsPossible: # If the user has NOT captured all of the spheres
-            print("Congratulations! You captured the third runaway sphere in " + t1 + " seconds! You have", points, "out of", totalPointsPossible, "possible points.")
+            print("Congratulations! You captured the third runaway sphere in " + (clock() - timeEnded) + " seconds! You have", points, "out of", totalPointsPossible, "possible points.")
             chaseObject3.vel = vector(0,0,0)
             chaseObject3.pos = vector(15, 15, 15)
             chaseObject3.visible = False
         else: # If the user HAS captured all the spheres
-            print("Congratulations! You captured all the runaway spheres in " + t1 + "seconds!")
-            endGame() # Ends the game
+            print("Congratulations! You captured all the runaway spheres in " + (clock() - timeEnded) + "seconds!")
+            gameOver = True
+            obstacle1.vel = vector(0,0,0)
+            obstacle2_1.vel = vector(0,0,0)
+            obstacle2_2.vel = vector(0,0,0)
+            obstacle2_3.vel = vector(0,0,0)
+            obstacle2_4.vel = vector(0,0,0)
+            obstacle2_5.vel = vector(0,0,0)
+            print("Would you like to play again? Please Press y for yes and n for no.")
+            scene.waitfor('keydown')
 
     # -- Miscellaneous -- 
     # If the ball "falls off" track, place it back at the start of the lap
