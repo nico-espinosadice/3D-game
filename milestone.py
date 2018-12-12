@@ -1,4 +1,4 @@
-# GlowScript 2.7 VPython
+GlowScript 2.7 VPython
 # Milestone.py
 # Jacob van der Leeuw and Nico Espinosa Dice
 # Final Project - VPython
@@ -112,6 +112,8 @@ while not gameOver: # Each pass through the loop will animate one step in time (
 
     # +++ Start of PHYSICS UPDATES +++
     # Update all positions here (every time step)
+    t1 = clock()
+    
     ball.pos = ball.pos + ball.vel*dt # Update the ball's position
     chaseObject1.pos = chaseObject1.pos + chaseObject1.vel*dt # Update chaseObject1's position
     chaseObject2.pos = chaseObject2.pos + chaseObject2.vel*dt # Update chaseObject2's position
@@ -437,36 +439,36 @@ def corral_collide(ball):
     if abs(ball.pos.x - chaseObject1.pos.x) < 0.4 and abs(ball.pos.y - chaseObject1.pos.y) < 0.4 and abs(ball.pos.z - chaseObject1.pos.z) < 0.4:
         points += 1
         if points != totalPointsPossible:  # If the user has NOT captured all of the spheres
-            print("Congratulations! You captured the first runaway sphere! You have", points, "out of", totalPointsPossible, "possible points.")
+            print("Congratulations! You captured the first runaway sphere in " + t1 + " seconds! You have", points, "out of", totalPointsPossible, "possible points.")
             chaseObject1.vel = vector(0,0,0)
             chaseObject1.pos = vector(15, 15, 15)
             chaseObject1.visible = False
         else: # If the user HAS captured all the spheres
-            print("Congratulations! You captured all the runaway spheres!")
+            print("Congratulations! You captured all the runaway spheres in " + t1 + " seconds!")
             endGame()
 
     # Ball reaches the second chaseObject
     if abs(ball.pos.x - chaseObject2.pos.x) < 0.4 and abs(ball.pos.y - chaseObject2.pos.y) < 0.4 and abs(ball.pos.z - chaseObject2.pos.z) < 0.4:
         points += 2
         if points != totalPointsPossible:  # If the user has NOT captured all of the spheres
-            print("Congratulations! You captured the second runaway sphere! You have", points, "out of", totalPointsPossible, "possible points.")
+            print("Congratulations! You captured the second runaway sphere in " + t1 + "seconds! You have", points, "out of", totalPointsPossible, "possible points.")
             chaseObject2.vel = vector(0,0,0)
             chaseObject2.pos = vector(15, 15, 15)
             chaseObject2.visible = False
         else: # If the user HAS captured all the spheres
-            print("Congratulations! You captured all the runaway spheres!")
+            print("Congratulations! You captured all the runaway spheres in " + t1 + " seconds!")
             endGame()
 
     # Ball reaches the third chaseObject
     if abs(ball.pos.x - chaseObject3.pos.x) < 0.4 and abs(ball.pos.y - chaseObject3.pos.y) < 0.4 and abs(ball.pos.z - chaseObject3.pos.z) < 0.4:
         points += 3
         if points != totalPointsPossible: # If the user has NOT captured all of the spheres
-            print("Congratulations! You captured the third runaway sphere! You have", points, "out of", totalPointsPossible, "possible points.")
+            print("Congratulations! You captured the third runaway sphere in " + t1 + " seconds! You have", points, "out of", totalPointsPossible, "possible points.")
             chaseObject3.vel = vector(0,0,0)
             chaseObject3.pos = vector(15, 15, 15)
             chaseObject3.visible = False
         else: # If the user HAS captured all the spheres
-            print("Congratulations! You captured all the runaway spheres!")
+            print("Congratulations! You captured all the runaway spheres in " + t1 + "seconds!")
             endGame() # Ends the game
 
     # -- Miscellaneous -- 
@@ -476,8 +478,7 @@ def corral_collide(ball):
         ball.vel = vector(0, 0, 0)
         ball.pos = vector(9, 0, 9)
         
-        newLap() # Adds a new lap
-
+        
         if isLapLimitExceded(lapCount): # Checks to see if the lapLimit has been exceded
             lapLimitReached()
         else:
