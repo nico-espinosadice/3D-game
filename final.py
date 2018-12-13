@@ -2,7 +2,7 @@ GlowScript 2.7 VPython
 # Final.py
 # Jacob van der Leeuw and Nico Espinosa Dice
 # Final Project - VPython
-# URL: http://www.glowscript.org/#/user/nespinosadice/folder/MyPrograms/program/Milestone
+# URL: http://www.glowscript.org/#/user/nespinosadice/folder/MyPrograms/program/Final
 
 gameOver = False #changes to true if the user has caught all three chaseObjects
 #or if the user has not caught all objects by the time
