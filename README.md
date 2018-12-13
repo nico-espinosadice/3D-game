@@ -2,9 +2,6 @@
 ##### Creators: Jacob van der Leeuw and Nico Espinosa Dice
 ##### URL: http://www.glowscript.org/#/user/nespinosadice/folder/MyPrograms/program/Final
 
-## Game Description
-Somewhere between PacMan and MarioKart.*
-
 ## How To Play
 Use the arrow keys to move the ball in different directions. Hold a key down for an acceleration in that direction.
 #### TIP: It is highly recommended to use the space bar to slow down before turns.
