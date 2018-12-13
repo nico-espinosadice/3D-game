@@ -267,6 +267,53 @@ def endGame():
     obstacle1.vel = vector(0, 0, 0)
     obstacle2_1.vel = vector(0, 0, 0)
 
+def new_game():
+    global gameOver
+    global points
+    global lapCount
+    # global t1
+    global timeEnded
+    gameOver = False        
+    ball.vel = vector(0,0,0)
+    lapCount = 1
+    points = 0
+    ball.pos = vector(9, 0, 9)
+    chaseObject1.visible = True
+    chaseObject2.visible = True
+    chaseObject3.visible = True    
+    chaseObject1.pos = vector(9.0, 0, -5.0)
+    chaseObject2.pos = vector(6.0, 0, 5.0)
+    chaseObject3.pos = vector(2.0, 0, 5.0)
+    obstacle1.pos = vector(-4, 0, 8.5)
+    obstacle2_1.pos = vector(3.4, 0, 3)
+    obstacle2_2.pos = vector(2.4, 0, 0)
+    obstacle2_3.pos = vector(1.4, 0, -3)
+    obstacle2_4.pos = vector(0.4, 0, -6)
+    obstacle2_5.pos = vector(0.4, 0, 6)
+    obstacle1.vel = vector(0, 0, 0)
+    obstacle2_1.vel = vector(0, 0, 0)
+    obstacle2_2.vel = vector(0, 0, 0)
+    obstacle2_3.vel = vector(0, 0, 0)
+    obstacle2_4.vel = vector(0, 0, 0)
+    obstacle2_5.vel = vector(0, 0, 0)   
+    chaseObject1.vel = vector(0,0,0)
+    chaseObject2.vel = vector(0, 0, 0)
+    chaseObject3.vel = vector(0, 0, 0)    
+    chaseObject1.vel = vector(0,0,-1)
+    chaseObject2.vel = vector(0, 0, 3)
+    chaseObject3.vel = vector(0, 0, -5)
+    obstacle1.vel = vector(-5, 0, 0) 
+    obstacle2_1.vel = vector(-2, 0, 0)
+    obstacle2_2.vel = vector(-2, 0, 0)
+    obstacle2_3.vel = vector(-2, 0, 0)
+    obstacle2_4.vel = vector(-2, 0, 0)
+    obstacle2_5.vel = vector(-2, 0, 0)    
+    timeEnded = clock() #allows the time it took to win the current game
+    #to be found based on the elapsed time between the end of the last
+    #game and the end of this game
+    points = 0
+    lapCount = 0
+
 def isLapLimitExceded(lap):
     """ Checks to see if the ball is on the last lap """
     global lapLimit
