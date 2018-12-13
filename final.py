@@ -1,5 +1,5 @@
 GlowScript 2.7 VPython
-# Milestone.py
+# Final.py
 # Jacob van der Leeuw and Nico Espinosa Dice
 # Final Project - VPython
 # URL: http://www.glowscript.org/#/user/nespinosadice/folder/MyPrograms/program/Milestone
@@ -210,10 +210,12 @@ def keydown_fun(event):
     elif key in ' rR':
         ball.vel = ball.vel * 0.45
     
-    elif key in 'hH':
+    # If h is pressed, set the game difficulty to hard
+    elif key in 'hH': 
         game_difficulty = "hard"
         print("Hard game selected")
     
+    # If e is pressed, set the game difficulty to easy
     elif key in 'eE':
         game_difficulty = "easy"
         print("Easy game selected")
@@ -497,7 +499,7 @@ def chaseObject_Path(chaseObject):
 def corral_collide(ball):    
     """This is what happens when the ball collides with a wall/it bounces
     off of walls """
-    global gameOver 
+    global gameOver
     global points
     global totalPointsPossible
     global lapCount
