@@ -223,7 +223,7 @@ def keydown_fun(event):
     # Starts New Game
     elif key == 'rR':
         newGame()
-        print("Starting new game.")      
+        print("Restarting game.")      
 
     # Ends game
     elif key == 'qQ':
