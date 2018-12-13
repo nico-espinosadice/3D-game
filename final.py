@@ -278,6 +278,7 @@ def endGame():
     obstacle2_1.vel = vector(0, 0, 0)
 
 def newGame():
+    """ Creates "new" game. Resets all the points, positions, and velocities. """
     global gameOver
     global points
     global lapCount
@@ -291,6 +292,7 @@ def newGame():
     global lapCount_obj2
     global lapCount_obj3
 
+    # Updates points/values
     gameOver = False        
     lapCount = 1
     points = 0
@@ -304,6 +306,7 @@ def newGame():
     lapCount_obj2 = 1
     lapCount_obj3 = 1
     
+    # Updates positions and velocities
     ball.pos = vector(9, 0, 9)
     ball.vel = vector(0, 0, 0)
     chaseObject1.visible = True
@@ -768,9 +771,9 @@ def newLap_Collide_chaseObject(object_number, object, newLapPossible, lap):
     global newLapPossible_obj2
     global newLapPossible_obj3
     
-    if newLapPossible == True:
-        if object.pos.x > 8 and object.pos.x < 10 and object.pos.z > 9.5 and object.pos.z < 10.3:
-            lap += 1
+    if newLapPossible == True: # If a new lap is possible
+        if object.pos.x > 8 and object.pos.x < 10 and object.pos.z > 9.5 and object.pos.z < 10.3: # If the object is in the "right spot" for a new lap
+            lap += 1 # adds 1 to lap count
             if isLapLimitExceded(lap):
                 print("Sphere", object_number, "reached 3 laps.")
                 if object_number == 1:
