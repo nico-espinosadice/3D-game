@@ -40,6 +40,6 @@ Finally, be sure not to fall off the track. This constitutes using a lap!
 # Important Notes
 While we tried our best to make the game as "cheat-proof" as possible, there are still possible ways in which to "cheat."
 The most obvious way to "game the system" is to keep the ball in one spot and let the runaway spheres eventually catch up and 
-run into you. This can be used as a grutor mode
+run into you. This can be used as a grutor mode. Also, if you are traveling very fast, you may find that the ball gets "stuck" in walls. If this happens, hold down an arrow key to escape.
 
-*NOTE: We are not associated with Nintendo nor Namco. Copying and distributing this code will result in a $250,000 fine.
+*NOTE: We are not associated with Nintendo nor Namco.
