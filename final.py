@@ -101,6 +101,7 @@ scene.forward = vector(0, -3, -2)  # Ask for a bird's-eye view of the scene...
 print("Objective: Capture the runaway spheres!")
 print("How: Use the arrow keys to move the ball through the track (while avoiding the obstacles)!")
 print("Tip: Use the space bar to slow down before turns.")
+print("At any moment during the game, press 'r' to restart, and press 'q' to quit.")
 print("Press the 'e' key to start an easy level or the 'h' key to begin the harder level.")
 print()
 print("Lap", lapCount, "out of", lapLimit)
@@ -130,7 +131,6 @@ while not gameOver: # Each pass through the loop will animate one step in time (
 
     if isLapLimitExceded(lapCount_obj1): # Checks to see if the lapLimit has been reached
         endGame()
-        print("Do you want to play again? ('y' for yes; 'n' for no)")
         continue # Skips over the iteration of the while loop if the lapLimit has been reached
 
     rate(RATE)   # maximum number of times per second the while loop runs
@@ -221,15 +221,14 @@ def keydown_fun(event):
         print("Easy game selected")
     
     # Starts New Game
-    elif key == 'y':
+    elif key == 'rR':
         newGame()
         print("Starting new game.")      
 
     # Ends game
-    elif key == 'n':
+    elif key == 'qQ':
         endGame()
         print("Game over.")
-        
 
 # +++ End of EVENT_HANDLING +++
 
@@ -355,7 +354,6 @@ def lapLimitReached():
     print("You have reached the lap limit!")
     endGame()
     print("You got", points, "out of", totalPointsPossible, "possible points.")
-    print("Do you want to play again? ('y' for yes; 'n' for no)")
 # +++ End of OTHER FUNCTIONS +++
 
 # +++ Start of COLLISIONS +++
@@ -678,7 +676,6 @@ def corral_collide(ball):
         else: # If the user HAS captured all the spheres
             print("Congratulations! You captured all the runaway spheres in " + round(t1) + " seconds!")
             endGame()
-            print("Do you want to play again? ('y' for yes; 'n' for no)")
 
     # Ball reaches the second chaseObject
     if abs(ball.pos.x - chaseObject2.pos.x) < 0.4 and abs(ball.pos.y - chaseObject2.pos.y) < 0.4 and abs(ball.pos.z - chaseObject2.pos.z) < 0.4:
@@ -691,7 +688,6 @@ def corral_collide(ball):
         else: # If the user HAS captured all the spheres
             print("Congratulations! You captured all the runaway spheres in " + round(t1) + " seconds!")
             endGame()
-            print("Do you want to play again? ('y' for yes; 'n' for no)")
 
     # Ball reaches the third chaseObject
     if abs(ball.pos.x - chaseObject3.pos.x) < 0.4 and abs(ball.pos.y - chaseObject3.pos.y) < 0.4 and abs(ball.pos.z - chaseObject3.pos.z) < 0.4:
@@ -704,7 +700,6 @@ def corral_collide(ball):
         else: # If the user HAS captured all the spheres
             print("Congratulations! You captured all the runaway spheres in " + round(t1) + "seconds!")
             endGame() # Ends the game
-            print("Do you want to play again? ('y' for yes; 'n' for no)")
 
     # -- Miscellaneous -- 
     # If the ball "falls off" track, place it back at the start of the lap
