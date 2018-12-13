@@ -13,6 +13,7 @@ Somewhere between PacMan and MarioKart*
 Capture the runaway spheres!
 
 # How To Play
+Select a game difficulty by pressing 'e' for an easy game and 'h' for a hard game. (This will start the game. It is suggested you finish reading the instructions before starting the game.)
 Use the arrow keys to move the ball in different directions. Hold a key down for an acceleration in that direction.
 TIP: It is highly recommended to use the space bar to slow down before turns.
 Also, avoid the obstacles!
