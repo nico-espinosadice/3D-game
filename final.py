@@ -101,7 +101,7 @@ scene.forward = vector(0, -3, -2)  # Ask for a bird's-eye view of the scene...
 print("Objective: Capture the runaway spheres!")
 print("How: Use the arrow keys to move the ball through the track (while avoiding the obstacles)!")
 print("Tip: Use the space bar to slow down before turns.")
-print("At any moment during the game, press 'r' to restart, and press 'q' to quit.")
+print("At any moment during the game, press 'p' to restart, and press 'q' to quit.")
 print("Press the 'e' key to start an easy level or the 'h' key to begin the harder level.")
 print()
 print("Lap", lapCount, "out of", lapLimit)
@@ -221,12 +221,12 @@ def keydown_fun(event):
         print("Easy game selected")
     
     # Starts New Game
-    elif key == 'rR':
+    elif key in 'p':
         newGame()
         print("Restarting game.")      
 
     # Ends game
-    elif key == 'qQ':
+    elif key in 'qQ':
         endGame()
         print("Game over.")
 
