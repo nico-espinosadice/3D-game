@@ -131,6 +131,7 @@ while not gameOver: # Each pass through the loop will animate one step in time (
 
     if isLapLimitExceded(lapCount_obj1): # Checks to see if the lapLimit has been reached
         endGame()
+        print("Game ended.")
         continue # Skips over the iteration of the while loop if the lapLimit has been reached
 
     rate(RATE)   # maximum number of times per second the while loop runs
@@ -223,12 +224,12 @@ def keydown_fun(event):
     # Starts New Game
     elif key in 'p':
         newGame()
-        print("Restarting game.")      
+        print("Resetting track.")      
 
     # Ends game
     elif key in 'qQ':
         endGame()
-        print("Game over.")
+        print("Game ended.")
 
 # +++ End of EVENT_HANDLING +++
 
@@ -357,6 +358,7 @@ def lapLimitReached():
     print("You have reached the lap limit!")
     endGame()
     print("You got", points, "out of", totalPointsPossible, "possible points.")
+    print("Game ended.")
 # +++ End of OTHER FUNCTIONS +++
 
 # +++ Start of COLLISIONS +++
@@ -679,6 +681,7 @@ def corral_collide(ball):
         else: # If the user HAS captured all the spheres
             print("Congratulations! You captured all the runaway spheres in " + round(t1) + " seconds!")
             endGame()
+            print("Game ended.")
 
     # Ball reaches the second chaseObject
     if abs(ball.pos.x - chaseObject2.pos.x) < 0.4 and abs(ball.pos.y - chaseObject2.pos.y) < 0.4 and abs(ball.pos.z - chaseObject2.pos.z) < 0.4:
@@ -691,6 +694,7 @@ def corral_collide(ball):
         else: # If the user HAS captured all the spheres
             print("Congratulations! You captured all the runaway spheres in " + round(t1) + " seconds!")
             endGame()
+            print("Game ended.")
 
     # Ball reaches the third chaseObject
     if abs(ball.pos.x - chaseObject3.pos.x) < 0.4 and abs(ball.pos.y - chaseObject3.pos.y) < 0.4 and abs(ball.pos.z - chaseObject3.pos.z) < 0.4:
@@ -703,6 +707,7 @@ def corral_collide(ball):
         else: # If the user HAS captured all the spheres
             print("Congratulations! You captured all the runaway spheres in " + round(t1) + "seconds!")
             endGame() # Ends the game
+            print("Game ended.")
 
     # -- Miscellaneous -- 
     # If the ball "falls off" track, place it back at the start of the lap
