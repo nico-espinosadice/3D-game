@@ -29,5 +29,3 @@ Finally, be sure not to fall off the track. This constitutes using a lap!
 While we tried our best to make the game as "cheat-proof" as possible, there are still possible ways in which to "cheat."
 The most obvious way to "game the system" is to keep the ball in one spot and let the runaway spheres eventually catch up and 
 run into you.
-
-*NOTE: We are not associated with Nintendo nor Namco.
