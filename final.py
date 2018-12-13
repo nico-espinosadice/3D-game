@@ -186,7 +186,6 @@ def keydown_fun(event):
     """This function is called each time a key is pressed."""  
     global game_difficulty
 
-    ball.color = randcolor() # Randomize ball's color every time a key is pressed
     key = event.key
     
     amt = 0.9 # "Strength" of the keypress's velocity changes
