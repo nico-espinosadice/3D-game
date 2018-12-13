@@ -17,6 +17,10 @@ Select a game difficulty by pressing 'e' for an easy game and 'h' for a hard gam
 Use the arrow keys to move the ball in different directions. Hold a key down for an acceleration in that direction.
 TIP: It is highly recommended to use the space bar to slow down before turns.
 Also, avoid the obstacles!
+Your goal is to catch all three of the other spheres within 3 laps
+
+To use a grutor mode in order to check if the game ends, don't press any arrow keys except for the 
+initial key so that you can wait for the chase objects/spheres to cycle around to you
 
 # How To Win
 Capture all three runaway spheres in three laps or less!
@@ -36,6 +40,6 @@ Finally, be sure not to fall off the track. This constitutes using a lap!
 # Important Notes
 While we tried our best to make the game as "cheat-proof" as possible, there are still possible ways in which to "cheat."
 The most obvious way to "game the system" is to keep the ball in one spot and let the runaway spheres eventually catch up and 
-run into you.
+run into you. This can be used as a grutor mode
 
-*NOTE: We are not associated with Nintendo nor Namco.
+*NOTE: We are not associated with Nintendo nor Namco. Copying and distributing this code will result in a $250,000 fine.
