@@ -130,6 +130,7 @@ while not gameOver: # Each pass through the loop will animate one step in time (
 
     if isLapLimitExceded(lapCount_obj1): # Checks to see if the lapLimit has been reached
         endGame()
+        print("Do you want to play again? ('y' for yes; 'n' for no)")
         continue # Skips over the iteration of the while loop if the lapLimit has been reached
 
     rate(RATE)   # maximum number of times per second the while loop runs
@@ -219,6 +220,17 @@ def keydown_fun(event):
     elif key in 'eE':
         game_difficulty = "easy"
         print("Easy game selected")
+    
+    # Starts New Game
+    elif key == 'y':
+        newGame()
+        print("Starting new game.")      
+
+    # Ends game
+    elif key == 'n':
+        endGame()
+        print("Game over.")
+        
 
 # +++ End of EVENT_HANDLING +++
 
@@ -267,17 +279,35 @@ def endGame():
     obstacle1.vel = vector(0, 0, 0)
     obstacle2_1.vel = vector(0, 0, 0)
 
-def new_game():
+def newGame():
     global gameOver
     global points
     global lapCount
-    # global t1
     global timeEnded
+    global newLapPossible
+    global newLapPossible_obj1
+    global newLapPossible_obj2
+    global newLapPossible_obj3
+    global lapLimit
+    global lapCount_obj1
+    global lapCount_obj2
+    global lapCount_obj3
+
     gameOver = False        
-    ball.vel = vector(0,0,0)
     lapCount = 1
     points = 0
+    newLapPossible = False
+    newLapPossible_obj1 = True
+    newLapPossible_obj2 = True
+    newLapPossible_obj3 = True
+    lapCount = 1 # user starts on the first lap
+    lapLimit = 3
+    lapCount_obj1 = 1
+    lapCount_obj2 = 1
+    lapCount_obj3 = 1
+    
     ball.pos = vector(9, 0, 9)
+    ball.vel = vector(0, 0, 0)
     chaseObject1.visible = True
     chaseObject2.visible = True
     chaseObject3.visible = True    
@@ -311,8 +341,6 @@ def new_game():
     timeEnded = clock() #allows the time it took to win the current game
     #to be found based on the elapsed time between the end of the last
     #game and the end of this game
-    points = 0
-    lapCount = 0
 
 def isLapLimitExceded(lap):
     """ Checks to see if the ball is on the last lap """
@@ -328,6 +356,7 @@ def lapLimitReached():
     print("You have reached the lap limit!")
     endGame()
     print("You got", points, "out of", totalPointsPossible, "possible points.")
+    print("Do you want to play again? ('y' for yes; 'n' for no)")
 # +++ End of OTHER FUNCTIONS +++
 
 # +++ Start of COLLISIONS +++
@@ -650,6 +679,7 @@ def corral_collide(ball):
         else: # If the user HAS captured all the spheres
             print("Congratulations! You captured all the runaway spheres in " + round(t1) + " seconds!")
             endGame()
+            print("Do you want to play again? ('y' for yes; 'n' for no)")
 
     # Ball reaches the second chaseObject
     if abs(ball.pos.x - chaseObject2.pos.x) < 0.4 and abs(ball.pos.y - chaseObject2.pos.y) < 0.4 and abs(ball.pos.z - chaseObject2.pos.z) < 0.4:
@@ -662,6 +692,7 @@ def corral_collide(ball):
         else: # If the user HAS captured all the spheres
             print("Congratulations! You captured all the runaway spheres in " + round(t1) + " seconds!")
             endGame()
+            print("Do you want to play again? ('y' for yes; 'n' for no)")
 
     # Ball reaches the third chaseObject
     if abs(ball.pos.x - chaseObject3.pos.x) < 0.4 and abs(ball.pos.y - chaseObject3.pos.y) < 0.4 and abs(ball.pos.z - chaseObject3.pos.z) < 0.4:
@@ -674,6 +705,7 @@ def corral_collide(ball):
         else: # If the user HAS captured all the spheres
             print("Congratulations! You captured all the runaway spheres in " + round(t1) + "seconds!")
             endGame() # Ends the game
+            print("Do you want to play again? ('y' for yes; 'n' for no)")
 
     # -- Miscellaneous -- 
     # If the ball "falls off" track, place it back at the start of the lap
